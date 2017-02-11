@@ -1,0 +1,49 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<fieldset class='x-fieldset'> 
+<legend><span id='searchToggle' onmouseover="jQuery(this).css('cursor','pointer');" onclick="jQuery('#tblQLDTHTMLReportSearchForm').toggle('slow');">Tìm kiếm</span></legend> 
+<div id = "tblQLDTHTMLReportSearchForm" > 
+<form id="tblQLDTHTMLReportForm"> 
+<table> 
+ <tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr><tr><td>  
+<label>Loại báo cáo</label>  
+</td>  
+<td>  
+<input name="type" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr></table>  
+</form>  
+</fieldset>  
+</div>  
+<div id="tblQLDTHTMLReportList" >  
+</div>  
+
+
+<script>
+function htmlReportDuplicate(id){
+	if(confirm("Bạn muốn nhân bản báo cáo này?")){
+		jQuery.ajax({
+			type: "POST",
+			url: "tblQLDTHTMLReportDuplicate.action",
+			data: 'id=' + id,
+			success: function(response) {
+				searchForm('tblQLDTHTMLReport', 20,1, '');
+			},
+			error: function(){
+				unmask('tblQLDTHTMLReportList');
+				Ext.example.msg('Error', 'Có lỗi xảy ra!');
+			}
+		});
+	}
+	
+}
+</script>
+

@@ -1,0 +1,60 @@
+﻿#parse("javascript/form4Detail1_js.vm")
+
+<form id="tblQLDTLTOptionGrouptblQLDTLTOptionForm"> 
+<div id="tblQLDTLTOptionGrouptblQLDTLTOption"> 
+<input type="hidden"  id='tblQLDTLTOptionGrouptblQLDTLTOptionid'  value=''  size='35' class='x-form-text'/>  
+<table>  
+<input type="hidden" id="tblQLDTLTOptionid" name="id" value="$!tblQLDTLTOption.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Mã</label>  
+</td>  
+<td>  
+<input name="ma" size='35' value="$!tblQLDTLTOption.ma"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" size='35' value="$!tblQLDTLTOption.ten"  class='x-form-text '/>  
+</td>  
+</tr>  
+<input type="hidden" name="optionGroupId" 
+ #if($optionGroupId) value="$!optionGroupId" 
+ #else  value="$!tblQLDTLTOption.optionGroupId.id" 
+ #end />  
+
+<tr>  
+<td>  
+<label>Số thứ tự</label>  
+</td>  
+<td>  
+<input name="sortOrder" size='35' value="$!tblQLDTLTOption.sortOrder"  class='x-form-text '/>  
+</td>  
+</tr>  
+</table>  
+</div>  
+</form>  
+<div style="float:left"> 
+	<input type='button'  class='x-panel-btns'  value='Lưu' onClick="saveForm('tblQLDTLTOptionGrouptblQLDTLTOption','Form');"/> 
+    <input type='button'  class='x-panel-btns'  value='Bo&#777; Qua' onClick="clearForm('tblQLDTLTOptionGrouptblQLDTLTOption','Form');"/> 
+    <input type='button'  class='x-panel-btns' value='Ti&#768;m Ki&ecirc;&#769;m' onClick="searchForm('tblQLDTLTOptionGrouptblQLDTLTOption',20,1);" /> 
+</div> 
+<div style="float:right">  
+<input type='button'  class='x-panel-btns'  id='delete' name='delete' value='Delete' onClick="deleteObjs('tblQLDTLTOptionGrouptblQLDTLTOption');" /> 
+</div> 
+<div style="clear:both"></div><div id="tblQLDTLTOptionGrouptblQLDTLTOptionList" >  
+#parse("vm/option/tblQLDTLTOptionGrouptblQLDTLTOptionListResponse.vm") 
+</div>  
+<script> 
+jQuery(function() {  
+    //textarea : wysiwyg  
+    htmlBox("tblQLDTLTOptionGrouptblQLDTLTOptionTextarea");  
+    datepicker();  
+    searchForm('tblQLDTLTOptionGrouptblQLDTLTOption',20,1); 
+});  
+</script> 
+

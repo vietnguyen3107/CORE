@@ -1,0 +1,22 @@
+﻿#set ($dateTool = $struts.bean("org.apache.velocity.tools.generic.DateTool")) 
+#set ($numTool = $struts.bean("org.apache.velocity.tools.generic.NumberTool"))
+#set($stt = 1)
+[
+#foreach($d in $tblQLDTLTKhoaDaoTaoDuKiens) 
+
+		#if($stt != 1)
+		, 
+		#end
+		{
+		"title"  : "$d.ma - $d.ten ($!d.trangThaiOptionId.ten)"
+		,"start"  : "$!dateTool.format("yyyy-MM-dd",$d.ngayKhaiGiang.toGregorianCalendar().getTime())"
+		,"id": $d.id
+		,"state": "$!d.trangThaiOptionId.ma"
+		,"keHoachId": "$!d.keHoachId.id"
+		,"type": "$!d.loaiKeHoachDaoTaoOptionId.ma"
+		}
+
+		#set($stt = $stt + 1) 
+
+#end 
+]

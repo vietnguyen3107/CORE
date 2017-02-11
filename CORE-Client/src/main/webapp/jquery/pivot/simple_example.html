@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>Pivot.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="./lib/css/pivot.css" type="text/css" />
+  <style>
+	.table td{
+   border: 1px solid #000 !important;
+}
+  </style>
+  
+  
+  <script type="text/javascript" src="./lib/javascripts/jquery.min.js"></script>
+  
+  <script type="text/javascript" src="./lib/javascripts/accounting.min.js"></script>
+
+  <!-- jquery_pivot must be loaded after pivot.js and jQuery -->
+  <script type="text/javascript" src="./jquery.tablegroup.pack.js"></script>
+  <script type="text/javascript" src="./pivot.js"></script>
+  <script type="text/javascript" src="./jquery_pivot.js"></script>
+  <script type="text/javascript">
+  
+  
+  
+  
+  
+  
+  
+  
+/****************************
+*	GROUPING TABLE BY ROW
+*****************************/
+	function group(jQueryrows, columnIndexGroup, prev_ColumnIndexGroup){
+		if (columnIndexGroup === -1){
+			return;
+		}
+		var i , currentIndex = columnIndexGroup, count=1, lst=[];
+		var tds = jQueryrows.find('td:eq('+ currentIndex +')');
+		var ctrl = jQuery(tds[0]);
+		
+		var maxCount = 0;
+		if(prev_ColumnIndexGroup != -1){
+			maxCount = ctrl.closest('tr').find('td:eq('+ prev_ColumnIndexGroup +')').attr('rowspan');
+		}
+	
+		var totalCount = 0;
+		for (i=1;i<=tds.length;i++){
+			totalCount++;
+			
+			if(prev_ColumnIndexGroup != -1 && totalCount >= maxCount){
+				ctrl.attr('rowspan',count);
+				
+				count=1;
+				lst = [];
+				ctrl=jQuery(tds[i]);
+
+				if(prev_ColumnIndexGroup != -1){			
+					maxCount = ctrl.closest('tr').find('td:eq('+ prev_ColumnIndexGroup +')').attr('rowspan');
+				}
+				
+				totalCount = 0;
+			}
+			else{
+				if (ctrl.text().trim() ==  jQuery(tds[i]).text().trim()){
+					count++;
+					jQuery(tds[i]).addClass('deleted');
+
+				}
+				else{
+					ctrl.attr('rowspan',count);
+					
+					count=1;
+					lst = [];
+					ctrl=jQuery(tds[i]);
+				}
+			}
+
+		}
+	}
+
+	function groupTable(tableId, columns){
+		for(var i = 0; i < columns.length; i++){
+			if(i == 0)
+				group(jQuery('#'+tableId+ ' tr:has(td)'),columns[i],-1);
+			else
+				group(jQuery('#'+tableId+ ' tr:has(td)'),columns[i],columns[i-1]);
+	    }
+		
+		
+		jQuery('#'+tableId+ ' .deleted').remove();
+	}
+	
+  
+  
+  
+  
+  
+  
+  
+  
+    $(document).ready(function() {
+      csv = "last_name,first_name,email,date_ordered,date_delivered,sale_price,unit_identifier\n" +
+          "doo, scooby, scoobydoo12512@gmail.com,2012-02-12,2012-02-17,9.99,big-bang-rpsls\n" +
+          "flinstone,fred,freddyf12516@gmail.com,2012-02-12,2012-02-17,9.99,dr-who-bad-wolf\n" +
+          "spiegel,spike,bebop1256@gmail.com,2012-02-12,2012-02-17,9.99,tng-engage\n"; 
+		  
+		  jsonvar = '[["last_name","first_name","employer","billed_amount","payment_amount","invoice_date","last_payment_date","city","state","zip_code"],'+
+'["Hilll","Daniella","Việt Nguyễn",676.4,841.7,"2012-02-12","2012-02-17","Ponte Vedra","FL",32082],'+
+'["Walsh","Jevon","LuthorCorp",630.6,944.8,"2012-02-12","2012-02-17","Ponte Vedra","FL",32082],'+
+'["Rohan","Fannie","ZiffCorp",12.6,768.7,"Tue, 4 Jun 2013 00:00:00 +0000","Thu, 4 Jul 2013 00:00:00 +0000","Ft Myers","FL",33901],'+
+'["Koss","Nola","Wayne Enterprises",711.6,496.3,"Sat, 23 Mar 2013 00:00:00 +0000","Wed, 3 Apr 2013 00:00:00 +0000","Amelia Island","FL",32034],'+
+'["McCullough","Maria","Fake Brothers",609.5,777.5,"Wed, 19 Jun 2013 00:00:00 +0000","Sun, 23 Jun 2013 00:00:00 +0000","Jacksonville","FL",32209],'+
+'["Marquardt","Charlie","ZiffCorp",507.1,603.5,"Thu, 11 Jul 2013 00:00:00 +0000","Tue, 16 Jul 2013 00:00:00 +0000","Tampa","FL",33606]]';
+
+// Define the structure of fields, if this is not defined then all fields will be assumed
+// to be strings.  Name must match csv header row (which must exist) in order to parse correctly.
+var fields = [
+    // filterable fields
+    {name: 'last_name',         type: 'string', filterable: true, filterType: 'regexp',rowLabelable: false,},
+    {name: 'first_name',        type: 'string', filterable: true, rowLabelable: false,},
+    {name: 'state',             type: 'string', filterable: true},
+    {name: 'employer',          type: 'string', filterable: true,  filterType: 'regexp', label:'Nhân viên', align: 'right'},
+    {name: 'city',              type: 'string', filterable: true},
+    {name: 'invoice_date',      type: 'date',   filterable: true},
+
+    {name: 'invoice_mm', type: 'string', filterable: true, pseudo: true,
+      pseudoFunction: function(row){
+          var date = new Date(row.invoice_date);
+          return pivot.utils().padLeft((date.getMonth() + 1),2,'0')}
+    },
+    {name: 'invoice_yyyy_mm', type: 'string', filterable: true, pseudo: true,
+      pseudoFunction: function(row){
+        var date = new Date(row.invoice_date);
+        return date.getFullYear() + '_' + pivot.utils().padLeft((date.getMonth() + 1),2,'0')}
+    },
+    {name: 'Tổng năm', type: 'string',align:'right',   filterable: false, pseudo: true, columnLabelable: true,rowLabelable: false,
+      pseudoFunction: function(row){ return "Năm " + new Date(row.invoice_date).getFullYear() }},
+    {
+		name: 'total', type: 'string', filterable: false, columnLabelable: true, rowLabelable: false,
+		pseudo: true, dataSource: 'employer', 
+		pseudoFunction: function(row){ return "Tổng cộng" }
+	},
+
+
+    // summary fields
+    {name: 'billed_amount', label:'tổng thu',  type: 'float',align:'right',  rowLabelable: false, summarizable: 'sum', displayFunction: function(value){ return accounting.formatMoney(value)}},
+    {name: 'payment_amount', label: 'tổng chi',   type: 'float',  rowLabelable: false, summarizable: 'sum', displayFunction: function(value){ return accounting.formatMoney(value)}},
+    {
+		name: 'balance', type: 'float', rowLabelable: false, pseudo: true,align:'right', label:'cân bằng',
+		pseudoFunction: function(row){ return row.billed_amount - row.payment_amount },
+		summarizable: 'sum', displayFunction: function(value){ return accounting.formatMoney(value)}
+	},
+    {name: 'last_payment_date',  type: 'date',  filterable: true}
+];
+
+
+  function setupPivot(input){
+    input.callbacks = {
+	beforeUpdateResults: function(){
+		//alert('before');
+		
+    },
+	afterUpdateResults: function(){
+		//alert('after');
+		groupTable('pivot-example',[1,2]);
+    },
+	
+	};
+    $('#pivot-menu-container').pivot_display('setup', input);
+  };
+
+		setupPivot(
+		{
+			tableId :'pivot-example',
+			tableClass : 'table-caption',
+			url:'./lib/csv/demo.csv',
+			//json: jsonvar,
+			menuContainer : {
+				filterFieldsHeader : 'Bộ lọc',
+				rowLabelFieldsHeader : 'Hiển thị cột',
+				columnLabelFieldsHeader : '',
+				summaryFieldsHeader : 'Tổng',
+			},
+			//filterFieldsHeader : 'Bộ lọc',
+			fields: fields, 
+			//filters: {employer: 'Acme Corp'}, 
+			rowLabels:[
+				//"last_name",
+				//"first_name",
+				//"Nhân viên",
+				"city"
+			],
+			columnLabels:[
+				//"city",
+				"Tổng năm",
+				"total"
+			], 
+			summaries:[
+				//"invoice_yyyy_mm",
+				"billed_amount", 
+				//"payment_amount", 
+				"balance"
+			]
+		});
+    });
+  </script>
+</head>
+<body>
+<div>
+  <div>
+	<div>
+		<span onclick="jQuery('#pivot-menu-container').toggle('slow');">Show</span>
+		<div id="pivot-menu-container" style="display:none;"></div>
+	</div>
+    <div id="results"></div>
+  </div>
+</div>
+</body>

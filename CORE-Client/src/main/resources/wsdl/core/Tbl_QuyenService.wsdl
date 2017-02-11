@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Tbl_QuyenServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="conditionReport">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="col" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value1" type="xs:anyType"/>
+            <xs:element minOccurs="0" name="value2" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tblQuyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="ghiChu" type="xs:string"/>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="ten" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_QuyenByCondition" type="findtbl_QuyenByCondition"/>
+    <xs:complexType name="findtbl_QuyenByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_QuyenByConditionResponse" type="findtbl_QuyenByConditionResponse"/>
+    <xs:complexType name="findtbl_QuyenByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_Quyen" type="deletetbl_Quyen"/>
+    <xs:complexType name="deletetbl_Quyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_QuyenResponse" type="deletetbl_QuyenResponse"/>
+    <xs:complexType name="deletetbl_QuyenResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="counttbl_QuyenByCondition" type="counttbl_QuyenByCondition"/>
+    <xs:complexType name="counttbl_QuyenByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_QuyenByConditionResponse" type="counttbl_QuyenByConditionResponse"/>
+    <xs:complexType name="counttbl_QuyenByConditionResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createtbl_Quyen" type="createtbl_Quyen"/>
+    <xs:complexType name="createtbl_Quyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createtbl_QuyenResponse" type="createtbl_QuyenResponse"/>
+    <xs:complexType name="createtbl_QuyenResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_Quyen" type="deleteListtbl_Quyen"/>
+    <xs:complexType name="deleteListtbl_Quyen">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_QuyenResponse" type="deleteListtbl_QuyenResponse"/>
+    <xs:complexType name="deleteListtbl_QuyenResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="updatetbl_Quyen" type="updatetbl_Quyen"/>
+    <xs:complexType name="updatetbl_Quyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_QuyenResponse" type="updatetbl_QuyenResponse"/>
+    <xs:complexType name="updatetbl_QuyenResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="gettbl_Quyen" type="gettbl_Quyen"/>
+    <xs:complexType name="gettbl_Quyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="gettbl_QuyenResponse" type="gettbl_QuyenResponse"/>
+    <xs:complexType name="gettbl_QuyenResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tblQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_Quyen" type="findAlltbl_Quyen"/>
+    <xs:complexType name="findAlltbl_Quyen">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:int"/>
+            <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_QuyenResponse" type="findAlltbl_QuyenResponse"/>
+    <xs:complexType name="findAlltbl_QuyenResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="findtbl_QuyenByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findtbl_QuyenByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_Quyen">
+    <wsdl:part name="parameters" element="tns:createtbl_Quyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_QuyenByCondition">
+    <wsdl:part name="parameters" element="tns:findtbl_QuyenByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_QuyenResponse">
+    <wsdl:part name="parameters" element="tns:deletetbl_QuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_QuyenResponse">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_QuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_QuyenResponse">
+    <wsdl:part name="parameters" element="tns:createtbl_QuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_Quyen">
+    <wsdl:part name="parameters" element="tns:findAlltbl_Quyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_QuyenByConditionResponse">
+    <wsdl:part name="parameters" element="tns:counttbl_QuyenByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_Quyen">
+    <wsdl:part name="parameters" element="tns:deletetbl_Quyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_QuyenByCondition">
+    <wsdl:part name="parameters" element="tns:counttbl_QuyenByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_QuyenResponse">
+    <wsdl:part name="parameters" element="tns:updatetbl_QuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_QuyenResponse">
+    <wsdl:part name="parameters" element="tns:gettbl_QuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_Quyen">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_Quyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_Quyen">
+    <wsdl:part name="parameters" element="tns:updatetbl_Quyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_Quyen">
+    <wsdl:part name="parameters" element="tns:gettbl_Quyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_QuyenResponse">
+    <wsdl:part name="parameters" element="tns:findAlltbl_QuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Tbl_QuyenService">
+    <wsdl:operation name="findtbl_QuyenByCondition">
+      <wsdl:input name="findtbl_QuyenByCondition" message="tns:findtbl_QuyenByCondition">
+    </wsdl:input>
+      <wsdl:output name="findtbl_QuyenByConditionResponse" message="tns:findtbl_QuyenByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_Quyen">
+      <wsdl:input name="deletetbl_Quyen" message="tns:deletetbl_Quyen">
+    </wsdl:input>
+      <wsdl:output name="deletetbl_QuyenResponse" message="tns:deletetbl_QuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_QuyenByCondition">
+      <wsdl:input name="counttbl_QuyenByCondition" message="tns:counttbl_QuyenByCondition">
+    </wsdl:input>
+      <wsdl:output name="counttbl_QuyenByConditionResponse" message="tns:counttbl_QuyenByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_Quyen">
+      <wsdl:input name="createtbl_Quyen" message="tns:createtbl_Quyen">
+    </wsdl:input>
+      <wsdl:output name="createtbl_QuyenResponse" message="tns:createtbl_QuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_Quyen">
+      <wsdl:input name="deleteListtbl_Quyen" message="tns:deleteListtbl_Quyen">
+    </wsdl:input>
+      <wsdl:output name="deleteListtbl_QuyenResponse" message="tns:deleteListtbl_QuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_Quyen">
+      <wsdl:input name="updatetbl_Quyen" message="tns:updatetbl_Quyen">
+    </wsdl:input>
+      <wsdl:output name="updatetbl_QuyenResponse" message="tns:updatetbl_QuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_Quyen">
+      <wsdl:input name="gettbl_Quyen" message="tns:gettbl_Quyen">
+    </wsdl:input>
+      <wsdl:output name="gettbl_QuyenResponse" message="tns:gettbl_QuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_Quyen">
+      <wsdl:input name="findAlltbl_Quyen" message="tns:findAlltbl_Quyen">
+    </wsdl:input>
+      <wsdl:output name="findAlltbl_QuyenResponse" message="tns:findAlltbl_QuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Tbl_QuyenServiceServiceSoapBinding" type="tns:Tbl_QuyenService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="findtbl_QuyenByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findtbl_QuyenByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findtbl_QuyenByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_Quyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletetbl_Quyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletetbl_QuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_QuyenByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="counttbl_QuyenByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="counttbl_QuyenByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_Quyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createtbl_Quyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createtbl_QuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_Quyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteListtbl_Quyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteListtbl_QuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_Quyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatetbl_Quyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatetbl_QuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_Quyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="gettbl_Quyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="gettbl_QuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_Quyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findAlltbl_Quyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAlltbl_QuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tbl_QuyenServiceService">
+    <wsdl:port name="Tbl_QuyenServicePort" binding="tns:Tbl_QuyenServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

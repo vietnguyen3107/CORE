@@ -1,0 +1,265 @@
+
+<style>
+* {
+    font-size: 13px !important;
+	    font-family: helvetica,tahoma,verdana,sans-serif;
+}
+textarea {
+    resize: both !important;
+}
+td {
+    height: 24px;
+}
+.btn, .x-panel-btns {
+    cursor: pointer;
+	text-decoration: none;
+}
+.btn:hover{
+	color:#008eff;
+}
+.x-tree-node-el {
+    line-height: 20px;
+    cursor: pointer;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: #4882d0;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,hsla(0,0%,0%,0)), color-stop(50%,#36c), color-stop(100%,hsla(0,0%,0%,0)));
+    background: -webkit-linear-gradient(left, hsla(0,0%,0%,0) 0%, #36c 50%, hsla(0,0%,0%,0) 100%);
+    background:    -moz-linear-gradient(left, hsla(0,0%,0%,0) #36c 50%, hsla(0,0%,0%,0) 100%);
+    background:     -ms-linear-gradient(left, hsla(0,0%,0%,0) 0%, #36c 50%, hsla(0,0%,0%,0) 100%);
+    background:      -o-linear-gradient(left, hsla(0,0%,0%,0) 0%, #36c 50%, hsla(0,0%,0%,0) 100%);
+    background:         linear-gradient(left, hsla(0,0%,0%,0) 0%, #36c 50%, hsla(0,0%,0%,0) 100%);
+}
+
+.link{
+	text-decoration:underline;
+	cursor : pointer;
+	color: rgba(4, 43, 137, 1);
+	padding: 5px;
+}
+a.btn:hover{
+//font-weight:bold;
+}
+
+
+.select2-container--default .select2-selection--single {
+    border-radius: 2px !important;
+}
+/********Table*****************/
+.tbl {
+	border-collapse:collapse;
+	border: 1px solid #A6C9E2;
+	background-color: white;
+}
+.tbl th, .tbl td{
+	
+	padding:4px 5px;
+	border-bottom: 1px solid #A6C9E2;
+
+}
+
+.tbl thead tr,.table-header {
+	color:#000;
+	//font-size: 12px;
+	font-weight: bold;
+	vertical-align: middle;
+	background-color: #C5DBEC;
+	border: 1px solid #C5DBEC;
+	height: 30px;
+}
+.tbl tr {
+	height: 30px;
+}
+.tbl thead tr th, .table-header th,.table-header td{
+
+	background: url('http://www.trirand.com/blog/jqgrid/themes/redmond/images/ui-bg_glass_85_dfeffc_1x400.png') repeat-x scroll 50% 50% #DFEFFC;
+	text-align: left;
+	font-weight: bold;
+	
+}
+.tableitem:hover {
+    background-color: rgba(238, 245, 251, 1);
+}
+/********GRID*****************/
+.grid {
+	border-collapse:collapse;
+	border: 1px solid #A6C9E2;
+	background-color: white;
+}
+.grid th, .grid td{
+	
+	padding:4px 5px;
+	border-top: 1px solid #A6C9E2;
+	border-bottom: 1px solid #A6C9E2;
+
+}
+
+.gridTKB th, .gridTKB td{
+	
+	padding:4px 5px;
+	border: 1px solid #A6C9E2;
+}
+
+.grid thead tr,.table-header {
+	color:#000;
+	//font-size: 12px;
+	font-weight: bold;
+	vertical-align: middle;
+	background-color: #C5DBEC;
+	border: 1px solid #C5DBEC;
+	height: 30px;
+}
+.grid thead tr th, .table-header th,.table-header td{
+
+	background: url('http://www.trirand.com/blog/jqgrid/themes/redmond/images/ui-bg_glass_85_dfeffc_1x400.png') repeat-x scroll 50% 50% #DFEFFC;
+	text-align: left;
+	font-weight: bold;
+	
+}
+
+
+.blueHR {
+clear: both;
+border-bottom: 1px dashed yellow;
+height: 4px;
+margin-bottom: 3px;
+margin-right: 15px;
+}
+
+/********COMBOBOX*****************/
+.form-select select {
+   width: 100%;
+   padding: 5px;
+   border: 1px solid #ccc;
+   height: 30px;
+}
+/********FIELDSET  LEGEND*****************/
+
+fieldset {
+background-color: #E3EEF7;
+margin: 5px;
+margin-bottom: 5px;
+padding: 6px 6px;
+border: solid 1px #ffa20c;
+border-radius: 4px;
+align:center;
+overflow: visible !important;
+}
+
+legend {
+/*border-bottom: solid 2px #ffa20c;*/
+margin-bottom: 2px;
+text-align:left;
+color: #A90001;
+font-weight:bold;
+}
+ 
+/********FIELDSET  LEGEND*****************/
+
+
+/***** PAGING **************/
+.pagination {  
+	color: #666;
+    font: 14px/24px sans-serif;
+    padding-top: 20px;
+}
+
+.page {
+    display: inline-block;
+    padding: 0px 9px;
+    margin-right: 4px;
+    border-radius: 3px;
+    border: solid 1px #c0c0c0;
+    background: #e9e9e9;
+    box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
+    font-size: .875em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #717171;
+    text-shadow: 0px 1px 0px rgba(255,255,255, 1);
+	cursor:pointer;
+}
+
+.page:hover, .page.gradient:hover {
+    background: #fefefe;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FEFEFE), to(#f0f0f0));
+    background: -moz-linear-gradient(0% 0% 270deg,#FEFEFE, #f0f0f0);
+}
+
+.page.active {
+    border: none;
+    background: #616161;
+    box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .8);
+    color: #f0f0f0;
+    text-shadow: 0px 0px 3px rgba(0,0,0, .5);
+}
+.page.gradient {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f8f8f8), to(#e9e9e9));
+    background: -moz-linear-gradient(0% 0% 270deg,#f8f8f8, #e9e9e9);
+}
+/***** PAGING **************/
+
+
+.form-submit{
+   border-top: 1px solid #96d1f8;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   padding: 3px 6px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   //font-size: 12px;
+   font-family: TimeNewRoman, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.form-submit:hover {
+border-top-color: #2883bf;
+   background: #2883bf;
+   color: #ccc;
+   }
+.form-submit:active {
+   border-top-color: #1c698c;
+   background: #1c698c;
+}
+.form-reset{
+   border-top: 1px solid #96d1f8;
+   background: #a6a6a6;
+   background: -webkit-gradient(linear, left top, left bottom, from(#303030), to(#a6a6a6));
+   background: -webkit-linear-gradient(top, #303030, #a6a6a6);
+   background: -moz-linear-gradient(top, #303030, #a6a6a6);
+   background: -ms-linear-gradient(top, #303030, #a6a6a6);
+   background: -o-linear-gradient(top, #303030, #a6a6a6);
+   padding: 3px 6px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   //font-size: 12px;
+   font-family: Georgia, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+}
+
+.tab-content {
+    overflow: auto;
+}
+.x-panel-body {
+	overflow:auto !important;
+}
+</style>

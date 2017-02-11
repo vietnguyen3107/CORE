@@ -1,0 +1,167 @@
+﻿#parse("vm/common.vm") 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+#set ($dateTool = $struts.bean('org.apache.velocity.tools.generic.DateTool')) 
+<script> 
+function editObj(formName,formSuffix){ 
+    var form =  jQuery("#" + formName + formSuffix); 
+    if(!form.validate().form()) { 
+        return false;		 
+    } 
+    var dataString = form.serialize(); 
+    var url = formName + "Update.action"; 
+   mask(''); 
+    jQuery.ajax({ 
+        type: "POST", 
+        url: url, 
+        data: dataString, 
+        success: function(response) { 
+        unmask(''); 
+            try{ 
+	            var obj = jQuery.parseJSON(response); 
+	            Ext.example.msg(obj.code,obj.msg);  
+            }catch(error){ 
+                Ext.example.msg('Done', 'Successfull!'); 
+            } 
+        }
+		,error: function (request, error) {
+			unmask(''); 
+			console.log(" Can't do because: " + error);
+		}
+    }); 
+} 
+
+jQuery(function() { 
+    //textarea : wysiwyg 
+    datepicker(); 
+
+ 
+   tabs = new Ext.TabPanel({ 
+       renderTo: 'tabs', 
+       activeTab: 1, 
+       frame:false, 
+       defaults:{autoHeight: true}, 
+       items:[ 
+           {contentEl:'tabs-1', title: 'tbl_QLDT_HTMLReport'} 
+           ,{contentEl:'tabs-tblQLDTHTMLReportParam', title: 'tbl_QLDT_HTMLReport_Param'} 
+       ] 
+   });//tabs 
+tabs.setActiveTab(1);
+gridTable('tblQLDTHTMLReporttblQLDTHTMLReportParam'); 
+tabs.setActiveTab(0);}); 
+</script> 
+
+<style>
+	.area { width: 100%; height: 75px; resize: both !important; }
+</style>
+
+<div id = "loading" /> 
+<div  id='tabs'> 
+<div  id='tabs-1' class='x-hide-display tab-content'> 
+<form id="tblQLDTHTMLReportEditForm"> 
+<table>  
+<input type="hidden" id="tblQLDTHTMLReportid" name="id" value="$!tblQLDTHTMLReport.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Mã</label>  
+</td>  
+<td>  
+<input name="ma" size='35' value="$!tblQLDTHTMLReport.ma"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" size='35' value="$!tblQLDTHTMLReport.ten"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>CSS</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="css" class='area'>$!tblQLDTHTMLReport.css</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Javascript</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="javascript" class='area'>$!tblQLDTHTMLReport.javascript</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Header</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="header" class='area'>$!tblQLDTHTMLReport.header</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Body</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="body" class='area'>$!tblQLDTHTMLReport.body</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Footer</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="footer" class='area'>$!tblQLDTHTMLReport.footer</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Truy vấn SQL</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="bodySql" class='area'>$!tblQLDTHTMLReport.bodySql</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Truy vấn cho Header</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="headerSql" class='area'>$!tblQLDTHTMLReport.headerSql</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Mô tả báo cáo</label>  
+</td>  
+<td>  
+<input name="description" size='35' value="$!tblQLDTHTMLReport.description"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Loại báo cáo</label>  
+</td>  
+<td>  
+<input name="type" size='35' value="$!tblQLDTHTMLReport.type"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>File template jasper</label>  
+</td>  
+<td>  
+<input name="fileTemplate" size='35' value="$!tblQLDTHTMLReport.fileTemplate"  class='x-form-text '/>  
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  value="Cập nhật" onClick="editObj('tblQLDTHTMLReport','EditForm');"/>  
+</div><div id='tabs-tblQLDTHTMLReportParam' class='x-hide-display  tab-content'> 
+#parse("vm/htmlreport/tblQLDTHTMLReporttblQLDTHTMLReportParamForm.vm") 
+</div> 
+</div> 
+</body>

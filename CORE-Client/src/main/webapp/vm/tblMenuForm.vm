@@ -1,0 +1,103 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<div id = "tblMenuEditForm"> 
+<fieldset class='x-fieldset'> 
+<legend> tbl_Menu </legend> 
+<form id="tblMenuForm"> 
+<table>  
+<input type="hidden" id="tblMenuid" name="id" value="$!tblMenu.id"  size="35" class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Url</label>  
+</td>  
+<td>  
+<input name="url" value="$!tblMenu.url"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Tên (*) </label>  
+</td>  
+<td>  
+<input name="ten" value="$!tblMenu.ten"   size='35' class='x-form-text   required'/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Menu Cha: </label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+<select name="menuCha" class='form-select '>  
+<option value="0">Tất cả </option>  
+#foreach($p in $tblMenus)  
+		#if(!$p.menuCha)
+			#if($p.id == $tblMenu.menuCha.id)
+				<option value="$!p.id" selected>$p.id - $!p.ten</option> 
+			#else
+				<option value="$!p.id"> $p.id - $!p.ten </option>  
+			#end
+
+		#end
+#end 
+</select>  
+</div> 
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Hình</label>  
+</td>  
+<td>  
+<input name="hinh" value="$!tblMenu.hinh"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>menuId</label>  
+</td>  
+<td>  
+<input name="menuId" value="$!tblMenu.menuId"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>nhom</label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+	<select name="nhom" class='form-select '>  
+		<option value=""></option>  
+		<option value="xetTuyen">XT - Xét tuyển</option>  
+		<option value="noAdd">NA - Không Add Toolbar</option>  
+		<option value="noDelete">ND - Không Delete Toolbar</option>  
+		<option value="noMenu">NT - Không Toolbar</option>
+		<option value="report">RP - Report</option>  		
+		
+
+	</select>
+</div>
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Số thứ tự</label>  
+</td>  
+<td>  
+<input name="sTT" value="$!tblMenu.sTT"   size='35' class='x-form-text  ' onkeyup="AllowOnlyAmountAndDot(this, true)"/>  
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  id="accept" name="accept" value="Thêm mới" onClick="agreeBtnClick('tblMenu');"/>  
+</fieldset>  
+</div>  
+<fieldset class='x-fieldset'>  
+<legend>Danh sách </legend>  
+<div id="tblMenuList" >  
+#parse("vm/tblMenuListResponse.vm") 
+</div>  
+</fieldset>  
+ 

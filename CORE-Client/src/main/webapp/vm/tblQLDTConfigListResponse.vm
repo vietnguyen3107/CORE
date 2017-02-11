@@ -1,0 +1,68 @@
+﻿$!msg.preMessage_b 
+<result/> 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool'))
+<form id='tblQLDTConfigListForm' name='tblQLDTConfigListForm'> 
+<table cellspacing="0" id="tblQLDTConfigTable" width='100%'> 
+<thead> 
+<tr style="background:#eeeeee;"> 
+<th>id</th> 
+<th>Tên</th> 
+<th>Giá trị</th> 
+<th>Chọn</th> 
+<th width="10%">Sửa</th> 
+   </tr> 
+</thead> 
+<tbody> 
+#set($i = 0) 
+#foreach($d in $tblQLDTConfigs) 
+    #if($d.id) 
+    <tr class='tableitem' id="tblQLDTConfig$d.id"> 
+<td>$!d.id</td> 
+<td>$!d.ten</td> 
+<td>$!d.giaTri</td> 
+<td> 
+<input type="checkbox" value="$d.id" class='delete' /> 
+</td>	 
+<td> 
+<span class="btn btn-default"  id="tblQLDTConfigEdit$i" width="25" height="25"    
+         onclick="editForm('tblQLDTConfig', $d.id)" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Cập nhật</span> 
+</td> 
+          </tr> 
+#end 
+#set($i = $i +1) 
+#end 
+</tbody> 
+</table> 
+</form> 
+<div class="pagination"> 
+    #if($page >1) 
+        #set($prePage = $page - 1) 
+        <span onclick="searchForm('tblQLDTConfig',$pageSize,1,'$!dataString');" class="page gradient">&#8676; Đầu</span> 
+        <span onclick="searchForm('tblQLDTConfig',$pageSize,$prePage,'$!dataString');" class="page gradient">&larr;</span> 
+    #end 
+    #set($start = $page - 2) 
+    #set($endpage = $page + 2) 
+    #if($endpage < 5) 
+        #set($endpage = 5) 
+    #end 
+    #if($start < 1) 
+        #set($start = 1) 
+    #end 
+    #if($pages < $endpage) 
+        #set($endpage = $pages) 
+    #end 
+    #foreach($p in [$start..$endpage])  
+        #if($p == $page)  
+            <span class="page active">$p</span> 
+            <span></span> 
+        #else  
+            <span onclick="searchForm('tblQLDTConfig',$pageSize,$p,'$!dataString');" class="page gradient">$p</span> 
+        #end 
+    #end 
+    #if($page != $pages) 
+        #set($nextPage = $page + 1) 
+        <span onclick="searchForm('tblQLDTConfig',$pageSize,$nextPage,'$!dataString');" class="page gradient">&rarr;</span> 
+        <span onclick="searchForm('tblQLDTConfig',$pageSize,$pages,'$!dataString');" class="page gradient">Cuối &#8677;</span> 
+    #end 
+</div> 
+

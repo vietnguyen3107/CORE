@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+ 
+<package name="core" extends="struts-default">
+
+<!-- =================UTIL ACTION======================================================================== -->
+<!-- =================UTIL ACTION======================================================================== -->
+<!-- =================UTIL ACTION======================================================================== -->
+
+
+<action name='paramAutoComplete' 
+   class='com.lb.jwitter.action.core.ParamAutoCompleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/htmlReportParamJsonResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+    <action name="fileUpload" class="com.lb.jwitter.action.core.FileUploadAction">
+	   <interceptor-ref name="fileUpload">
+				<param name="maximumSize">2097152</param>
+				<param name="allowedTypes">
+					image/png,image/gif,image/jpeg,image/pjpeg,
+					application/pdf, application/zip, application/x-zip-compressed,
+					application/ms-excel,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+				</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success" type="velocity">vm/uploadSuccess.vm
+			</result>
+	</action>
+    
+    
+    <action name="fileDownload" class="com.lb.jwitter.action.core.FileDownloadAction">
+	<result name="success" type="stream">
+	  <param name="contentType">application/octet-stream</param>
+	  <param name="inputName">fileInputStream</param>
+	  <param name="contentDisposition">attachment;filename="${fileName}"</param>
+	  <param name="bufferSize">1024</param>
+	</result>
+	<result name="error" type='velocity'>vm/error.vm</result>
+		<result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+   </action>
+  
+<action name='exportExcel' 
+   class='com.lb.jwitter.action.core.ExportAction' method='exportExcel'> 
+	<result name='download' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result>
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result>
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  	<action name="home" class="com.lb.jwitter.action.core.HomeAction">
+		<result name="success" type='velocity'>vm/home.vm</result>
+		<result name="error" type='velocity'>vm/error.vm</result>
+		<result name='noprivilege' type='velocity'>index.html </result> 
+	</action>
+	
+  
+  	<action name="welcome" class="com.lb.jwitter.action.core.WelcomeAction">
+		<result name="success" type='velocity'>vm/welcome.vm</result>
+		<result name="error" type='velocity'>vm/error.vm</result>
+		<result name='noprivilege' type='velocity'>index.html </result> 
+	</action>
+	
+	<action name="login" class="com.lb.jwitter.action.core.LoginAction">
+		<result name="success" type="redirectAction">
+   			<param name="actionName">home</param>
+   		</result>
+   		<result name='noprivilege' type='velocity'>index.html </result> 
+		<result name="error" type='velocity'>vm/error.vm</result>
+	</action>
+	
+	<action name="logout" class="com.lb.jwitter.action.core.LogoutAction">
+		<result name="success" type='velocity'>index.html
+   		</result>
+   		<result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+		<result name="error" type='velocity'>vm/error.vm</result>
+	</action>
+
+
+<!-- ===========================  USER INFO ================================================================== -->
+
+		
+	<action name='userInfoForm' 
+   class='com.lb.jwitter.action.core.UserInfoAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/userInfoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/error.vm </result> 
+	</action> 
+	
+	<action name='userInfoUpdate' 
+   class='com.lb.jwitter.action.core.UserInfoAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+	</action> 
+
+<!--  ============================MENU ======================================================================= -->
+
+
+
+<action name='tblMenuForm' 
+   class='com.lb.jwitter.action.admin.TblMenuAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblMenuForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblMenuDelete' 
+   class='com.lb.jwitter.action.admin.TblMenuAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblMenuListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblMenuInsert' 
+   class='com.lb.jwitter.action.admin.TblMenuAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblMenuListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblMenuSearch' 
+   class='com.lb.jwitter.action.admin.TblMenuAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblMenuListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblMenuUpdate' 
+   class='com.lb.jwitter.action.admin.TblMenuAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblMenuListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblMenuEditForm' 
+   class='com.lb.jwitter.action.admin.TblMenuAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblMenuEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<!-- ====================TBL_CANBO===================================================================== -->
+<action name='tblCanBoUpdate' 
+   class='com.lb.jwitter.action.admin.TblCanBoUpdateAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblCanBoSearch</param><param name="parse">true</param>    </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblCanBoInsert' 
+   class='com.lb.jwitter.action.admin.TblCanBoInsertAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblCanBoSearch</param><param name="parse">true</param>    </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblCanBoDelete' 
+   class='com.lb.jwitter.action.admin.TblCanBoDeleteAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblCanBoSearch</param><param name="parse">true</param>    </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblCanBoForm' 
+   class='com.lb.jwitter.action.admin.TblCanBoFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblCanBoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblCanBoSearch' 
+   class='com.lb.jwitter.action.admin.TblCanBoSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblCanBoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblCanBoEditForm' 
+   class='com.lb.jwitter.action.admin.TblCanBoEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblCanBoEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblCanBoAddForm' 
+   class='com.lb.jwitter.action.admin.TblCanBoAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblCanBoAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblCanBoJsonSearch' 
+   class='com.lb.jwitter.action.admin.TblCanBoAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblCanBoJsonResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<!--  =========================== TABLE ========================================================================================== -->
+<action name='tblDBTableForm' 
+   class='com.lb.jwitter.action.admin.TblDBTableAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblDBTableForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDBTableDelete' 
+   class='com.lb.jwitter.action.admin.TblDBTableAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblDBTableListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDBTableInsert' 
+   class='com.lb.jwitter.action.admin.TblDBTableAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblDBTableListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDBTableSearch' 
+   class='com.lb.jwitter.action.admin.TblDBTableAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblDBTableListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDBTableUpdate' 
+   class='com.lb.jwitter.action.admin.TblDBTableAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblDBTableListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDBTableEditForm' 
+   class='com.lb.jwitter.action.admin.TblDBTableAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblDBTableEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<!-- ============================TAI KHOAN=============================================================================== -->
+
+
+
+<action name='tblTaiKhoanForm' 
+   class='com.lb.jwitter.action.admin.TblTaiKhoanAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblTaiKhoanForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblTaiKhoanDelete' 
+   class='com.lb.jwitter.action.admin.TblTaiKhoanAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblTaiKhoanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblTaiKhoanInsert' 
+   class='com.lb.jwitter.action.admin.TblTaiKhoanAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblTaiKhoanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblTaiKhoanSearch' 
+   class='com.lb.jwitter.action.admin.TblTaiKhoanAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblTaiKhoanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblTaiKhoanUpdate' 
+   class='com.lb.jwitter.action.admin.TblTaiKhoanAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblTaiKhoanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblTaiKhoanEditForm' 
+   class='com.lb.jwitter.action.admin.TblTaiKhoanAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblTaiKhoanEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+
+<!--  =========================== NHOM QUYEN ================================================================== -->
+<action name='tblNhomQuyenForm' 
+   class='com.lb.jwitter.action.admin.TblNhomQuyenFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblNhomQuyenForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblNhomQuyenDelete' 
+   class='com.lb.jwitter.action.admin.TblNhomQuyenDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblNhomQuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblNhomQuyenInsert' 
+   class='com.lb.jwitter.action.admin.TblNhomQuyenInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblNhomQuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblNhomQuyenSearch' 
+   class='com.lb.jwitter.action.admin.TblNhomQuyenSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblNhomQuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblNhomQuyenUpdate' 
+   class='com.lb.jwitter.action.admin.TblNhomQuyenUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblNhomQuyenEditForm' 
+   class='com.lb.jwitter.action.admin.TblNhomQuyenEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblNhomQuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblNhomQuyenAddForm' 
+   class='com.lb.jwitter.action.admin.TblNhomQuyenAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblNhomQuyenAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<!--  =========================== QUYEN ================================================================================================= -->
+<action name='tblQuyenForm' 
+   class='com.lb.jwitter.action.admin.TblQuyenFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQuyenForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblQuyenDelete' 
+   class='com.lb.jwitter.action.admin.TblQuyenDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblQuyenInsert' 
+   class='com.lb.jwitter.action.admin.TblQuyenInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblQuyenSearch' 
+   class='com.lb.jwitter.action.admin.TblQuyenSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblQuyenUpdate' 
+   class='com.lb.jwitter.action.admin.TblQuyenUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<!--  -->
+<action name='tblQuyenEditForm' 
+   class='com.lb.jwitter.action.admin.TblQuyenEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='tblQuyenAddForm' 
+   class='com.lb.jwitter.action.admin.TblQuyenAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQuyenAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+  
+  <!-- ========================HTML REPORT ===================================== -->
+  
+ 
+<action name='htmlReportView' 
+   class='com.lb.jwitter.action.core.htmlreport.HtmlReportViewAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='reportByTemplate' type='velocity'> 
+       vm/htmlreport/htmlReportView.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+ 
+<action name='htmlReportForm' 
+   class='com.lb.jwitter.action.core.htmlreport.HtmlReportFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/htmlReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='htmlReportParamAutoComplete' 
+   class='com.lb.jwitter.action.core.htmlreport.HtmlReportParamAutoCompleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/htmlReportParamJsonResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+ 
+<action name='tblQLDTHTMLReport2ViewForm' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReport2ViewForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTHTMLReport2ViewSearch' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReport2ViewListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+ <!-- ====================TBL_QLDT_HTMLREPORT===================================================================== -->
+ 
+ 
+<action name='tblQLDTHTMLReportDuplicate' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportDuplicateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+ 
+ 
+<action name='tblQLDTHTMLReportForm' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReportDelete' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReportInsert' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReportEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReportSearch' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReportUpdate' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReportEditForm' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReportEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReportAddForm' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReportAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReportAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<!-- =================== htmlreport param============================= -->
+<action name='tblQLDTHTMLReporttblQLDTHTMLReportParamDelete' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReporttblQLDTHTMLReportParamDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReporttblQLDTHTMLReportParamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReporttblQLDTHTMLReportParamInsert' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReporttblQLDTHTMLReportParamInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReporttblQLDTHTMLReportParamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReporttblQLDTHTMLReportParamSearch' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReporttblQLDTHTMLReportParamSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReporttblQLDTHTMLReportParamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReporttblQLDTHTMLReportParamUpdate' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReporttblQLDTHTMLReportParamUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReporttblQLDTHTMLReportParamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHTMLReporttblQLDTHTMLReportParamEditForm' 
+   class='com.lb.jwitter.action.core.htmlreport.TblQLDTHTMLReporttblQLDTHTMLReportParamEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/htmlreport/tblQLDTHTMLReporttblQLDTHTMLReportParamEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  <!-- =====================CONFIG=============================================== -->
+  
+
+<action name='tblQLDTConfigForm' 
+   class='com.lb.jwitter.action.admin.TblQLDTConfigAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTConfigForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTConfigDelete' 
+   class='com.lb.jwitter.action.admin.TblQLDTConfigAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTConfigListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTConfigInsert' 
+   class='com.lb.jwitter.action.admin.TblQLDTConfigAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTConfigListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTConfigSearch' 
+   class='com.lb.jwitter.action.admin.TblQLDTConfigAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTConfigListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTConfigUpdate' 
+   class='com.lb.jwitter.action.admin.TblQLDTConfigAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTConfigListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTConfigEditForm' 
+   class='com.lb.jwitter.action.admin.TblQLDTConfigAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTConfigEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  <!-- ====================TBL_DONVI===================================================================== -->
+<action name='tblDonViUpdate' 
+   class='com.lb.jwitter.action.admin.TblDonViUpdateAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblDonViSearch</param><param name="parse">true</param>    </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDonViInsert' 
+   class='com.lb.jwitter.action.admin.TblDonViInsertAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblDonViSearch</param><param name="parse">true</param>    </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDonViDelete' 
+   class='com.lb.jwitter.action.admin.TblDonViDeleteAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblDonViSearch</param><param name="parse">true</param>    </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDonViForm' 
+   class='com.lb.jwitter.action.admin.TblDonViFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblDonViForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDonViSearch' 
+   class='com.lb.jwitter.action.admin.TblDonViSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblDonViListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDonViEditForm' 
+   class='com.lb.jwitter.action.admin.TblDonViEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblDonViEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblDonViAddForm' 
+   class='com.lb.jwitter.action.admin.TblDonViAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblDonViAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+</package>
+ 
+</struts>

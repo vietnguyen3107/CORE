@@ -1,0 +1,3 @@
+﻿#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool'))
+hello<br/>
+

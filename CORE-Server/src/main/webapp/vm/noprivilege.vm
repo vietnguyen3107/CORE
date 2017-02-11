@@ -1,0 +1,29 @@
+#if($fname == 'client')
+#parse("top.vm")
+#parse("common.vm")
+<link href='style-table.css' rel='stylesheet' type='text/css'>
+#end
+
+#if($fname == 'admission')
+#parse("top.vm")
+#parse("common.vm")
+<link href='style-table.css' rel='stylesheet' type='text/css'>
+#end
+
+
+
+<body>
+<div id='wrap'>
+<div style='height:300px;text-align:center; vertical-align:middle'>
+  <p><br>
+    <br>
+    <br>
+    <br>
+ Xin l&ocirc;&#771;i, ba&#803;n kh&ocirc;ng &#273;&#432;&#417;&#803;c c&acirc;&#769;p quy&ecirc;&#768;n va&#768;o trang na&#768;y!
+<br>
+
+Click va&#768;o <a href="#" style="color:red;" onClick="history.go(-1);return true;" > &#273;&acirc;y </a> &#273;&ecirc;&#777; tr&#417;&#777; la&#803;i trang tr&#432;&#417;&#769;c!</p>
+  <p>Xin ca&#777;m &#417;n! </p>
+</div>
+</div>
+</body>

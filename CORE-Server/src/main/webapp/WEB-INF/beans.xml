@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	
+<!-- ======================== UTIL ===================================================== -->
+<!-- ======================== UTIL ===================================================== -->
+<!-- ======================== UTIL ===================================================== -->
+
+<jaxws:endpoint
+   id="tbl_QLDTLT_OptionWS" implementor="#tbl_QLDTLT_OptionService"
+   implementorClass="com.lb.jwitter.service.Tbl_QLDTLT_OptionServiceImpl" 
+   address="/Tbl_QLDTLT_Option" />
+
+<jaxws:endpoint
+   id="tbl_QLDTLT_OptionGroupWS" implementor="#tbl_QLDTLT_OptionGroupService"
+   implementorClass="com.lb.jwitter.service.Tbl_QLDTLT_OptionGroupServiceImpl" 
+   address="/Tbl_QLDTLT_OptionGroup" />
+  
+<jaxws:endpoint    
+   id="tbl_DonViWS" implementor="#tbl_DonViService"
+   implementorClass="com.lb.jwitter.service.Tbl_DonViServiceImpl" 
+   address="/Tbl_DonVi" />
+    
+
+<jaxws:endpoint
+   id="commonWS" implementor="#commonService"
+   implementorClass="com.lb.jwitter.service.CommonServiceImpl" 
+   address="/Common" />
+   
+   
+<jaxws:endpoint
+   id="tbl_QLDT_HTMLReportWS" implementor="#tbl_QLDT_HTMLReportService"
+   implementorClass="com.lb.jwitter.service.Tbl_QLDT_HTMLReportServiceImpl" 
+   address="/Tbl_QLDT_HTMLReport" />
+
+<jaxws:endpoint
+   id="tbl_QLDT_HTMLReport_ParamWS" implementor="#tbl_QLDT_HTMLReport_ParamService"
+   implementorClass="com.lb.jwitter.service.Tbl_QLDT_HTMLReport_ParamServiceImpl" 
+   address="/Tbl_QLDT_HTMLReport_Param" />
+
+<jaxws:endpoint
+   id="tbl_QLDT_LogWS" implementor="#tbl_QLDT_LogService"
+   implementorClass="com.lb.jwitter.service.Tbl_QLDT_LogServiceImpl" 
+   address="/Tbl_QLDT_Log" />
+  
+  
+<jaxws:endpoint
+   id="tbl_QLDT_ConfigWS" implementor="#tbl_QLDT_ConfigService"
+   implementorClass="com.lb.jwitter.service.Tbl_QLDT_ConfigServiceImpl" 
+   address="/Tbl_QLDT_Config" />
+
+
+<jaxws:endpoint
+   id="tbl_DBTableWS" implementor="#tbl_DBTableService"
+   implementorClass="com.lb.jwitter.service.Tbl_DBTableServiceImpl" 
+   address="/Tbl_DBTable" />
+
+<jaxws:endpoint
+   id="tbl_MenuWS" implementor="#tbl_MenuService"
+   implementorClass="com.lb.jwitter.service.Tbl_MenuServiceImpl" 
+   address="/Tbl_Menu" />
+
+<jaxws:endpoint
+   id="tbl_NhomQuyenWS" implementor="#tbl_NhomQuyenService"
+   implementorClass="com.lb.jwitter.service.Tbl_NhomQuyenServiceImpl" 
+   address="/Tbl_NhomQuyen" />
+
+<jaxws:endpoint
+   id="tbl_QuyenWS" implementor="#tbl_QuyenService"
+   implementorClass="com.lb.jwitter.service.Tbl_QuyenServiceImpl" 
+   address="/Tbl_Quyen" />
+
+<jaxws:endpoint
+   id="tbl_CanBoWS" implementor="#tbl_CanBoService"
+   implementorClass="com.lb.jwitter.service.Tbl_CanBoServiceImpl" 
+   address="/Tbl_CanBo" />
+
+<jaxws:endpoint
+   id="tbl_Quyen_ChiTietWS" implementor="#tbl_Quyen_ChiTietService"
+   implementorClass="com.lb.jwitter.service.Tbl_Quyen_ChiTietServiceImpl" 
+   address="/Tbl_Quyen_ChiTiet" />
+
+<jaxws:endpoint
+   id="tbl_Quyen_MenuWS" implementor="#tbl_Quyen_MenuService"
+   implementorClass="com.lb.jwitter.service.Tbl_Quyen_MenuServiceImpl" 
+   address="/Tbl_Quyen_Menu" />
+
+<jaxws:endpoint
+   id="tbl_Quyen_NhomQuyenWS" implementor="#tbl_Quyen_NhomQuyenService"
+   implementorClass="com.lb.jwitter.service.Tbl_Quyen_NhomQuyenServiceImpl" 
+   address="/Tbl_Quyen_NhomQuyen" />
+
+<jaxws:endpoint
+   id="tbl_TaiKhoanWS" implementor="#tbl_TaiKhoanService"
+   implementorClass="com.lb.jwitter.service.Tbl_TaiKhoanServiceImpl" 
+   address="/Tbl_TaiKhoan" />
+<!-- ==============END UTIL ============================================================= -->
+</beans>

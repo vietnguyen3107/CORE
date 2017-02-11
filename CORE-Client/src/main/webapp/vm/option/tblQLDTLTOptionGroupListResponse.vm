@@ -1,0 +1,72 @@
+﻿#set ($dateTool = $struts.bean('org.apache.velocity.tools.generic.DateTool')) 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool'))
+<fieldset class='x-fieldset'>  
+<legend>Danh sách </legend>  
+<form id='tblQLDTLTOptionGroupListForm' name='tblQLDTLTOptionGroupListForm'> 
+<table cellspacing="0" id="tblQLDTLTOptionGroupTable" width='98%'> 
+<thead> 
+<tr style="background:#eeeeee;"> 
+<th>STT</th> 
+<th>Mã nhóm</th> 
+<th>Tên nhóm</th> 
+<th>Mã loại</th> 
+<th>Chọn</th> 
+<th width="10%">Sửa</th> 
+   </tr> 
+</thead> 
+<tbody> 
+#set($i = $pageSize*($page - 1) + 1)  
+#foreach($d in $tblQLDTLTOptionGroups) 
+    #if($d.id) 
+    <tr class='tableitem' id="tblQLDTLTOptionGroup$d.id"> 
+<td>$!i</td> 
+<td>$!d.ma</td> 
+<td>$!d.ten</td> 
+<td>$!d.maLoai</td> 
+<td> 
+<input type="checkbox" value="$d.id" class='delete' /> 
+</td>	 
+<td> 
+<span class="btn btn-default"  id="tblQLDTLTOptionGroupEdit$i" width="25" height="25"    
+         onclick="openPopup('tblQLDTLTOptionGroup', 'tblQLDTLTOptionGroupEditForm.action?id=$d.id','Cập Nhật');return false;" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Cập nhật</span> 
+</td> 
+          </tr> 
+#end 
+#set($i = $i +1) 
+#end 
+</tbody> 
+</table> 
+</form> 
+<div class="pagination"> 
+    #if($page >1) 
+        #set($prePage = $page - 1) 
+        <span onclick="searchForm('tblQLDTLTOptionGroup',$pageSize,1,'$!dataString');" class="page gradient">&#8676; Đầu</span> 
+        <span onclick="searchForm('tblQLDTLTOptionGroup',$pageSize,$prePage,'$!dataString');" class="page gradient">&larr;</span> 
+    #end 
+    #set($start = $page - 2) 
+    #set($endpage = $page + 2) 
+    #if($endpage < 5) 
+        #set($endpage = 5) 
+    #end 
+    #if($start < 1) 
+        #set($start = 1) 
+    #end 
+    #if($pages < $endpage) 
+        #set($endpage = $pages) 
+    #end 
+    #foreach($p in [$start..$endpage])  
+        #if($p == $page)  
+            <span class="page active">$p</span> 
+            <span></span> 
+        #else  
+            <span onclick="searchForm('tblQLDTLTOptionGroup',$pageSize,$p,'$!dataString');" class="page gradient">$p</span> 
+        #end 
+    #end 
+    #if($page != $pages) 
+        #set($nextPage = $page + 1) 
+        <span onclick="searchForm('tblQLDTLTOptionGroup',$pageSize,$nextPage,'$!dataString');" class="page gradient">&rarr;</span> 
+        <span onclick="searchForm('tblQLDTLTOptionGroup',$pageSize,$pages,'$!dataString');" class="page gradient">Cuối &#8677;</span> 
+    #end 
+    <span class='page gradient' style='float:right; margin-right: 15px;'>Số lượng: $!num</span>
+</div> 
+</fieldset>

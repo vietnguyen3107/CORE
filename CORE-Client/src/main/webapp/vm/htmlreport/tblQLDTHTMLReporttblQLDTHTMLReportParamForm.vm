@@ -1,0 +1,63 @@
+﻿#parse("javascript/form4Detail1_js.vm")
+
+<form id="tblQLDTHTMLReporttblQLDTHTMLReportParamForm"> 
+<input type="hidden" id="tblQLDTHTMLReportParamtblQLDTHTMLReportid" name="reportId" value="$!tblQLDTHTMLReport.id"  size='35' class='x-form-text'/>  
+<div id="tblQLDTHTMLReporttblQLDTHTMLReportParam"> 
+<table>  
+<input type="hidden" id="tblQLDTHTMLReporttblQLDTHTMLReportParamid" name="id" value="$!tblQLDTHTMLReportParam.id" class=''/>  
+
+<tr>  
+<td>  
+<label>Tên tham số</label>  
+</td>  
+<td>  
+<input name="ten"value="$!tblQLDTHTMLReportParam.ten" size='68' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nhãn</label>  
+</td>  
+<td>  
+<input name="label"value="$!tblQLDTHTMLReportParam.label" size='68' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Loại biến</label>  
+</td>  
+<td>  
+<input name="type"value="$!tblQLDTHTMLReportParam.type" size='68' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>SQl để autocomplete</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReporttblQLDTHTMLReportParamTextarea2" name="paramSql"  class='area'>$!tblQLDTHTMLReportParam.paramSql</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Biến truyền vào SQL</label>  
+</td>  
+<td>  
+<input name="paramVariable"value="$!tblQLDTHTMLReportParam.paramVariable" size='68' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table>  
+</div>  
+</form>  
+<div style="float:left"> 
+	<input type='button'  class='x-panel-btns'  value='Lưu' onClick="saveForm('tblQLDTHTMLReporttblQLDTHTMLReportParam','Form');"/> 
+    <input type='button'  class='x-panel-btns'  value='Bo&#777; Qua' onClick="clearForm('tblQLDTHTMLReporttblQLDTHTMLReportParam','Form');"/> 
+    <input type='button'  class='x-panel-btns' value='Ti&#768;m Ki&ecirc;&#769;m' onClick="searchForm('tblQLDTHTMLReporttblQLDTHTMLReportParam',20,1);" /> 
+</div> 
+<div style="float:right">  
+<input type='button'  class='x-panel-btns'  id='delete' name='delete' value='Delete' onClick="deleteObjs('tblQLDTHTMLReporttblQLDTHTMLReportParam');" /> 
+</div> 
+<div style="clear:both"></div><div id="tblQLDTHTMLReporttblQLDTHTMLReportParamList" >  
+#parse("vm/htmlreport/tblQLDTHTMLReporttblQLDTHTMLReportParamListResponse.vm") 
+</div>  
+

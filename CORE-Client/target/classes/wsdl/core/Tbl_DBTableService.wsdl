@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Tbl_DBTableServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="tblDBTable">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="ten" type="xs:string"/>
+            <xs:element minOccurs="0" name="tenTV" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="conditionReport">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="col" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value1" type="xs:anyType"/>
+            <xs:element minOccurs="0" name="value2" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_DBTable" type="updatetbl_DBTable"/>
+    <xs:complexType name="updatetbl_DBTable">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblDBTable"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_DBTableResponse" type="updatetbl_DBTableResponse"/>
+    <xs:complexType name="updatetbl_DBTableResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="gettbl_DBTable" type="gettbl_DBTable"/>
+    <xs:complexType name="gettbl_DBTable">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="gettbl_DBTableResponse" type="gettbl_DBTableResponse"/>
+    <xs:complexType name="gettbl_DBTableResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tblDBTable"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_DBTable" type="findAlltbl_DBTable"/>
+    <xs:complexType name="findAlltbl_DBTable">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:int"/>
+            <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_DBTableResponse" type="findAlltbl_DBTableResponse"/>
+    <xs:complexType name="findAlltbl_DBTableResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblDBTable"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_DBTableByCondition" type="counttbl_DBTableByCondition"/>
+    <xs:complexType name="counttbl_DBTableByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_DBTableByConditionResponse" type="counttbl_DBTableByConditionResponse"/>
+    <xs:complexType name="counttbl_DBTableByConditionResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_DBTable" type="deleteListtbl_DBTable"/>
+    <xs:complexType name="deleteListtbl_DBTable">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_DBTableResponse" type="deleteListtbl_DBTableResponse"/>
+    <xs:complexType name="deleteListtbl_DBTableResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="findtbl_DBTableByCondition" type="findtbl_DBTableByCondition"/>
+    <xs:complexType name="findtbl_DBTableByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_DBTableByConditionResponse" type="findtbl_DBTableByConditionResponse"/>
+    <xs:complexType name="findtbl_DBTableByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblDBTable"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_DBTable" type="deletetbl_DBTable"/>
+    <xs:complexType name="deletetbl_DBTable">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_DBTableResponse" type="deletetbl_DBTableResponse"/>
+    <xs:complexType name="deletetbl_DBTableResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="createtbl_DBTable" type="createtbl_DBTable"/>
+    <xs:complexType name="createtbl_DBTable">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblDBTable"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createtbl_DBTableResponse" type="createtbl_DBTableResponse"/>
+    <xs:complexType name="createtbl_DBTableResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createtbl_DBTable">
+    <wsdl:part name="parameters" element="tns:createtbl_DBTable">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_DBTable">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_DBTable">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_DBTableResponse">
+    <wsdl:part name="parameters" element="tns:updatetbl_DBTableResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_DBTableByCondition">
+    <wsdl:part name="parameters" element="tns:findtbl_DBTableByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_DBTableResponse">
+    <wsdl:part name="parameters" element="tns:deletetbl_DBTableResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_DBTable">
+    <wsdl:part name="parameters" element="tns:deletetbl_DBTable">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_DBTableByConditionResponse">
+    <wsdl:part name="parameters" element="tns:counttbl_DBTableByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_DBTableByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findtbl_DBTableByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_DBTable">
+    <wsdl:part name="parameters" element="tns:updatetbl_DBTable">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_DBTable">
+    <wsdl:part name="parameters" element="tns:findAlltbl_DBTable">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_DBTableResponse">
+    <wsdl:part name="parameters" element="tns:createtbl_DBTableResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_DBTableResponse">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_DBTableResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_DBTableResponse">
+    <wsdl:part name="parameters" element="tns:gettbl_DBTableResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_DBTable">
+    <wsdl:part name="parameters" element="tns:gettbl_DBTable">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_DBTableByCondition">
+    <wsdl:part name="parameters" element="tns:counttbl_DBTableByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_DBTableResponse">
+    <wsdl:part name="parameters" element="tns:findAlltbl_DBTableResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Tbl_DBTableService">
+    <wsdl:operation name="updatetbl_DBTable">
+      <wsdl:input name="updatetbl_DBTable" message="tns:updatetbl_DBTable">
+    </wsdl:input>
+      <wsdl:output name="updatetbl_DBTableResponse" message="tns:updatetbl_DBTableResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_DBTable">
+      <wsdl:input name="gettbl_DBTable" message="tns:gettbl_DBTable">
+    </wsdl:input>
+      <wsdl:output name="gettbl_DBTableResponse" message="tns:gettbl_DBTableResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_DBTable">
+      <wsdl:input name="findAlltbl_DBTable" message="tns:findAlltbl_DBTable">
+    </wsdl:input>
+      <wsdl:output name="findAlltbl_DBTableResponse" message="tns:findAlltbl_DBTableResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_DBTableByCondition">
+      <wsdl:input name="counttbl_DBTableByCondition" message="tns:counttbl_DBTableByCondition">
+    </wsdl:input>
+      <wsdl:output name="counttbl_DBTableByConditionResponse" message="tns:counttbl_DBTableByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_DBTable">
+      <wsdl:input name="deleteListtbl_DBTable" message="tns:deleteListtbl_DBTable">
+    </wsdl:input>
+      <wsdl:output name="deleteListtbl_DBTableResponse" message="tns:deleteListtbl_DBTableResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_DBTableByCondition">
+      <wsdl:input name="findtbl_DBTableByCondition" message="tns:findtbl_DBTableByCondition">
+    </wsdl:input>
+      <wsdl:output name="findtbl_DBTableByConditionResponse" message="tns:findtbl_DBTableByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_DBTable">
+      <wsdl:input name="deletetbl_DBTable" message="tns:deletetbl_DBTable">
+    </wsdl:input>
+      <wsdl:output name="deletetbl_DBTableResponse" message="tns:deletetbl_DBTableResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_DBTable">
+      <wsdl:input name="createtbl_DBTable" message="tns:createtbl_DBTable">
+    </wsdl:input>
+      <wsdl:output name="createtbl_DBTableResponse" message="tns:createtbl_DBTableResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Tbl_DBTableServiceServiceSoapBinding" type="tns:Tbl_DBTableService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="updatetbl_DBTable">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatetbl_DBTable">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatetbl_DBTableResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_DBTable">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="gettbl_DBTable">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="gettbl_DBTableResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_DBTable">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findAlltbl_DBTable">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAlltbl_DBTableResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_DBTableByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="counttbl_DBTableByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="counttbl_DBTableByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_DBTable">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteListtbl_DBTable">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteListtbl_DBTableResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_DBTableByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findtbl_DBTableByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findtbl_DBTableByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_DBTable">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletetbl_DBTable">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletetbl_DBTableResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_DBTable">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createtbl_DBTable">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createtbl_DBTableResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tbl_DBTableServiceService">
+    <wsdl:port name="Tbl_DBTableServicePort" binding="tns:Tbl_DBTableServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

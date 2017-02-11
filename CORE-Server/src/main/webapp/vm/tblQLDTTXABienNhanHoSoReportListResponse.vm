@@ -1,0 +1,62 @@
+﻿#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool'))
+<form id='tblQLDTTXABienNhanHoSoReportListForm' name='tblQLDTTXABienNhanHoSoReportListForm'> 
+<table  id="tblQLDTTXABienNhanHoSoReportGrid" width='100%'> 
+<thead> 
+<tr class="table-header"> 
+#set($colNo = 1) 
+<th style="text-align:center"> Stt </th> 
+#set($colNo = $colNo +1) 
+<th style="text-align:center">Ngày nhận</th> 
+#set($colNo = $colNo +1) 
+<th style="text-align:center">Số biên lai</th> 
+#set($colNo = $colNo +1) 
+<th style="text-align:center">Cán bộ nhận</th> 
+#set($colNo = $colNo +1) 
+<th style="text-align:center">Hồ sơ</th> 
+ #foreach($d in $!tblQLDTTXADMGiayTos) 
+      #set($colNo = $colNo +1) 
+      <th width='30' height='100%' style="text-align:center">  
+      $d.ten <br/> 
+      </th> 
+  #end 
+   </tr> 
+</thead> 
+<tbody> 
+#set($stt = 0) 
+#foreach($d in $tblQLDTTXABienNhanHoSos) 
+    #set($stt = $stt+1) 
+    <tr class='tableitem' > 
+         <TD>$stt  </TD> 
+<td>$!numTool.format('00',$d.ngayNhan.day)/ 
+$!numTool.format('00',$d.ngayNhan.month)/ 
+$!numTool.format('00',$d.ngayNhan.year) 
+</td> 
+<td>$!d.soBienLai</td> 
+<td>$!d.canBoId.ten</td> 
+<td>$!d.hoSoId.hoTen</td> 
+#foreach($d1 in $!tblQLDTTXADMGiayTos) 
+  #set($i = 0) 
+  #foreach($d2 in $tblQLDTTXABienNhanHoSoGiayTos) 
+      #if($d2.bienNhanId.id == $d.id) 
+      #if($d2.giayToId.id == $d1.id) 
+            <td> * </td> 
+	            #set($i = 1) 
+          #end 
+      #end 
+  #end 
+  #if( $i == 0) 
+      <td> </td> 
+  #end 
+#end 
+</tr> 
+#end 
+<tr/>
+<tr class='table-footer'>  
+<td colspan='2'>Người lập </td> 
+#set($colNo = $colNo - 2) 
+<td colspan='$colNo'> <b>$!taiKhoanDangNhap.canBoId.ten </b> </td> 
+</tr> 
+</tbody> 
+</table> 
+</form> 
+

@@ -1,0 +1,276 @@
+
+<script>
+//bien toan cuc : cac suffix cho url
+var insertLink = "Insert.action";
+var updateLink = "Update.action";
+var deleteLink = "Delete.action";
+var searchLink = "Search.action";
+var responseSuffix = "List";
+
+//==============
+//Ham lay du lieu cua 1 row tren table va add vao cac field trong form
+//==============
+function editRow(rowid,formName){
+	var recentRow =  jQuery("#"+rowid);
+	
+	clearForm(formName);
+	jQuery("tr").css('background-color', '#FFFFFF');
+	jQuery(".delete").attr('checked',false);
+
+	recentRow.css('background-color', '#FFFF99');
+	recentRow.find('input').attr('checked',true);
+
+	recentRow.find("td").each(
+	    function () {
+		    if(jQuery(this).attr("id") != ""){
+			if(jQuery(this).attr("class") == "radio"){
+				radioBtnEdit(jQuery(this));
+				
+			} else if(jQuery(this).attr("class") == "area"){
+				areaEdit(jQuery(this));
+			} else {
+				jQuery("#"+jQuery(this).attr("id")).val(jQuery(this).text());
+				
+			}
+		    }	
+	    }
+	);
+}
+
+//================
+//Ham danh da row da duoc check bang mau vang
+//================
+function checkRow(rowid,check){
+	var recentRow =  jQuery("#"+rowid);
+	if(check){
+		recentRow.css('background-color', '#FFFF99');
+	} else {
+		recentRow.css('background-color', '#FFFFFF');
+	}
+}
+
+//=================
+//Ham xoa trang cac field nhap lieu co ban,
+//cac field dac biet cua moi Form se duoc goi trong ham con: clearOthers();
+//=================
+function clearForm(formName){
+	var form =  jQuery("#" + formName + "Form");
+
+	//clear all message validate error 
+	form.validate().resetForm();
+
+	//clear all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+		    case 'password':
+		    case 'select-multiple':
+		    case 'select-one':
+		    case 'text':
+		    case 'textarea':
+			jQuery(this).val('');
+			break;
+		    case 'checkbox':
+		    case 'radio':
+			this.checked = false;
+		}
+	});
+
+	//clear all background of table row
+	jQuery("tr").css('background-color', '#FFFFFF');
+
+	//clear all check box
+	jQuery(".delete").attr('checked',false);
+
+	//clear message
+	jQuery('#msg').html("");
+	//clear special field
+	clearOthers();
+
+}
+
+//=====================
+// Tim kiem theo cac gia tri nhap trong form
+//=====================
+function searchForm(formName,pageSize,page){
+
+	var form =  jQuery("#" + formName + "Form");
+	var dataString = form.serialize()+"&pageSize=" + pageSize + "&page=" + page+"&mota=" + motaDetail.get_html();
+
+	var url = formName + searchLink;
+	var responseId = formName + responseSuffix;
+
+	ajaxExe(dataString, url, responseId);
+}
+
+//====================
+//xoa cac row da check
+//====================
+function deleteObjs(formName){
+	var idList = "";
+	jQuery(".delete:checked'").each(
+		function () {
+			idList += jQuery(this).val() +",";
+		}
+	);
+	idList= idList.slice(0,idList.length-1); 
+
+	if(idList== ""){
+		return false;
+	}
+
+	var dataString = "idList=" + idList;
+	var url = formName + deleteLink;
+	var responseId = formName + responseSuffix;
+	ajaxExe(dataString,url,  responseId);
+
+}
+
+//====================
+//Them moi hoac sua 
+//====================
+function saveForm(formName){
+	
+	var form =  jQuery("#" + formName + "Form");
+
+	form.validate({
+	  rules: {
+	    ngoainguid: {
+	      min: 1
+	    },
+	     ketquaid: {
+	      min: 1
+	    }
+	  },
+	   messages: {
+	     ngoainguid: "<br>Bạn phải chọn ngôn ngữ!",
+	     ketquaid: "<br>Bạn phải chọn kết quả!"
+	    
+	   }
+
+	});
+
+	if(!form.validate().form()) {
+		return false;
+		
+	}
+	
+	var dataString = form.serialize() +"&mota=" + motaDetail.get_html();
+	var responseId = formName + responseSuffix;
+	var url = "";
+	if( jQuery('#' + formName + 'id').val() == "" || jQuery('#' + formName + 'id').val() == "0"){
+		url = formName + insertLink;
+		ajaxExe(dataString,url,responseId);
+	} else {
+		url = formName + updateLink;
+		ajaxExe(dataString,url,responseId);
+
+		//tro lai trang thai add sau khi update
+		jQuery('#'+ formName + 'id').val('');
+	}
+
+	
+}
+
+
+</script>
+
+<script>
+var motaDetail;
+
+function clearOthers(){
+
+	//them code vao day
+	motaDetail.set_text("");
+	jQuery('#form5Detail1id').val('');
+}
+
+function radioBtnEdit(value){
+	//them code vao day
+	if(value.text().trim() == "Nam"){
+		jQuery("#Nam").attr("checked","checked");
+	} else {
+		jQuery("#Nu").attr("checked","checked");
+	}
+}
+
+function areaEdit(value){
+	//them code vao day
+	motaDetail.set_text(value.html());
+}
+
+jQuery(function() {
+	motaDetail = htmlBox("motaDetail1");
+});
+
+
+</script>
+
+
+<fieldset>
+		<legend>Trình độ ngoại ngữ</legend>
+
+		<form id="form5Detail1Form">
+		<input id="empid" name="empid" value="$!employee.id" type="hidden" />
+		<input id="form5Detail1id" name="id" value="" type="hidden" /> 
+		<font style="color : red; bold : true; font-size : 14px;" ><div id="msg">&nbsp; </div></font>
+		<table>
+		<tr>
+		<td>
+		<label> Ngoại ngữ</label>
+		</td>
+		<td>
+		<select id="ngoainguid" name="ngoainguid" >
+			<option value="0"></option>
+			#foreach($p in $languages)
+				<option value="$!p.id">$!p.ten</option>
+			#end
+		</select>
+		</td>
+		</tr>
+
+		<tr>
+		<td>
+		<label>Kết quả</label>
+		</td>
+		<td>
+		<select id="ketquaid" name="ketquaid">
+			<option value="0"></option>
+			#foreach($p in $results)
+			<option value="$!p.id">$!p.ten</option>
+			#end
+		</select>
+		</td>
+		</tr>
+
+		<tr>
+		<td>
+		<label>Ngày cấp</label>
+		</td>
+		<td>
+		<input id="ngaycap" name="ngaycap" value=""  class='required date'/> 
+		</td>
+		</tr>
+
+		<tr>
+		<td>
+		<label>Mô tả</label>
+		</td>
+		<td>
+		 <textarea id='motaDetail1'></textarea>
+		</td>
+		</tr>
+		</table>
+	</form>
+	<input type="button" id="accept" name="accept" value="&#272;&ocirc;&#768;ng Y&#769;" onClick="saveForm('form5Detail1','Form');"/>
+	<input type="button" id="skip" name="skip" value="Bo&#777; Qua" onClick="clearForm('form5Detail1','Form');"/>
+	<input type="button" id="search" name="search" value="Ti&#768;m Ki&ecirc;&#769;m" onClick="searchForm('form5Detail1',20,1);" />
+</fieldset>
+
+<div align="right"> <input type="button" id="delete" name="delete" value="Delete" onClick="deleteObjs('form5Detail1');" /> </div>
+<fieldset>
+	<legend>DS ngoại ngữ của nhân viên  $!employee.id - $!employee.tenNV</legend>
+	<div id="form5Detail1List" >
+	#parse("form5Detail1ListResponse.vm")
+	</div>
+
+</fieldset>

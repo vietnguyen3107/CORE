@@ -1,0 +1,33 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<fieldset class='x-fieldset' > 
+<legend><span id='searchToggle' onmouseover="jQuery(this).css('cursor','pointer');" onclick="jQuery('#tblNhomQuyenSearchForm').toggle('slow');">Tìm kiếm</span></legend> 
+<div id = "tblNhomQuyenSearchForm" > 
+<form id="tblNhomQuyenForm"> 
+<table> 
+ <tr>  
+<td>  
+<label>Tên nhóm quyền</label>  
+</td>  
+<td>  
+<input name="tenNhomQuyen" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr><tr><td>  
+<label>Trang mặc định</label>  
+</td>  
+<td>  
+<input name="defaultPage" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr></table>  
+</form> 
+</div>   
+</fieldset>  
+
+<fieldset class='x-fieldset' >  
+<legend>DS Nhóm quyền</legend>  
+<div id="tblNhomQuyenList" >  
+#parse("vm/tblNhomQuyenListResponse.vm") 
+</div>  
+</fieldset>  
+ 

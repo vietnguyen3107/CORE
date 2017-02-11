@@ -1,0 +1,77 @@
+﻿
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool'))
+<form id='tblTaiKhoanListForm' name='tblTaiKhoanListForm'> 
+<table cellspacing="0" id="tblTaiKhoanTable" width='98%'> 
+<thead> 
+<tr style="background:#eeeeee;"> 
+<th>Khóa</th> 
+<th>Tên đăng nhập</th> 
+
+<th>Nhóm quyền</th> 
+<th>Cán bộ</th> 
+<th>Chọn</th> 
+<th width="10%">Sửa</th> 
+   </tr> 
+</thead> 
+<tbody> 
+#set($i = 0) 
+#foreach($d in $tblTaiKhoans) 
+    #if($d.id) 
+    <tr class='tableitem' id="tblTaiKhoan$d.id"> 
+<td>$!d.id</td> 
+<td>$!d.username</td> 
+
+<td>$!d.maNhomQuyen.tenNhomQuyen</td> 
+<td>$!d.canBoId.ten</td> 
+<td> 
+<input type="checkbox" value="$d.id" class='delete' /> 
+</td>	 
+<td> 
+<span class="btn btn-default"  id="tblTaiKhoanEdit$i" width="25" height="25"    
+         onclick="editForm('tblTaiKhoan', $d.id)" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Cập nhật</span> 
+</td> 
+          </tr> 
+#end 
+#set($i = $i +1) 
+#end 
+</tbody> 
+</table> 
+</form> 
+	<div class="pagination">
+		#if($page >1)
+			#set($prePage = $page - 1)
+			<span onclick="searchForm('tblTaiKhoan',$pageSize,1,'$!dataString');" class="page gradient">First</span>
+			<span onclick="searchForm('tblTaiKhoan',$pageSize,$prePage,'$!dataString');" class="page gradient">Pre</span>
+		#end
+
+		#set($start = $page - 2)
+		#set($endpage = $page + 2)
+		
+		#if($endpage < 5)
+			#set($endpage = 5)
+		#end
+		#if($start < 1)
+			#set($start = 1)
+		#end
+			
+		
+		#if($pages < $endpage)
+			#set($endpage = $pages)
+		#end
+
+		#foreach($p in [$start..$endpage]) 
+			#if($p == $page) 
+				<span class="page active">$p</span>
+				<span></span>
+			#else 
+			
+				<span onclick="searchForm('tblTaiKhoan',$pageSize,$p,'$!dataString');" class="page gradient">$p</span>
+			#end
+		#end
+
+		#if($page != $pages)
+			#set($nextPage = $page + 1)
+			<span onclick="searchForm('tblTaiKhoan',$pageSize,$nextPage,'$!dataString');" class="page gradient">Next</span>
+			<span onclick="searchForm('tblTaiKhoan',$pageSize,$pages,'$!dataString');" class="page gradient">Last</span>
+		#end
+	</div>

@@ -1,0 +1,8 @@
+{
+    "success": true,
+    "data": [
+#foreach($d in $tblCanBos) 
+	{"id":$!d.id, "ten": "$!d.ten", "ghiChu": "$!d.ghiChu", "maQuanLy": "$!d.maQuanLy", "ngaySinh": "$!d.ngaySinh", "noiSinh": "$!d.noiSinh", "diaChi": "$!d.diaChi", "dienThoai": "$!d.dienThoai", "trinhDo": "$!d.trinhDo", "ngheNghiep": "$!d.ngheNghiep", "noiLam": "$!d.noiLam"},
+#end
+]
+}

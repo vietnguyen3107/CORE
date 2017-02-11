@@ -1,0 +1,855 @@
+
+
+<script>
+
+
+
+	$(document).ready(function(){
+		common();
+	});
+	
+	
+/**********************Common***************************************************************/
+function common(){
+	datepicker();
+	select2();
+	
+}
+var loadingText = 'loading...';
+function mask(elId){
+
+	if(elId != ""){
+		//neu elId co ton tai
+		if(jQuery("#"+ elId).length > 0){
+			//neu elId.html() la empty
+			if(jQuery("#"+ elId).html().trim() == ""){
+				jQuery("#"+ elId).css('min-height', '100px');
+			}
+			
+			jQuery("#"+ elId).mask(loadingText);
+		}
+		
+	}else{
+			jQuery('body').mask(loadingText);
+	}
+	
+}
+
+function unmask(elId){
+	if(elId != ""){
+		if(jQuery("#"+ elId).length > 0){
+			jQuery("#"+ elId).unmask();
+		}
+		
+	}else{
+		jQuery('body').unmask();
+	}
+}
+// khoi tao cho chosen
+function configChosen(){
+	var config = {
+			'.chosen-select' : {max_selected_options: 1}
+		};
+		for( var selector in config){
+			jQuery(selector).chosen(config[selector]);
+		} 
+}
+
+//-------------------------------------------
+function htmlBox(itemId){ 
+    if(jQuery("#"+ itemId).length > 0){ 
+        new Ext.form.HtmlEditor({ 
+                id:itemId , 
+                applyTo:itemId, 
+                width: 500, 
+                height: 100, 
+                enableAlignments:true, 
+                enableSourceEdit:true, 
+                enableLists:true 
+        }); 
+    } 
+} 
+function datepicker(){ 
+    jQuery(".date").datepicker({	 
+        changeMonth: true, 
+        changeYear: true, 
+        yearRange: '1900:c+10', 
+        howButtonPanel: true, 
+        dateFormat : 'dd/mm/yy' 
+    }); 
+} 
+
+function gridTable(tableId){
+
+	if(jQuery("#"+tableId).length > 0){
+		jQuery("#"+tableId).addClass("tbl");
+		/*
+		var grid = new Ext.ux.grid.TableGrid(tableId, {
+			autoWidth: true,
+			layout: 'fit',
+			stripeRows: true// stripe alternate rows
+
+		});
+
+		grid.render();
+
+		grid.on('rowdblclick', function(grid, rowIndex, e) {
+			jQuery("#"+mPanel.getActiveTab().cclass+"Edit"+rowIndex).click();
+		});
+		*/
+	}
+
+}
+
+/******************************** Num2Text *************************************************************/
+var mangso = [ 'không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám','chín' ];
+function dochangchuc(so, daydu) {
+	var chuoi = "";
+	chuc = Math.floor(so / 10);
+	donvi = so % 10;
+	if (chuc > 1) {
+		chuoi = " " + mangso[chuc] + " mươi";
+		if (donvi == 1) {
+			chuoi += " mốt";
+		}
+	} else if (chuc == 1) {
+		chuoi = " mười";
+		if (donvi == 1) {
+			chuoi += " một";
+		}
+	} else if (daydu && donvi > 0) {
+		chuoi = " lẻ";
+	}
+	if (donvi == 5 && chuc > 1) {
+		chuoi += " lăm";
+	} else if (donvi > 1 || (donvi == 1 && chuc == 0)) {
+		chuoi += " " + mangso[donvi];
+	}
+	return chuoi;
+}
+function docblock(so, daydu) {
+	var chuoi = "";
+	tram = Math.floor(so / 100);
+	so = so % 100;
+	if (daydu || tram > 0) {
+		chuoi = " " + mangso[tram] + " trăm";
+		chuoi += dochangchuc(so, true);
+	} else {
+		chuoi = dochangchuc(so, false);
+	}
+	return chuoi;
+}
+function dochangtrieu(so, daydu) {
+	var chuoi = "";
+	trieu = Math.floor(so / 1000000);
+	so = so % 1000000;
+	if (trieu > 0) {
+		chuoi = docblock(trieu, daydu) + " triệu";
+		daydu = true;
+	}
+	nghin = Math.floor(so / 1000);
+	so = so % 1000;
+	if (nghin > 0) {
+		chuoi += docblock(nghin, daydu) + " nghìn";
+		daydu = true;
+	}
+	if (so > 0) {
+		chuoi += docblock(so, daydu);
+	}
+	return chuoi;
+}
+function num2Text(so) {
+	if (so == 0)
+		return mangso[0];
+	var chuoi = "", hauto = "";
+	do {
+		ty = so % 1000000000;
+		so = Math.floor(so / 1000000000);
+		if (so > 0) {
+			chuoi = dochangtrieu(ty, true) + hauto + chuoi;
+		} else {
+			chuoi = dochangtrieu(ty, false) + hauto + chuoi;
+		}
+		hauto = " tỷ";
+	} while (so > 0);
+	return chuoi + " đồng";
+}
+
+/**********************PRINT ***************************************************************/
+function print(formName){
+var divToPrint=document.getElementById(formName +"Grid");
+                    newWin= window.open("");
+                    var html ="<style>table { border-collapse: collapse; font-size: 12px;}"+
+                        "td, th { padding: .3em; border: 0px #ccc solid; } "+
+						" .no-display, .no-display *{ display: none !important; border:none; } " +
+                        " tr td, tr td div{page-break-inside: avoid; position: relative} " +
+                        " .grey-border tbody td, .grey-border thead th { border: 1px black solid; } "+
+                        " .grey-border tbody {page-break-inside: avoid;}" +
+                        "@media print { " +//print
+                        " body {margin: 0;}" +
+                        " table { border-collapse: separate; border-spacing: 0;}" +
+						" thead { display: table-header-group; } " +
+						" .no-print, .no-print *{ display: none !important; border:none; } " +
+						" tr td, tr td div{page-break-inside: avoid;} " +
+						" tr.pagepreak {page-break-before: auto;} " +
+                        " }"+//end print
+						
+                        "</style>"+
+						" <table width='95%' class='no-print'><tr><td align='right'><button onclick='window.print();'> In báo cáo </button></td></tr></table><br/> " +
+                        divToPrint.outerHTML ;
+                    newWin.document.write(html);
+}
+
+
+
+/**********************HTMLBOX***************************************************************/
+function htmlBox(itemId){
+	
+	if(jQuery("#"+ itemId).length > 0){
+
+		new Ext.form.HtmlEditor({
+				id:itemId,
+				applyTo:itemId,
+				width: 300,
+				height: 100,
+				enableAlignments:true,
+				enableSourceEdit:true,
+				enableLists:true
+		});
+	}
+}
+
+/**********************DATEPICKER***************************************************************/
+function datepicker(){
+	jQuery(".date").datepicker({	
+		changeMonth: true,
+		changeYear: true,
+		yearRange: '1900:c+10',
+		howButtonPanel: true,
+		dateFormat : 'dd/mm/yy'
+	});
+	jQuery(".date").inputmask("dd/mm/yyyy");
+	
+	jQuery(".mask").inputmask();
+	
+	try{
+		select2();
+	}catch(e){};
+}
+
+/**********************SELECT2***************************************************************/
+function select2(){
+	jQuery('select').select2({
+			minimumResultsForSearch: 5,
+			dropdownAutoWidth: true,
+			width: '100%',
+			templateResult: function(state) {
+				var code = "";
+				var name = "&nbsp;";
+				if(typeof state.text.split('-')[0] !== 'undefined')
+					code = state.text.split('-')[0];
+				if(typeof state.text.split(/-(.+)?/)[1] !== 'undefined')
+					name = state.text.split(/-(.+)?/)[1];
+				var text = state.text.length ? '<span style="float:left; width:30%;">' +code+ '</span>' + name + '' : "&nbsp;&nbsp;";
+				
+				return jQuery('<span>' + text + '</span>');
+			}
+		});
+}
+/**********************EXPORT DOCX***************************************************************/
+function exportDoc(templateFile, data, outputName){
+	var loadFile=function(url,callback){
+        JSZipUtils.getBinaryContent(url,callback);
+    }
+	loadFile(templateFile,function(err,content){
+		if (err) { throw err};
+		doc=new Docxgen(content);
+		doc.setData(data); //set the templateVariables
+		doc.render() //apply them (replace all occurences of {first_name} by Hipp, ...) 
+		out=doc.getZip().generate({type:"blob"}) //Output the document using Data-URI 
+		saveAs(out,outputName)
+	});
+}
+
+
+
+/**********************EXPORT EXCEL***************************************************************/
+	function exportExcel(formName, fileName){
+        var tableid = formName+ "Grid";     
+		console.log(fileName);
+        if(typeof fileName === 'undefined')
+		{
+		
+			fileName = tableid;
+		}		
+        //exportTableToExcel(tableid);
+        require(['resources/excel-const'], function (EC) {
+            var exportExcelWin;
+            var exportExcelForm;
+			
+		
+            exportExcelForm = new Ext.FormPanel({ 
+                labelWidth:80,
+                frame:true, 
+                title:'Xuất file excel', 
+                defaultType:'textfield',            
+                monitorValid:true,
+                items:[
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Tên file',
+                        name: 'tenFile',
+                        value: fileName,
+                        width: 165
+                    },
+                    {
+                        xtype			: 'combo',
+                        mode			: 'local',
+                        value			: 9,
+                        triggerAction	: 'all',
+                        forceSelection	: true,
+                        typeAhead		: false, 
+                        editable		: false,
+                        fieldLabel		: 'Size ',
+                        name			: 'sizeName',
+                        hiddenName		: 'sizeId',
+                        displayField	: 'name',
+                        valueField		: 'value',
+                        matchFieldWidth	: false,
+                        listWidth 		: 'auto',
+                        store: new Ext.data.JsonStore({
+                            fields : ['name', 'value'],
+                            data   : EC.XlPageSize
+                        })
+                    },
+                    {
+                        xtype			: 'combo',
+                        mode			: 'local',
+                        value			: 'portrait',
+                        triggerAction	: 'all',
+                        forceSelection	: true,
+                        typeAhead		: false, 
+                        editable		: false,
+                        fieldLabel		: 'Orientation ',
+                        name			: 'orientName',
+                        hiddenName		: 'orientId',
+                        displayField	: 'name',
+                        valueField		: 'value',
+                        matchFieldWidth	: false,
+                        listWidth 		: 'auto',
+                        store: new Ext.data.JsonStore({
+                            fields : ['name', 'value'],
+                            data   : EC.Orientation
+                        })
+                    },
+                    {
+                        xtype: 'checkbox',
+                        fieldLabel: 'Vừa 1 trang',
+                        name: 'motTrang',
+                        checked: false
+                    }
+                ],
+                buttons:[
+                    { 
+                        text:'OK',
+                        formBind: true,	 
+                        // Function that fires when user clicks the button 
+                        handler:function(){ 
+                            mask('');
+                            exportTableToExcel(tableid, exportExcelForm.items.itemAt(0).getValue(), 
+                                exportExcelForm.items.itemAt(1).getValue(), 
+                                exportExcelForm.items.itemAt(2).getValue(),
+                                exportExcelForm.items.itemAt(3).getValue());
+                            exportExcelWin.hide();
+                        } 
+                    }
+                    ,
+                    { 
+                        text:'Bỏ qua', 
+                        // Function that fires when user clicks the button 
+                            handler:function(){ 
+                                exportExcelWin.hide();
+                            }
+                    }
+                ] 
+            });
+            
+            if(exportExcelWin) exportExcelWin.destroy();	
+	
+            //align right cell
+            var w = 300;
+            var h = 220;
+            var x =document.body.offsetWidth/2 - w/2;
+            var y = document.body.offsetHeight/2 - h/2;
+            exportExcelWin = new Ext.Window({
+                layout:'fit',
+                width:w,
+                height:h,
+                closable: true,
+                resizable: false,
+                draggable : false,
+                plain: true,
+                border: false,
+                modal : false,
+                //animateTarget : Ext.get(cell),
+                x: 	x,
+                y:	y,
+                items: [exportExcelForm],
+                //animation
+                animShowCfg: {
+                    duration: 0.25,
+                    easing : 'easeOut',
+                    opacity : 1
+                },
+                animHideCfg: {
+                    duration: 0.25,
+                    easing : 'easeOut',
+                    opacity : 1
+                }
+                ,
+                //listener
+                listeners: { 
+                    beforeHide: function(){
+                        //jQuery("#" + cell.id).css('backgroundColor', '#FFFFFF');
+                    }
+                }
+            });
+
+            exportExcelWin.show();
+            
+        });
+	}
+	
+function exportTableToExcel(tableId, tenFile, sizeId, orientId, motTrang){	
+	var filename = tenFile;
+	if(filename == null) return false;
+    
+    var fitWidth = 1;
+    var fitHeight = motTrang ? 1: 0;    
+    
+    var timer = setTimeout(function(){
+    require.config({
+        text: 'text.js',
+        paths: {
+            underscore: 'resources/underscore',
+            JSZip: 'resources/jszip/jszip'
+        },
+        shim: {
+            'underscore': {
+                exports: '_'
+            },
+            'JSZip': {
+                exports: 'JSZip'
+            }
+        }
+    });
+ 
+    require(['resources/excel-builder', 'resources/download'], function (EB, downloader) {
+        var excelWorkbook = EB.createWorkbook();
+        var excelSheet = excelWorkbook.createWorksheet();
+        
+        excelSheet.setPageSetUpPr([
+            {name: 'fitToPage', value: 1}
+        ]);
+        excelSheet.setPageSetup([
+            {name: 'paperSize', value: sizeId},
+            {name: 'fitToWidth', value: fitWidth},
+            {name: 'fitToHeight', value: fitHeight},
+            {name: 'orientation', value: orientId}
+        ]);
+        
+        var gray = "#808080";
+        var grayBorderFormatter = excelWorkbook.getStyleSheet().createBorderFormatter({
+            bottom: {color: gray, style: 'thin'},
+            top: {color: gray, style: 'thin'},
+            left: {color: gray, style: 'thin'},
+            right: {color: gray, style: 'thin'}
+        });
+        var defaultStyleOptions = {
+                border: grayBorderFormatter.id
+            };
+     
+        var originalData = [];
+
+        var rs = [];
+        var cs = [];
+        var childNum = 0;
+        var trNumMax = 0;
+        var fullRow;
+        var rowHeights = [];
+        
+        var rows = jQuery("#"+tableId+" tr");
+
+
+        jQuery.each(rows, function(i){
+            
+            var row = [];
+            var rowIdx = i + 1;
+            
+            rowHeights.push({height: jQuery(this).height()});
+            
+            jQuery(this).find("td,th").each(function(j){
+                var colOffset = 1;
+                var colIdx = j + colOffset;
+                        
+                var styleOptions = jQuery.extend({}, defaultStyleOptions);
+                
+                // font style
+                var fontStyle = {};
+                if(jQuery(this).css("color")){
+                    fontStyle.color = hexc(jQuery(this).css("color"));
+                }        
+                if(jQuery(this).css("font-weight") == "bold" || jQuery(this).css("font-weight") == 700){
+                    fontStyle.bold = true;
+                }
+                if(jQuery(this).css("font-style") == "italic"){
+                    fontStyle.italic = true;
+                }
+                styleOptions.font = fontStyle;
+                
+                // alignment        
+                var alignmentStyle = {
+                    wrapText: "true"
+                };
+                if(jQuery(this).css("text-align")){
+                    alignmentStyle.horizontal = jQuery(this).css("text-align");
+                }
+                //if(jQuery(this).css("vertical-align")){
+                    alignmentStyle.vertical = 'center';//jQuery(this).css("vertical-align");
+                //}
+                styleOptions.alignment = alignmentStyle;
+                
+                // background
+                var bgColor = getBackground(jQuery(this));
+                if(bgColor && bgColor !== 'rgba(0, 0, 0, 0)'){
+                //alert(bgColor);
+                    styleOptions.fill = {
+                        type: 'pattern',
+                        patternType: 'solid',
+                        fgColor: hexc(bgColor)
+                    };            
+                }        
+                
+                var style = excelWorkbook.getStyleSheet().createFormat(styleOptions);
+                
+                //alert(cs.length);
+                for(var c = 0; c < cs.length; c++){
+                    var cspan = cs[c];
+                    //alert(cspan.row);
+                    if(rowIdx == cspan.row){
+                        //alert(cspan.length);
+                        colOffset += cspan.length - 1;
+                        colIdx = j + colOffset;
+                        //break;
+                    }            
+                }
+                
+                for(var r = 0; r < rs.length; r++){
+                    var rspan = rs[r];
+                    if(colIdx >= rspan.col && rowIdx > rspan.start && rowIdx < (rspan.start + rspan.length)){
+                        if(row.length < rspan.col){
+                            row.push({value:'', metadata: {style: style.id}}); 
+                        }
+                        colOffset += 1;
+                        colIdx = j + colOffset;
+                        
+                    }                
+                }
+                
+                // rowspan
+                var colspanDone = false;
+				console.log(jQuery(this).attr("colspan"));
+                if(jQuery(this).attr("rowspan")){
+                    var rowspan = parseInt(jQuery(this).attr("rowspan"));
+                    rs.push({col: colIdx, start: rowIdx, length: rowspan});
+                    var nextRowIdx = rowIdx + rowspan - 1;
+                    if(jQuery(this).attr("colspan")){
+						
+                        var colspan = parseInt(jQuery(this).attr("colspan"));
+                        for(var k = 1; k < colspan; k++){
+                            row.push({value:'', metadata: {style: style.id}});
+                            //cs.push({row: rowIdx, start: colIdx, length: colspan});
+                            rs.push({col: colIdx + k, start: rowIdx, length: rowspan});
+                        }
+                        cs.push({row: rowIdx, start: colIdx, length: colspan});
+                                        
+                        var nextColIdx = colIdx + colspan - 1;
+                        excelSheet.mergeCells(getColumnName(colIdx) + rowIdx, getColumnName(nextColIdx) + nextRowIdx);
+                        colspanDone = true;
+                    } else {         
+                        excelSheet.mergeCells(getColumnName(colIdx) + rowIdx, getColumnName(colIdx) + nextRowIdx);
+                        
+                    }
+                } 
+                        
+                var cellContent = '';
+                if(jQuery(this).find('div').size() > 0){
+                    jQuery(this).find('div').each(function(z){
+                        if(jQuery(this).parents('td').size() > 0 && z > 0){ 
+                            cellContent += "--------------------------------" + "\n";
+                        }
+                        var content = jQuery(this).text();
+                        if(jQuery(this).css("text-transform").toLowerCase() == "uppercase"){
+                            content = content.toUpperCase();
+                        }
+                        cellContent += content + "\n";
+                        
+                    });
+                } else {
+                    
+                    var content = jQuery(this).text();
+			
+                    if(jQuery(this).css("text-transform").toLowerCase() == "uppercase"){
+                        content = content.toUpperCase();
+                    }
+                    cellContent = content;
+					
+					
+                }
+                cellContent = cellContent.replace(/(\s)*(\n)(\s)*/g, '\n');
+				
+                row.push({value:cellContent, metadata: {style: style.id}});
+                
+                // colspan
+                if(jQuery(this).attr("colspan") && !colspanDone){
+                    var colspan = parseInt(jQuery(this).attr("colspan"));
+                    cs.push({row: rowIdx, start: colIdx, length: colspan});
+                    //alert(cs.length);
+                    for(var k = 1; k < colspan; k++){
+                        row.push({value:'', metadata: {style: style.id}});                                
+                    }
+                    var nextColIdx = colIdx + colspan - 1;
+                    excelSheet.mergeCells(getColumnName(colIdx) + rowIdx, getColumnName(nextColIdx) + rowIdx);
+                    //alert(colIdx + " " + getColumnName(colIdx) + rowIdx + ' - ' + getColumnName(nextColIdx) + rowIdx);
+                }
+                
+                
+                
+            });
+            
+            var rNum = row.length;
+            if(rNum > childNum){
+                childNum = rNum;
+            }
+            
+            var trNum = jQuery(this).find("td,th").size();
+            if(trNum > trNumMax){
+                trNumMax = trNum;
+                fullRow = this;
+            }
+            
+            var defaultStyle = excelWorkbook.getStyleSheet().createFormat(defaultStyleOptions);
+                
+            if(rNum== 0) {                        
+                for(var n = rNum; n < childNum; n++){                
+                    row.push({value:'', metadata: {style: defaultStyle.id}});
+                }            
+            }
+            else if(rNum < childNum){
+                for(var col = rNum+1; col < childNum+1; col++){
+                    for(var r = 0; r < rs.length; r++){
+                        var rspan = rs[r];
+                        if(col == rspan.col && rowIdx > rspan.start && rowIdx < (rspan.start + rspan.length)){
+                            row.push({value:'', metadata: {style: defaultStyle.id}});
+                            break;
+                        }                
+                    }
+                }
+            }
+            
+            originalData.push(row);
+			
+            if (i == rows.length - 1) {
+                unmask('');
+            }
+        });
+        
+        excelSheet.setData(originalData);
+        if(fullRow){
+            var colWidths = [];
+            jQuery(fullRow).find('td,th').each(function(){
+                var wd = jQuery(this).width();
+                //if(wd/5 > 65){wd = wd/5;}
+                colWidths.push({width: wd/5});
+            });
+            excelSheet.setColumns(colWidths);
+        }
+        excelSheet.setRows(rowHeights);
+        excelWorkbook.addWorksheet(excelSheet);
+
+        var data = EB.createFile(excelWorkbook);
+
+        var blob = b64toBlob(data, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        var blobUrl = URL.createObjectURL(blob);
+
+        //window.location = blobUrl;
+
+        //downloader(filename+'.xlsx', blobUrl);
+        jQuery('body').append('<a id="downloader" href="#"></a>');
+        var downloader = $('a#downloader');
+        jQuery(downloader).attr({
+            download: filename+'.xlsx',
+            href: blobUrl
+        });
+        jQuery(downloader)[0].click();
+        jQuery(downloader).remove();
+             
+    });
+
+    }, 500);
+}
+ 
+ 
+ function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+}
+ 
+ function htmlTextDecode(s){
+    return s.replace(/(\n)+/g, '\n');
+ }
+ 
+ function hexc(colorval) {
+    var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    delete(parts[0]);
+    for (var i = 1; i <= 3; ++i) {
+        parts[i] = parseInt(parts[i]).toString(16);
+        if (parts[i].length == 1) parts[i] = '0' + parts[i];
+    }
+    return parts.join('');
+}
+ 
+ function getBackground(jqueryElement) {
+    // Is current element's background color set?
+    var color = jqueryElement.css("background-color");
+    
+    if (color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') {
+        // if so then return that color
+        return color;
+    }
+
+    // if not: are you at the body element?
+    if (jqueryElement.is("body")) {
+        // return known 'false' value
+        return false;
+    } else {
+        // call getBackground with parent item
+        return getBackground(jqueryElement.parent());
+    }
+}
+
+
+function getColumnName(idx){
+    var i = idx - 1;
+    var n;
+    if(Math.floor(i/26) > 0){
+        n = getColumnName(Math.floor(i/26))
+        n += String.fromCharCode(65 + i%26);
+    } else {
+        n = String.fromCharCode(65 + i);
+    }
+    return n;
+}
+/**********************END EXPORT EXCEL***************************************************************/
+/**********************AJAXEXE2***************************************************************/
+function ajaxExe2(url,dataString,responseId){
+mask(responseId);
+dataString += "&pageSize=2000&page=1";
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			unmask(responseId);
+			try{
+				var obj = jQuery.parseJSON(response);
+
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+			}
+		},
+		error: function(){
+			unmask(responseId);
+			Ext.example.msg('Error', 'Có lỗi xảy ra!');
+		}
+	});
+}
+
+
+/**********************ONLY NUMBER***************************************************************/
+function AllowOnlyAmountAndDot(el,decimaYN){
+	var val = $(el).val();
+	if(decimaYN){
+		val = val.replace(/[^0-9\.\-]/g,'');
+		if(val.split('.').length>2) 
+			val = val.replace(/\.+\-+$/,"");
+	}else{
+		val = val.replace(/[^0-9]\-/g,'');
+	}
+    $(el).val(val); 
+}
+function autoComplete(id, val, hiddenVal, hiddenName, paramId){   
+
+	try{		
+		var paramStore = new Ext.data.JsonStore({
+			url: 'paramAutoComplete.action',
+			root: 'data',  // the root of the array you'll send down
+			idProperty: 'id',
+			fields: [{name:'id',mapping:'id'},{name:'ten',mapping:'ten'},{name:'ma',mapping:'ma'}],
+			baseParams: {
+				paramId:  paramId
+			} 
+					
+		});
+		if (typeof hiddenName == "undefined") {
+		    hiddenName = 'params';
+		}
+		if (typeof jQuery("#"+id) == "undefined") {
+		    id = id + "ParamsAutoComp";
+		}
+		var paramAutoComplete = new Ext.form.ComboBox({
+			store: paramStore,
+			displayField:'ten',
+			valueField:'id',
+			hiddenName:hiddenName,
+			typeAhead: false,
+			mode: 'remote',
+			queryParam: 'q',  //contents of the field sent to server.
+			hideTrigger: true,    //hide trigger so it doesn't look like a combobox.
+			selectOnFocus:true,
+			//width: 150,
+			minChars : 2,
+			autoSelect : false,
+			applyTo:  id,  //the id of the html element to render to.   
+			value: val,
+			hiddenValue:  hiddenVal,
+			 
+		});
+	
+	}catch(err){
+	
+	}
+}
+
+
+</script>

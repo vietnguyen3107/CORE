@@ -1,0 +1,118 @@
+
+<div id="welcome">
+
+    <div class="col">
+        <div id="calendar">     	
+        </div>
+		
+    </div>
+	<div class="col-last">
+		<div>
+			Mã trạng thái:
+			<div id="welcome-colorCode"></div>
+		</div>
+        <div style="clear: both;"> </div>
+	</div>
+    
+</div>
+<script>
+
+	var colorState = {
+		'MO': {'color':'Brown', 'name' : 'Kế hoạch mới'},
+		'DU': {'color':'steelblue', 'name' : 'Đã xác nhận kế hoạch'},
+		'ML': {'color':'rgb(45, 142, 49)', 'name' : 'Đang triển khai'},
+		'TML': {'color':'DodgerBlue', 'name' : 'Đã gửi yêu cầu'},
+		'CML': {'color':'DarkCyan', 'name' : 'Chờ triển khai'},
+		'KT': {'color':'#9e9e9e', 'name' : 'Đã hoàn tất khóa học'},
+		'HT': {'color':'DarkSlateGray', 'name' : 'Đã đóng khóa học'},
+	}
+function loadCalendar(){
+
+    // page is now ready, initialize the calendar...
+    jQuery('#calendar').fullCalendar({
+		customButtons: {
+			refreshBtn: {
+				text: 'Refresh',
+				click: function() {
+					loadCalendar();
+				}
+			}
+		},
+        header: {
+			left: '',
+			center: 'title',
+			right: 'today,prev,next  refreshBtn'
+		}
+		,height: jQuery("#docs-welcome").height() - 25
+
+		,events: function(start, end, timezone, callback) {
+			jQuery.ajax({
+				url: 'tblQLDTLTKhoaDaoTaoSearchJson.action',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					'tungayKhaiGiang': start.format('DD/MM/YYYY'),
+					'denngayKhaiGiang': end.format('DD/MM/YYYY')
+				},
+				success: function(events) {	
+					jQuery.each(events, function(index, item) {
+						item.color = colorState[item.state].color;
+					});
+					callback(events);
+				}
+			});
+		}
+		,loading:function( isLoading, view ){
+			if (isLoading) 
+			{
+			
+				mask("calendar");
+				//jQuery("#loadCalendarBtn").val("Loading......");
+				//jQuery("#loadCalendarBtn").prop( "disabled", true );
+			
+			}
+			else {
+				unmask("calendar");
+				//jQuery("#loadCalendarBtn").val("Refresh");
+				//jQuery("#loadCalendarBtn").prop( "disabled", false );
+			}
+		}
+		,eventClick: function(calEvent, jsEvent, view) {
+			return false;
+			//alert('Event: ' + calEvent.id);
+			//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+			//alert('View: ' + view.name);
+			if(calEvent.keHoachId != ""){
+				if(calEvent.state == 'TML')
+					openPopup2('welcome', 'tblQLDTLTKhoaDaoTaoDuKienEditForm.action?id=' + calEvent.id,'Thông tin chi tiết', false);
+				else
+					openPopup2('welcome', 'tblQLDTLTKhoaDaoTaoEditForm.action?id=' + calEvent.id,'Thông tin chi tiết', false);
+				
+			}
+			else{
+				if(calEvent.type == 'YEARLY')
+					openPopup2('welcome', 'tblQLDTLTKhoaDaoTaoKeHoachNamEditForm.action?id=' + calEvent.id,'Thông tin chi tiết', false);
+				else
+					openPopup2('welcome', 'tblQLDTLTKhoaDaoTaoKeHoachDotXuatEditForm.action?id=' + calEvent.id,'Thông tin chi tiết', false);
+			
+			}
+			
+			return false;
+
+		}
+    });
+	jQuery('#calendar').fullCalendar( 'refetchEvents' )
+}
+jQuery(document).ready(function() {
+	loadCalendar();
+	
+	for (var prop in colorState) { // enumerate its property names
+		jQuery("#welcome-colorCode").append( "<div style='width:100%; float:left;padding-bottom:5px;'>" +
+										"<span style='background:" +colorState[prop].color+ "'>&nbsp;&nbsp;&nbsp;&nbsp;</span> " +colorState[prop].name
+										+ "</div>" );
+
+        
+
+    }
+});
+</script>

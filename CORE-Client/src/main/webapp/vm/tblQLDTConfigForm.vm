@@ -1,0 +1,38 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<div id = "tblQLDTConfigEditForm"> 
+<fieldset class='x-fieldset'> 
+<legend> Cấu hình chương trình </legend> 
+<form id="tblQLDTConfigForm"> 
+<table>  
+<input type="hidden" id="tblQLDTConfigid" name="id" value="$!tblQLDTConfig.id"  size="35" class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" value="$!tblQLDTConfig.ten"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Giá trị</label>  
+</td>  
+<td>  
+<input name="giaTri" value="$!tblQLDTConfig.giaTri"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  id="accept" name="accept" value="&#272;&ocirc;&#768;ng Y&#769;" onClick="agreeBtnClick('tblQLDTConfig');"/>  
+</fieldset>  
+</div>  
+<fieldset class='x-fieldset'>  
+<legend>Danh sách </legend>  
+<div id="tblQLDTConfigList" >  
+#parse("vm/tblQLDTConfigListResponse.vm") 
+</div>  
+</fieldset>  
+ 

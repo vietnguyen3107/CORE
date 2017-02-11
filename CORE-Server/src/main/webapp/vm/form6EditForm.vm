@@ -1,0 +1,338 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+#parse("common.vm")
+
+<script type="text/javascript" src="jquery/ui/minified/jquery.ui.autocomplete.min.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.min.js"></script>
+
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.colors.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.styles.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.syntax.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.undoredomanager.js"></script>
+
+<script>
+//****************************************
+//javascript chung cho cac form kieu form6AddForm
+//****************************************
+
+//======================
+//ham ajax thuc thi=
+//======================
+function ajaxExe(dataString,url, responseId){
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#msg").html("Thành công!");
+				jQuery("#" + responseId).html(result[1]);
+				
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+		}
+	});
+}
+
+function htmlBox(area){
+	return  jQuery("#" + area).css("height","100").css("width","600").htmlbox({
+		    toolbars:[
+			    [
+				// Cut, Copy, Paste
+				"separator","cut","copy","paste",
+				// Undo, Redo
+				"separator","undo","redo",
+				// Bold, Italic, Underline, Strikethrough, Sup, Sub
+				"separator","bold","italic","underline","strike","sup","sub",
+				// Left, Right, Center, Justify
+				"separator","justify","left","center","right",
+				// Ordered List, Unordered List, Indent, Outdent
+				"separator","ol","ul","indent","outdent",
+				// Hyperlink, Remove Hyperlink, Image
+				"separator","link","unlink","image"
+				
+				],
+				[// Show code
+				"separator","code",
+			// Formats, Font size, Font family, Font color, Font, Background
+			"separator","formats","fontsize","fontfamily",
+				"separator","fontcolor","highlight",
+				]	
+			],
+			skin:"blue"
+		});
+}
+
+//****************************************
+//javascript cho tung form
+//****************************************
+function editObj(formName){
+	var form =  jQuery("#" + formName + "EditForm");
+	if(!form.validate().form()) {
+		return false;
+		
+	}
+	var dataString = form.serialize();
+	
+	//serializeOthers :ham duoc viet ben file da include thu vien nay
+	dataString += serializeOthers();
+	alert(dataString);
+	var url = formName + "Update.action";
+	ajaxExe(dataString, url, "undefined");
+}
+
+var mota;
+function serializeOthers(){
+	var dataString = "";
+
+	//Them code vao day
+	dataString += "&mota=" + mota.get_html();
+	
+	//ngoaingu = [ngoainguid,ketquaid,ngaycap,mota;]
+	var ngoaingu="";
+
+	jQuery("#ngoaingutable tr").each(function() {
+		var recentRow =  jQuery(this);
+		if(recentRow.find("input[name=check]").attr('checked') == true){
+			ngoaingu += recentRow.find("#ngoaingu").val()+", ";
+			ngoaingu += recentRow.find("#ketqua").val()+", ";
+			ngoaingu += recentRow.find("input[name=ngaycap]").val()+", ";
+			ngoaingu += recentRow.find("#motadetail").val()+" ;";
+		}
+		
+	});
+
+	dataString += "&ngoaingu=" + ngoaingu;
+	//end
+	
+	return dataString;
+}
+
+jQuery(function() {
+	jQuery(".date").datepicker({	
+		changeMonth: true,
+		changeYear: true,
+		yearRange: '1900:',
+		showButtonPanel: true,
+		showOn: "button",
+		buttonImage: "images/calendar.gif",
+		buttonImageOnly: true
+	});
+	jQuery( ".date" ).datepicker( "option", "dateFormat", 'dd/mm/yy' );
+	//textarea : wysiwyg
+	mota = htmlBox("mota");
+});
+
+
+</script>
+
+
+<body >
+	<form id="form6EditForm" action="" method="post">
+	<fieldset>
+	<legend>Th&ocirc;ng tin NV </legend>
+	<font style="color : red; bold : true; font-size : 14px;" ><div id="msg"> </div></font>
+	<input type="hidden" id="employeeid" name="id" value="$!employee.id" />
+		<table>
+		<tr>
+		<td>
+		<label> Mã NV</label>
+		</td>
+		<td>
+		 <input id="maNV" name="maNV" value="$!employee.maNV" class='required '/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Tên NV </label>
+		</td>
+		<td>
+		 <input id="tenNV" name="tenNV" value="$!employee.tenNV" class='required '/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Tuổi </label>
+		</td>
+		<td>
+		 <input id="tuoi" name="tuoi" value="$!employee.tuoi" class='required number'/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label> Giới tính</label>
+		</td>
+		<td>
+		#if($!employee.gioitinh == true)
+		<input type="radio" id='Nam' name="gioitinh" value="1"  checked /><label for="Nam"> Nam </label>
+		<input type="radio" id='Nu' name="gioitinh" value="0"  /><label for="Nu"> Nữ </label>
+		#else 
+		<input type="radio" id='Nam' name="gioitinh" value="1"   /><label for="Nam"> Nam </label>
+		<input type="radio" id='Nu' name="gioitinh" value="0"  checked/><label for="Nu"> Nữ </label>
+		#end
+		 </td>
+		 </tr>
+
+
+		<tr>
+		<td>
+		<label>Sở thích: </label>
+		</td>
+		<td>
+		<select id="sothichid" name="sothichid" >
+		<option value="0" selected></option>
+		#foreach($p in $preferences)
+			#if($p.id == $!employee.sothich.id)
+			<option value="$!p.id" selected>$!p.ten</option>
+			#else 
+			<option value="$!p.id">$!p.ten</option>
+			#end
+		#end
+		</select>
+		 </td>
+		 </tr>
+
+
+		<tr>
+		<td>
+		<label>Khoa: </label>
+		</td>
+		<td>
+		<select id="khoaid" name="khoaid" >
+			#foreach($d in $departments)
+				#if($d.id == $!employee.khoa.id)
+				<option value="$!d.id" selected>$!d.ten</option>
+				#else 
+				<option value="$!d.id">$!d.ten</option>
+				#end
+			#end
+			
+		</select>
+
+		 </td>
+		 </tr>
+
+		 <tr>
+		<td>
+		<label> Hệ số lương </label>
+		</td>
+		<td>
+		 <input id="hesoluong" name="hesoluong" value="$!employee.hesoluong"/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Ngày sinh </label>
+		</td>
+		<td>
+		 <input id="ngaysinh" name="ngaysinh" value="$!employee.ngaysinh"  class='required date'/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Hinh anh </label>
+		</td>
+		<td>
+		 <input id="hinhanh" name="hinhanh" value="$!employee.hinhanh"/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Mô tả </label>
+		</td>
+		<td>
+
+		 <textarea id='mota'>$!employee.mota</textarea>
+		 </td>
+		 </tr>
+
+		</table>
+
+
+
+	</fieldset>
+
+	<fieldset>
+	<legend>Trình độ ngoại ngữ </legend>
+	<table id="ngoaingutable" border='0' width='100%' cellpadding='1' cellspacing='1'>
+	#foreach($lang in $languages)
+		#set($i=0)
+		#foreach($el in $employeeLanguages)
+			#if($el.ngoaingu.id == $lang.id)
+			#set($i=1)
+			<tr>
+			<td>
+			<input id="ngoaingu" type="hidden" value="$lang.id"/> 
+			<input id="check$lang.id" name='check' type="checkbox" checked /> 
+			<label for="check$lang.id"> $lang.ten </label>
+			</td>
+			<td>
+			<label>Kết quả</label>
+			</td>
+			<td>
+			<select id="ketqua" >
+				#foreach($r in $results)
+					#if($r.id == $el.ketqua.id)
+						<option value="$!r.id" selected >$!r.ten</option>
+					#else
+						<option value="$!r.id">$!r.ten</option>
+					#end
+				#end
+			</select>
+			</td>
+			<td>
+			<label>Ngày cấp</label>
+			</td>
+			<td>
+			<input name="ngaycap" value="$!el.ngaycap"  class='date'/> 
+			</td>
+			<td>
+			<label>Mô tả</label>
+			</td>
+			<td>
+			 <textarea id='motadetail' >$!el.mota</textarea>
+			</td>
+			</tr>
+			#end
+		#end
+		#if($i == 0)
+			<tr>
+			<td>
+			<input id="ngoaingu" type="hidden" value="$lang.id" /> 
+			<input id="check$lang.id" name='check' type="checkbox" /> 
+			<label for="check$lang.id"> $lang.ten </label>
+			</td>
+			<td>
+			<label>Kết quả</label>
+			</td>
+			<td>
+			<select id="ketqua" >
+				#foreach($r in $results)
+					<option value="$!r.id">$!r.ten</option>
+				#end
+			</select>
+			</td>
+			<td>
+			<label>Ngày cấp</label>
+			</td>
+			<td>
+			<input name="ngaycap" value=""  class='date'/> 
+			</td>
+			<td>
+			<label>Mô tả</label>
+			</td>
+			<td>
+			 <textarea id='motadetail' ></textarea>
+			</td>
+			</tr>
+		#end
+	#end
+	</table>
+	</fieldset>
+
+</form>
+	<input type="button" id="add" name="add" value="Đồng Ý" onClick="editObj('form6');" />
+</body>

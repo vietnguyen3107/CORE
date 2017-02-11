@@ -1,0 +1,9 @@
+<link rel='stylesheet' type='text/css' href='style-table.css' />
+<link type="text/css" href="jquery/themes/base/jquery.ui.all.css" rel="stylesheet" />
+<script type="text/javascript" src="jquery/jquery-1.4.2.js"></script> 
+<script type="text/javascript" src="jquery/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="jquery/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="jquery/ui/jquery.ui.position.js"></script>
+<script type="text/javascript" src="jquery/ui/jquery.ui.button.js"></script>
+<script type="text/javascript" src="jquery/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="jquery/jquery-validate/jquery.validate.min.js"></script>

@@ -1,0 +1,106 @@
+﻿
+<style>
+$!report.css
+</style>
+
+<body>
+
+<div id='divExport'>
+<br/>
+<br/>
+
+
+<div id="report_header">
+
+</div>
+
+<!-- Report MAster -->
+<div>
+
+	#if($resultHeaders && $!resultHeaders.size() > 0)
+
+		#set($t = "")
+		#set($empty = "")
+
+
+		#set ($startIdx = $!report.header.indexOf('[loop]') + 6)
+		#set ($endIdx = $!report.header.indexOf('[/loop]'))
+		
+
+		$report.header.substring(0, $!report.header.indexOf('[loop]'))
+		#foreach($r in $resultHeaders)
+			#set ($t = $report.header.substring($startIdx, $endIdx))
+			#foreach($entry in $r.objAlias.getEntry())
+				
+				#set($tKey = '{' + $entry.key + '}')
+				#if($entry.value.toString())
+
+					#set($t = $t.replace($tKey, $entry.value.toString()))
+				#else
+					#set($t = $t.replace($tKey, $empty))
+				#end
+				
+				
+			#end
+			$t
+		#end
+		#set ($endIdx = $!report.header.indexOf('[/loop]') + 7)
+		$report.header.substring($endIdx, $report.header.length())
+	
+	#else
+	
+	    $!report.header
+	#end
+</div>
+<!-- END report MAster-->
+
+<!-- report Detail-->
+
+#if($results && $results.size() > 0)
+	$header
+	
+	#set($empty = "")
+	#set($stt = 0)
+	#foreach($r in $results)
+		#set ($t = $body)
+		#set($stt = $stt + 1)
+		#set($stt_str = $stt + "")
+
+		#set($t = $t.replace('{stt}', $stt_str))
+
+		#foreach($entry in $r.objAlias.getEntry())
+
+				#set($tKey = '{' + $entry.key + '}')
+				#if($entry.value.toString())
+
+					#set($t = $t.replace($tKey, $entry.value.toString()))
+				#else
+					#set($t = $t.replace($tKey, $empty))
+				#end
+				
+			#end
+		$t
+	#end
+	$!footer
+#else
+	KHONG CO DU LIEU, VUI LONG KIEM TRA LAI DU LIEU NHAP HOP LE.
+#end
+
+<!-- END report detail -->
+
+
+<div>
+    $!report.footer
+</div>
+
+</div><!--divExport-->
+
+
+
+
+</body>
+
+<script>
+$!report.javascript
+
+</script>

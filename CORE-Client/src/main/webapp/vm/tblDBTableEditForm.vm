@@ -1,0 +1,32 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+
+<div id = "tblDBTableEditForm"> 
+<fieldset class='x-fieldset' > 
+<legend> tbl_DBTable </legend> 
+<form id="tblDBTableForm"> 
+<table>  
+<input type="hidden" id="tblDBTableid" name="id" value="$!tblDBTable.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" value="$!tblDBTable.ten"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Tên tiếng việt</label>  
+</td>  
+<td>  
+<input name="tenTV" value="$!tblDBTable.tenTV"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  id="accept" name="accept" value="&#272;&ocirc;&#768;ng Y&#769;" onClick="agreeBtnClick('tblDBTable');"/>  
+</fieldset>  
+  </div>

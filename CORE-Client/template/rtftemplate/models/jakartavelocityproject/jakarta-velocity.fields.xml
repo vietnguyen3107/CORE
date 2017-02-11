@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fields>
+	<description><![CDATA[Fields (Mergefield and Bookmark) availables for the model RTF Project Velocity Jakarta.]]></description>
+	<bookmark>
+		<type>START_LOOP</type>
+		<name>START_LOOP_{i}</name>
+		<description><![CDATA[Start of loop.]]></description>
+	</bookmark>
+	<bookmark>
+		<type>END_LOOP</type>
+		<name>END_LOOP_{i}</name>
+		<description><![CDATA[End of loop.]]></description>
+	</bookmark>
+	<mergefield>
+		<list>true</list>
+		<name>$dependencies.ArtifactID</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$dependencies.Type</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$dependencies.Url</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$dependencies.Version</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$developers.Email</name>
+		<description><![CDATA[List of email of developer]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$developers.Name</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$developers.Roles.Name</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$header_developer_roles</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$header_developer_name</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$project.Name</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$project.Logo</name>
+                <image>
+                  <imageType>PNG</imageType>
+                </image>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$date</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$header_developer_email</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+</fields>

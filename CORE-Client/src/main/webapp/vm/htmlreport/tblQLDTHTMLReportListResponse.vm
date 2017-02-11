@@ -1,0 +1,84 @@
+﻿#set ($dateTool = $struts.bean('org.apache.velocity.tools.generic.DateTool')) 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool'))
+<fieldset class='x-fieldset'>  
+<legend>Danh sách </legend>  
+<form id='tblQLDTHTMLReportListForm' name='tblQLDTHTMLReportListForm'> 
+<table cellspacing="0" id="tblQLDTHTMLReportTable" width='98%'> 
+<thead> 
+<tr style="background:#eeeeee;"> 
+<th>STT</th> 
+<th>Tên</th> 
+<th>Loại báo cáo</th> 
+<th>Chọn</th> 
+<th width="10%">Sửa</th> 
+<th width="10%">Duplicate</th> 
+<th width="10%">Xem</th> 
+   </tr> 
+</thead> 
+<tbody> 
+#set($i = $pageSize*($page - 1) + 1)  
+#foreach($d in $tblQLDTHTMLReports) 
+    #if($d.id) 
+    <tr class='tableitem' id="tblQLDTHTMLReport$d.id"> 
+<td>$!i</td> 
+
+<td>$!d.ten</td> 
+<td>$!d.type</td> 
+
+<td> 
+<input type="checkbox" value="$d.id" class='delete' /> 
+</td>	 
+<td> 
+<span class="btn btn-default"  id="tblQLDTHTMLReportEdit$i" width="25" height="25"    
+         onclick="openPopup('tblQLDTHTMLReport', 'tblQLDTHTMLReportEditForm.action?id=$d.id','Cập Nhật');return false;" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Cập nhật</span> 
+</td> 
+<td> 
+<input type="button" value="X --> XX"   
+         onclick="htmlReportDuplicate($d.id);"/> 
+</td> 
+<td> 
+<input type="button" value="Xuất báo cáo"   
+         onclick="openPopup('tblQLDTHTMLReport', 'htmlReportForm.action?reportId=$d.id','$d.ten');"/> 
+</td> 
+
+
+</tr> 
+#end 
+#set($i = $i +1) 
+#end 
+</tbody> 
+</table> 
+</form> 
+<div class="pagination"> 
+    #if($page >1) 
+        #set($prePage = $page - 1) 
+        <span onclick="searchForm('tblQLDTHTMLReport',$pageSize,1,'$!dataString');" class="page gradient">&#8676; Đầu</span> 
+        <span onclick="searchForm('tblQLDTHTMLReport',$pageSize,$prePage,'$!dataString');" class="page gradient">&larr;</span> 
+    #end 
+    #set($start = $page - 2) 
+    #set($endpage = $page + 2) 
+    #if($endpage < 5) 
+        #set($endpage = 5) 
+    #end 
+    #if($start < 1) 
+        #set($start = 1) 
+    #end 
+    #if($pages < $endpage) 
+        #set($endpage = $pages) 
+    #end 
+    #foreach($p in [$start..$endpage])  
+        #if($p == $page)  
+            <span class="page active">$p</span> 
+            <span></span> 
+        #else  
+            <span onclick="searchForm('tblQLDTHTMLReport',$pageSize,$p,'$!dataString');" class="page gradient">$p</span> 
+        #end 
+    #end 
+    #if($page != $pages) 
+        #set($nextPage = $page + 1) 
+        <span onclick="searchForm('tblQLDTHTMLReport',$pageSize,$nextPage,'$!dataString');" class="page gradient">&rarr;</span> 
+        <span onclick="searchForm('tblQLDTHTMLReport',$pageSize,$pages,'$!dataString');" class="page gradient">Cuối &#8677;</span> 
+    #end 
+    <span class='page gradient' style='float:right; margin-right: 15px;'>Số lượng: $!num</span>
+</div> 
+</fieldset>

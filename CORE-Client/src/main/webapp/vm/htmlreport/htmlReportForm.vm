@@ -1,0 +1,165 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+#parse("vm/common.vm") 
+
+#set ($listTool = $struts.bean('org.apache.velocity.tools.generic.ListTool')) 
+<body>
+<fieldset class='x-fieldset'> 
+<legend></legend> 
+<div id = "htmlReportSearchForm" > 
+<form id="htmlReportForm"> 
+<table> 
+<input type="hidden" name="reportId" value="$report.id"  size='35'/>  
+#foreach($param in $params)
+	<tr>  
+		<td>  
+		<label>$param.label</label>  
+		</td>  
+		<td> 
+		#if($param.type == 'selectbox')
+		<div class='form-select'>
+			<select id="param$param.ten" name="$param.ten" class='form-select' >
+				#foreach( $el in $param.paramSql.split(";") )
+
+						#set($myArr = $el.split("::"))
+						#set($val = $listTool.get($myArr,0))
+						#set($name = $listTool.get($myArr,1))
+
+					<option value="$val"> $name</option>
+				#end
+			</select>
+			</div>
+		#else
+		<input id="param$param.ten" hiddenName="$param.ten" name="$param.ten" value="" 
+			paramSql="$!param.paramSql"
+			paramVariable="$!param.paramVariable"
+			size='30' class='x-form-text $!param.type required' /> 
+		#end
+		</td>  
+	</tr>
+#end
+
+	<tr>  
+
+		<td colspan='2'>  
+		<input type="button" value="Báo cáo" onclick="htmlReportView('htmlReport', false)" /> 
+		<input type="button" value="Báo cáo và xuất Excel" onclick="htmlReportView('htmlReport', true)" />  
+		<input type="button" value="Xuất excel" onclick="exportExcel('htmlReport')" />   
+		</td>  
+	</tr>
+</table>  
+</form>  
+</div>  
+</fieldset>  
+
+<div id="htmlReportGrid" >  
+</div>  
+</body>
+<script>
+function htmlReportView(formName, exportYN){ 
+    var form =  jQuery("#" + formName + 'Form'); 
+
+    var responseId = "htmlReportGrid";
+    var dataString = form.serialize(); 
+    var url = formName + "View.action"; 
+	mask('responseId');
+    jQuery.ajax({ 
+        type: "GET", 
+        url: url, 
+        data: dataString, 
+        success: function(response) { 
+			unmask('responseId');
+            try{
+				var obj = jQuery.parseJSON(response);
+
+				Ext.example.msg(obj.code,obj.msg); 
+				
+			}catch(error){
+                Ext.example.msg('Done', 'Successfull!'); 
+                jQuery("#" + responseId).html(response);
+
+				if(exportYN){
+				
+					exportExcel('htmlReport');
+				}
+			}
+        } 
+    }); 
+} 
+function autoCompleteParam(id, val, hiddenVal, hiddenName, paramSql, paramVariable){   
+
+	try{
+		//jQuery(".giangVien").attr("id", id + "AutoComp");
+		
+		var paramStore = new Ext.data.JsonStore({
+			url: 'htmlReportParamAutoComplete.action',
+			root: 'data',  // the root of the array you'll send down
+			idProperty: 'id',
+			fields: [{name:'id',mapping:'id'},{name:'ten',mapping:'ten'},{name:'ma',mapping:'ma'}],
+			baseParams: {
+				paramSql:  paramSql,
+				paramVariable: paramVariable
+			} 
+					
+		});
+		if (typeof hiddenName == "undefined") {
+		    hiddenName = 'params';
+		}
+		if (typeof jQuery("#"+id) == "undefined") {
+		    id = id + "ParamsAutoComp";
+		}
+		var paramAutoComplete = new Ext.form.ComboBox({
+			store: paramStore,
+			displayField:'ten',
+			valueField:'id',
+			hiddenName:hiddenName,
+			typeAhead: false,
+			mode: 'remote',
+			queryParam: 'q',  //contents of the field sent to server.
+			hideTrigger: true,    //hide trigger so it doesn't look like a combobox.
+			selectOnFocus:true,
+			//width: 150,
+			minChars : 2,
+			autoSelect : false,
+			applyTo:  id,  //the id of the html element to render to.   
+			value: val,
+			hiddenValue:  hiddenVal,
+			 
+		});
+	
+	}catch(err){
+	
+	}
+}
+
+
+	jQuery(function() { 
+		jQuery(".datepicker").datepicker({	 
+	        changeMonth: true, 
+	        changeYear: true, 
+	        yearRange: '1900:c+10', 
+	        howButtonPanel: true, 
+	        dateFormat : 'yy-mm-dd' 
+	    });
+
+		jQuery(".autocomplete").each(function(){
+			autoCompleteParam(
+				//id
+				jQuery(this).attr("id"), 
+				//val
+				"", 
+				//hiddenVal
+				"", 
+				//hiddenName
+				jQuery(this).attr("hiddenName"),
+				// paramSql
+				jQuery(this).attr("paramSql"), 
+				//paramVariable
+				jQuery(this).attr("paramVariable"));
+		});
+
+	});
+
+</script>

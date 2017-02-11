@@ -1,0 +1,76 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<div id = "tblTaiKhoanEditForm"> 
+<fieldset class='x-fieldset' > 
+<legend> Thông tin tài khoản </legend> 
+<form id="tblTaiKhoanForm"> 
+<table>  
+<input type="hidden" id="tblTaiKhoanid" name="id" value="$!tblTaiKhoan.id"  size="35" class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Tên đăng nhập: </label>  
+</td>  
+<td>  
+<input name="username" value="$!tblTaiKhoan.username"   size='35' class='x-form-text required '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Mật khẩu: </label>  
+</td>  
+<td>  
+<input name="password" value="$!tblTaiKhoan.password"   size='35' class='x-form-text  required  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nhóm quyền: </label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+<select name="maNhomQuyen" style="width:240px;"  class='form-select required'>  
+<option value=""></option>  
+#foreach($p in $tblNhomQuyens)  
+    #if($p.id == $!tblTaiKhoan.maNhomQuyen.id)  
+    <option value="$!p.id" selected>$!p.id - $!p.tenNhomQuyen</option>  
+    #else   
+    <option value="$!p.id">$!p.id - $!p.tenNhomQuyen</option>  
+    #end  
+#end  
+</select>  
+</div> 
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Cán bộ: </label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+<select name="canBoId"  style="width:240px;" class='form-select required '>  
+<option value=""> </option>  
+#foreach($p in $tblCanBos)  
+    #if($p.id == $!tblTaiKhoan.canBoId.id)  
+    <option value="$!p.id" selected>$!p.id - $!p.ten</option>  
+    #else   
+    <option value="$!p.id">$!p.id - $!p.ten</option>  
+    #end  
+#end  
+</select>  
+</div> 
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  id="accept" name="accept" value="&#272;&ocirc;&#768;ng Y&#769;" onClick="agreeBtnClick('tblTaiKhoan');"/>  
+</fieldset>  
+</div>  
+<fieldset class='x-fieldset' >  
+<legend>Danh sách </legend>  
+<div id="tblTaiKhoanList" >  
+#parse("vm/tblTaiKhoanListResponse.vm") 
+</div>  
+</fieldset>  
+ 

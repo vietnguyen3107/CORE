@@ -1,0 +1,172 @@
+﻿#parse("vm/common.vm") 
+#set ($dateTool = $struts.bean('org.apache.velocity.tools.generic.DateTool')) 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+<script> 
+function editObj(formName){ 
+    var form =  jQuery("#" + formName + "EditForm"); 
+    if(!form.validate().form()) { 
+        return false;		 
+    } 
+    var dataString = form.serialize(); 
+    var url = formName + "Update.action"; 
+   mask(''); 
+    jQuery.ajax({ 
+        type: "POST", 
+        url: url, 
+        data: dataString, 
+        success: function(response) { 
+        unmask(''); 
+           try{ 
+	            var obj = jQuery.parseJSON(response); 
+	            Ext.example.msg(obj.code,obj.msg);  
+           }catch(error){ 
+                Ext.example.msg('Done', 'Successfull!'); 
+           } 
+        } 
+    }); 
+} 
+function htmlBox(itemId){ 
+    if(jQuery("#"+ itemId).length > 0){ 
+        new Ext.form.HtmlEditor({ 
+                id:itemId , 
+                applyTo:itemId, 
+                width: 500, 
+                height: 100, 
+                enableAlignments:true, 
+                enableSourceEdit:true, 
+                enableLists:true 
+        }); 
+    } 
+} 
+function datepicker(){ 
+    jQuery(".date").datepicker({	 
+        changeMonth: true, 
+        changeYear: true, 
+        yearRange: '1900:c+10', 
+        howButtonPanel: true, 
+        dateFormat : 'dd/mm/yy' 
+    }); 
+} 
+jQuery(function() { 
+    //textarea : wysiwyg 
+    htmlBox("tblCanBoTextarea"); 
+    datepicker(); 
+ 
+}); 
+</script> 
+
+<div id = "loading" /> 
+<fieldset class='x-fieldset'> 
+<legend> tbl_CanBo </legend> 
+<form id="tblCanBoEditForm"> 
+<table>  
+<input type="hidden" id="tblCanBoid" name="id" value="$!tblCanBo.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" size='35' value="$!tblCanBo.ten"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Ghi chú</label>  
+</td>  
+<td>  
+<textarea id="tblCanBoTextarea" name="ghiChu" class=''>$!tblCanBo.ghiChu</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Mã quản lý</label>  
+</td>  
+<td>  
+<input name="maQuanLy" size='35' value="$!tblCanBo.maQuanLy"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Ngày sinh</label>  
+</td>  
+<td>  
+<input id="ngaySinhtblCanBo" name="ngaySinh" 
+#if($tblCanBo.ngaySinh) 
+ value="$!dateTool.format('dd/MM/yyyy',$tblCanBo.ngaySinh.toGregorianCalendar().getTime())" 
+#end 
+size='35' class='x-form-text  date '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nơi sinh</label>  
+</td>  
+<td>  
+<input name="noiSinh" size='35' value="$!tblCanBo.noiSinh"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Địa chỉ</label>  
+</td>  
+<td>  
+<input name="diaChi" size='35' value="$!tblCanBo.diaChi"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Điện thoại</label>  
+</td>  
+<td>  
+<input name="dienThoai" size='35' value="$!tblCanBo.dienThoai"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Trình độ</label>  
+</td>  
+<td>  
+<input name="trinhDo" size='35' value="$!tblCanBo.trinhDo"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nghề nghiệp</label>  
+</td>  
+<td>  
+<input name="ngheNghiep" size='35' value="$!tblCanBo.ngheNghiep"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nơi làm</label>  
+</td>  
+<td>  
+<input name="noiLam" size='35' value="$!tblCanBo.noiLam"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Đơn vị: </label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+<select name="donViId"  class='form-select '>  
+<option value=""></option>  
+#foreach($p in $tblDonVis)  
+    #if($p.id == $!tblCanBo.donViId.id)  
+    <option value="$!p.id" selected>$!p.ma - $!p.ten</option>  
+    #else   
+    <option value="$!p.id">$!p.ma - $!p.ten</option>  
+    #end  
+#end  
+</select>  
+</div> 
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  id="accept" name="accept" value="Cập nhật" onClick="editObj('tblCanBo');"/>  
+</fieldset>  
+  </div>

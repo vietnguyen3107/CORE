@@ -1,0 +1,284 @@
+﻿#parse("vm/common.vm") 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+<script> 
+function editObj(formName){ 
+    var form =  jQuery("#" + formName + "EditForm"); 
+    if(!form.validate().form()) { 
+        return false;		 
+    } 
+    var dataString = form.serialize(); 
+   //serializeOthers :ham cuc bo cho tung file 
+   dataString += serializeOthers(); 
+    var url = formName + "Update.action"; 
+    jQuery.ajax({ 
+        type: "POST", 
+        url: url, 
+        data: dataString, 
+        success: function(response) { 
+            Ext.example.msg('Done', 'Successfull!'); 
+ 
+        } 
+    }); 
+} 
+function htmlBox(itemId){ 
+    if(jQuery("#"+ itemId).length > 0){ 
+        new Ext.form.HtmlEditor({ 
+                id:itemId , 
+                applyTo:itemId, 
+                width: 500, 
+                height: 100, 
+                enableAlignments:true, 
+                enableSourceEdit:true, 
+                enableLists:true 
+        }); 
+    } 
+} 
+function datepicker(){ 
+    jQuery(".date").datepicker({	 
+        changeMonth: true, 
+        changeYear: true, 
+        yearRange: '1900:c+10', 
+        howButtonPanel: true, 
+        dateFormat : 'dd/mm/yy' 
+    }); 
+} 
+function serializeOthers(){ 
+var dataString = ""; 
+//tblQuyenChiTiet format = [{key:val}] 
+var tblQuyenChiTiet="["; 
+jQuery("#tblQuyenChiTiettable tr").each(function() { 
+    var recentRow =  jQuery(this); 
+    if(recentRow.find("input[name=check]").prop('checked') == true){ 
+	
+        tblQuyenChiTiet += "{"; 
+        tblQuyenChiTiet += "'xem' : '" +recentRow.find("[name='xem']").prop('checked')+"', "; 
+        tblQuyenChiTiet += "'them' : '" +recentRow.find("[name='them']").prop('checked')+"', "; 
+        tblQuyenChiTiet += "'xoa' : '" +recentRow.find("[name='xoa']").prop('checked')+"', "; 
+        tblQuyenChiTiet += "'sua' : '" +recentRow.find("[name='sua']").prop('checked')+"', "; 
+        tblQuyenChiTiet += "'quyenId' :" +jQuery("#tblQuyenid").val()+", "; 
+        tblQuyenChiTiet += "'bangId' :" +recentRow.find("#bangId").val()+", "; 
+        tblQuyenChiTiet += "},"; 
+    } 
+}); 
+tblQuyenChiTiet += "]"; 
+dataString += "&tblQuyenChiTietStr=" + tblQuyenChiTiet; 
+//tblQuyenMenu format = [{key:val}] 
+var tblQuyenMenu="["; 
+jQuery("#tblQuyenMenutable tr").each(function() { 
+    var recentRow =  jQuery(this); 
+    if(recentRow.find("input[name=menu]").prop('checked') == true){ 
+        tblQuyenMenu += "{"; 
+        tblQuyenMenu += "'menuId' :" +recentRow.find("#menuId").val()+", "; 
+        tblQuyenMenu += "'quyenId' :" +jQuery("#tblQuyenid").val()+", "; 
+        tblQuyenMenu += "},"; 
+    } 
+}); 
+tblQuyenMenu += "]"; 
+dataString += "&tblQuyenMenuStr=" + tblQuyenMenu; 
+//end 
+return dataString; 
+} 
+jQuery(function() { 
+    //textarea : wysiwyg 
+    htmlBox("tblQuyenTextarea"); 
+    datepicker(); 
+ 
+    jQuery("#loading").ajaxStart(function(){ 
+       Ext.MessageBox.show({ 
+           msg: 'Please wait...', 
+           width:300, 
+           wait:true, 
+           icon:'extanim32' //custom class in msg-box.html 
+       }); 
+     }); 
+    jQuery("#loading").ajaxStop(function(){ 
+        Ext.MessageBox.hide(); 
+     });   
+}); 
+
+
+function checkRow(rowId){
+
+		jQuery("#xem" + rowId).attr('checked', typeof jQuery("#check" + rowId).attr('checked') !== "undefined");
+		jQuery("#them" + rowId).attr('checked', typeof jQuery("#check" + rowId).attr('checked') !== "undefined");
+		jQuery("#xoa" + rowId).attr('checked', typeof jQuery("#check" + rowId).attr('checked') !== "undefined");
+		jQuery("#sua" + rowId).attr('checked', typeof jQuery("#check" + rowId).attr('checked') !== "undefined");
+	
+	
+	
+}
+function checkColumn(colId){
+	jQuery("[name='" +colId+ "'").attr('checked', typeof jQuery("#" + colId + "All").attr('checked') !== "undefined");
+		
+}
+</script> 
+
+<div id = "loading" /> 
+<body> 
+<fieldset class='x-fieldset' > 
+<legend>Quyền </legend> 
+<form id="tblQuyenEditForm"> 
+<table>  
+<input type="hidden" id="tblQuyenid" name="id" value="$!tblQuyen.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Tên quyền</label>  
+</td>  
+<td>  
+<input name="ten" value="$!tblQuyen.ten"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Ghi chú</label>  
+</td>  
+<td>  
+<input name="ghiChu" value="$!tblQuyen.ghiChu"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table>  
+</fieldset> 
+<fieldset class='x-fieldset' > 
+<legend>Danh mục Bảng </legend> 
+<table id="tblQuyenChiTiettable" border='0' width='100%' cellpadding='1' cellspacing='1'> 
+<tr> 
+<td colspan='2' > 
+<label for='xemAll'>Xem</label> 
+<input id='xemAll' name='xemAll' type='checkbox' onchange="checkColumn('xem')" /> 
+</td> 
+<td colspan='2' > 
+<label for='themAll'>Thêm</label> 
+<input id='themAll' name='themAll' type='checkbox' onchange="checkColumn('them')"/> 
+</td> 
+<td colspan='2' > 
+<label for='xoaAll'>Xóa</label> 
+<input id='xoaAll' name='xoaAll' type='checkbox' onchange="checkColumn('xoa')"/> 
+</td> 
+<td colspan='2' > 
+<label for='suaAll'>Sửa</label> 
+<input id='suaAll' name='suaAll' type='checkbox' onchange="checkColumn('sua')"/> 
+</td> 
+<td> 
+<input id='bangId' type='hidden' value='All'/>  
+<input id='checkAll' name='checkAll' type='checkbox' onchange="checkColumn('check')" />  
+<label for='checkAll'> Tat ca</label> 
+</td> 
+</tr>
+#foreach($tblDBTable in $tblDBTables) 
+  #set($i=0) 
+  #foreach($tblQuyenChiTiet in $tblQuyenChiTiets) 
+      #if($tblQuyenChiTiet.bangId.id == $tblDBTable.id) 
+      #set($i=1) 
+      <tr> 
+<td colspan='2' > 
+<label for='xem$tblDBTable.id'>Xem</label> 
+#if($tblQuyenChiTiet.isXem() == true) 
+<input id='xem$tblDBTable.id' name='xem' type='checkbox' checked /> 
+#else
+<input id='xem$tblDBTable.id' name='xem' type='checkbox' /> 
+#end
+</td> 
+<td colspan='2' > 
+<label for='them$tblDBTable.id'>Thêm</label> 
+#if($tblQuyenChiTiet.isThem() == true) 
+<input id='them$tblDBTable.id' name='them' type='checkbox' checked /> 
+#else
+<input id='them$tblDBTable.id' name='them' type='checkbox' /> 
+#end
+</td> 
+<td colspan='2' > 
+<label for='xoa$tblDBTable.id'>Xóa</label> 
+#if($tblQuyenChiTiet.isXoa() == true) 
+<input id='xoa$tblDBTable.id' name='xoa' type='checkbox' checked /> 
+#else
+<input id='xoa$tblDBTable.id' name='xoa' type='checkbox' /> 
+#end
+</td> 
+<td colspan='2' > 
+<label for='sua$tblDBTable.id'>Sửa</label> 
+#if($tblQuyenChiTiet.isSua() == true) 
+<input id='sua$tblDBTable.id' name='sua' type='checkbox' checked /> 
+#else
+<input id='sua$tblDBTable.id' name='sua' type='checkbox' /> 
+#end
+</td> 
+<td> 
+<input id='bangId' type='hidden' value='$tblDBTable.id'/>  
+<input id='check$tblDBTable.id' name='check' type='checkbox' checked  onchange="checkRow($tblDBTable.id)"/>  
+
+<label for='check$tblDBTable.id'> #if($tblDBTable.tenTV && $tblDBTable.tenTV != "" )$tblDBTable.tenTV #else $tblDBTable.ten #end </label> 
+</td> 
+ </tr> 
+#end 
+#end 
+#if($i == 0)
+<tr> 
+<td colspan='2' > 
+<label for='xem$tblDBTable.id'>Xem</label> 
+<input id='xem$tblDBTable.id' name='xem' type='checkbox' /> 
+</td> 
+<td colspan='2' > 
+<label for='them$tblDBTable.id'>Thêm</label> 
+<input id='them$tblDBTable.id' name='them' type='checkbox' /> 
+</td> 
+<td colspan='2' > 
+<label for='xoa$tblDBTable.id'>Xóa</label> 
+<input id='xoa$tblDBTable.id' name='xoa' type='checkbox' /> 
+</td> 
+<td colspan='2' > 
+<label for='sua$tblDBTable.id'>Sửa</label> 
+<input id='sua$tblDBTable.id' name='sua' type='checkbox' /> 
+</td> 
+<td> 
+<input id='bangId' type='hidden' value='$tblDBTable.id'/>  
+<input id='check$tblDBTable.id' name='check' type='checkbox'  onchange="checkRow($tblDBTable.id)"/>  
+
+<label for='check$tblDBTable.id'> #if($tblDBTable.tenTV && $tblDBTable.tenTV != "" )$tblDBTable.tenTV #else $tblDBTable.ten #end </label> 
+</td> 
+ </tr> 
+#end 
+#end 
+</table> 
+</fieldset> 
+<fieldset class='x-fieldset' > 
+<legend>Danh mục Menu </legend> 
+<table id="tblQuyenMenutable" border='0' width='100%' cellpadding='1' cellspacing='1'> 
+<tr> 
+
+<td> 
+<input id='menuAll' name='menuAll' type='checkbox' onchange="checkColumn('menu')"/>  
+<label for='checkAll'> All</label> 
+</td> 
+ </tr> 
+ 
+#foreach($tblMenu in $tblMenus) 
+  #set($i=0) 
+  #foreach($tblQuyenMenu in $tblQuyenMenus) 
+      #if($tblQuyenMenu.menuId.id == $tblMenu.id) 
+      #set($i=1) 
+      <tr> 
+<td> 
+<input id='menuId' type='hidden' value='$tblMenu.id'/>  
+<input id='menu$tblMenu.id' name='menu' type='checkbox' checked />  
+<label for='menu$tblMenu.id'> $tblMenu.ten </label> 
+</td> 
+ </tr> 
+#end 
+#end 
+#if($i == 0)
+<tr> 
+
+<td> 
+<input id='menuId' type='hidden' value='$tblMenu.id'/>  
+<input id='menu$tblMenu.id' name='menu' type='checkbox' />  
+<label for='menu$tblMenu.id'> $tblMenu.ten </label> 
+</td> 
+ </tr> 
+#end 
+#end 
+</table> 
+</fieldset> 
+</form> 
+<input type='button' class='x-panel-btns' id='add' name='add' value='Đồng Ý' onClick="editObj('tblQuyen');" /> 
+</body>

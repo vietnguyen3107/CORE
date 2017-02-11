@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fields>
+	<description><![CDATA[Fields (Mergefield and Bookmark) availables for the model RTF Project Velocity Jakarta.]]></description>
+	<bookmark>
+		<type>START_LOOP</type>
+		<name>START_LOOP_{i}</name>
+		<description><![CDATA[Start of loop.]]></description>
+	</bookmark>
+	<bookmark>
+		<type>END_LOOP</type>
+		<name>END_LOOP_{i}</name>
+		<description><![CDATA[End of loop.]]></description>
+	</bookmark>
+	
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.Bangtotnghiep</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.Hoten</name>
+		<description><![CDATA[List of email of developer]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.Gioitinh</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.Ngaysinh</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.LoaiTN</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.Hinhthucdt</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.Sohieu</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>true</list>
+		<name>$sinhviens.Sovaoso</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	
+	
+	<mergefield>
+		<list>false</list>
+		<name>$tentruong1</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$tentruong2</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$noicap</name>
+		<description><![CDATA[Name of the project]]></description>
+	</mergefield>
+	<mergefield>
+		<list>false</list>
+		<name>$ngay</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	
+	<mergefield>
+		<list>false</list>
+		<name>$nguoiki</name>
+		<description><![CDATA[]]></description>
+	</mergefield>
+	
+</fields>

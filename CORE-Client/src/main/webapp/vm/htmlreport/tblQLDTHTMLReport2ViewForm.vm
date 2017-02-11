@@ -1,0 +1,28 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<fieldset class='x-fieldset'> 
+<legend><span id='searchToggle' onmouseover="jQuery(this).css('cursor','pointer');" onclick="jQuery('#tblQLDTHTMLReport2ViewSearchForm').toggle('slow');">Tìm kiếm</span></legend> 
+<div id = "tblQLDTHTMLReport2ViewSearchForm" > 
+<form id="tblQLDTHTMLReport2ViewForm"> 
+<table> 
+ <tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr><tr><td>  
+<label>Loại báo cáo</label>  
+</td>  
+<td>  
+<input name="type" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr></table>  
+</form>  
+</fieldset>  
+</div>  
+<div id="tblQLDTHTMLReport2ViewList" >  
+</div>  
+

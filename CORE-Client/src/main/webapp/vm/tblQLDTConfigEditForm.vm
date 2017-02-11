@@ -1,0 +1,32 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+
+<div id = "tblQLDTConfigEditForm"> 
+<fieldset class='x-fieldset'> 
+<legend> Cấu hình chương trình </legend> 
+<form id="tblQLDTConfigForm"> 
+<table>  
+<input type="hidden" id="tblQLDTConfigid" name="id" value="$!tblQLDTConfig.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" value="$!tblQLDTConfig.ten"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Giá trị</label>  
+</td>  
+<td>  
+<input name="giaTri" value="$!tblQLDTConfig.giaTri"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  id="accepttblQLDTConfig" name="accept" value="Cập nhật" onClick="agreeBtnClick('tblQLDTConfig');this.value='Thêm mới'"/>  
+</fieldset>  
+  </div>

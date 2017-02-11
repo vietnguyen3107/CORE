@@ -1,0 +1,118 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  
+  xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+  xmlns:jaxws="http://cxf.apache.org/jaxws"
+  xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		
+http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+	
+	
+	<bean id="applicationContextProvider" class="com.lb.jwitter.util.ApplicationContextProvider"></bean>
+	<!-- set thoi gian timeout cho tung service theo ten service -->
+	<!-- 
+	<http-conf:conduit name="{http://service.jwitter.lb.com/}Tbl_DKMH_DotDK_HocVienServicePort.http-conduit">
+		<http-conf:client ReceiveTimeout="600000" />
+	</http-conf:conduit>
+	 -->
+
+
+<!-- ======================== UTIL ===================================================== -->
+<!-- ======================== UTIL ===================================================== -->
+<!-- ======================== UTIL ===================================================== -->
+
+
+   <jaxws:client id="tbl_QLDTLT_OptionClient"  
+       serviceClass= "com.lb.jwitter.service.TblQLDTLTOptionService" 
+       address="http://localhost:8888/CORE/service/Tbl_QLDTLT_Option" /> 
+ 
+
+
+   <jaxws:client id="tbl_QLDTLT_OptionGroupClient"  
+       serviceClass= "com.lb.jwitter.service.TblQLDTLTOptionGroupService" 
+       address="http://localhost:8888/CORE/service/Tbl_QLDTLT_OptionGroup" /> 
+ 
+
+
+   <jaxws:client id="tbl_DonViClient"  
+       serviceClass= "com.lb.jwitter.service.TblDonViService" 
+       address="http://localhost:8888/CORE/service/Tbl_DonVi" /> 
+ 
+
+
+
+   <jaxws:client id="commonClient"  
+       serviceClass= "com.lb.jwitter.service.CommonService" 
+       address="http://localhost:8888/CORE/service/Common" /> 
+ 
+   <jaxws:client id="tbl_DBTableClient"  
+       serviceClass= "com.lb.jwitter.service.TblDBTableService" 
+       address="http://localhost:8888/CORE/service/Tbl_DBTable" /> 
+
+   <jaxws:client id="tbl_MenuClient"  
+       serviceClass= "com.lb.jwitter.service.TblMenuService" 
+       address="http://localhost:8888/CORE/service/Tbl_Menu" /> 
+ 
+   <jaxws:client id="tbl_NhomQuyenClient"  
+       serviceClass= "com.lb.jwitter.service.TblNhomQuyenService" 
+       address="http://localhost:8888/CORE/service/Tbl_NhomQuyen" /> 
+ 
+   <jaxws:client id="tbl_QuyenClient"  
+       serviceClass= "com.lb.jwitter.service.TblQuyenService" 
+       address="http://localhost:8888/CORE/service/Tbl_Quyen" /> 
+ 
+
+
+   <jaxws:client id="tbl_CanBoClient"  
+       serviceClass= "com.lb.jwitter.service.TblCanBoService" 
+       address="http://localhost:8888/CORE/service/Tbl_CanBo" /> 
+
+   <jaxws:client id="tbl_Quyen_ChiTietClient"  
+       serviceClass= "com.lb.jwitter.service.TblQuyenChiTietService" 
+       address="http://localhost:8888/CORE/service/Tbl_Quyen_ChiTiet" /> 
+
+   <jaxws:client id="tbl_Quyen_MenuClient"  
+       serviceClass= "com.lb.jwitter.service.TblQuyenMenuService" 
+       address="http://localhost:8888/CORE/service/Tbl_Quyen_Menu" /> 
+
+   <jaxws:client id="tbl_Quyen_NhomQuyenClient"  
+       serviceClass= "com.lb.jwitter.service.TblQuyenNhomQuyenService" 
+       address="http://localhost:8888/CORE/service/Tbl_Quyen_NhomQuyen" /> 
+ 
+
+   <jaxws:client id="tbl_TaiKhoanClient"  
+       serviceClass= "com.lb.jwitter.service.TblTaiKhoanService" 
+       address="http://localhost:8888/CORE/service/Tbl_TaiKhoan" /> 
+       
+       
+   <jaxws:client id="tbl_QLDT_ConfigClient"  
+       serviceClass= "com.lb.jwitter.service.TblQLDTConfigService" 
+       address="http://localhost:8888/CORE/service/Tbl_QLDT_Config" /> 
+       
+
+<!-- ==============htmlreport ================ -->
+
+
+   <jaxws:client id="tbl_QLDT_HTMLReportClient"  
+       serviceClass= "com.lb.jwitter.service.TblQLDTHTMLReportService" 
+       address="http://localhost:8888/CORE/service/Tbl_QLDT_HTMLReport" /> 
+ 
+
+
+   <jaxws:client id="tbl_QLDT_HTMLReport_ParamClient"  
+       serviceClass= "com.lb.jwitter.service.TblQLDTHTMLReportParamService" 
+       address="http://localhost:8888/CORE/service/Tbl_QLDT_HTMLReport_Param" /> 
+ 
+
+<!-- ================end ============================================= -->
+	<jaxws:client id="tbl_QLDT_LogClient"  
+       serviceClass= "com.lb.jwitter.service.TblQLDTLogService" 
+       address="http://localhost:8888/CORE/service/Tbl_QLDT_Log" />
+       
+ 
+<!-- ======================== END UTIL ===================================================== -->	
+	                          	                 	                                          	                 	                 
+</beans>

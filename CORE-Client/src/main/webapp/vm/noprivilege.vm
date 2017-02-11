@@ -1,0 +1,29 @@
+#if($fname == 'client')
+#parse("top.vm")
+#parse("common.vm")
+<link href='style-table.css' rel='stylesheet' type='text/css'>
+#end
+
+#if($fname == 'admission')
+#parse("top.vm")
+#parse("common.vm")
+<link href='style-table.css' rel='stylesheet' type='text/css'>
+#end
+
+
+
+<body>
+<div id='wrap'>
+<div style='height:300px;text-align:center; vertical-align:middle'>
+  <p><br>
+    <br>
+    <br>
+    <br>
+ Xin lỗi, bạn chưa đăng nhập hoặc tài khoản của bạn không được cấp quyền này!
+</p>
+<p>
+Click vào <label style="color:red;text-decoration: underline;"  onClick="location='logout.action';" >ĐÂY</label> để đăng nhập tài khoản khác!</p>
+  <p>Xin ca&#777;m &#417;n! </p>
+</div>
+</div>
+</body>

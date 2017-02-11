@@ -1,0 +1,260 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+#parse("common.vm")
+
+<script type="text/javascript" src="jquery/ui/jquery.ui.tabs.js"></script>
+
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.colors.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.styles.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.syntax.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.undoredomanager.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.min.js"></script>
+
+
+<script>
+//****************************************
+//javascript chung cho cac form kieu form7EditForm
+//****************************************
+
+function htmlBox(textarea){
+	return jQuery("#" + textarea).css("height","100").css("width","600").htmlbox({
+			toolbars:[
+			    [
+				// Cut, Copy, Paste
+				"separator","cut","copy","paste",
+				// Undo, Redo
+				"separator","undo","redo",
+				// Bold, Italic, Underline, Strikethrough, Sup, Sub
+				"separator","bold","italic","underline","strike","sup","sub",
+				// Left, Right, Center, Justify
+				"separator","justify","left","center","right",
+				// Ordered List, Unordered List, Indent, Outdent
+				"separator","ol","ul","indent","outdent",
+				// Hyperlink, Remove Hyperlink, Image
+				"separator","link","unlink","image"
+				
+				],
+				[// Show code
+				"separator","code",
+			// Formats, Font size, Font family, Font color, Font, Background
+			"separator","formats","fontsize","fontfamily",
+				"separator","fontcolor","highlight",
+				]	
+			],
+			skin:"blue"
+	});
+
+}
+
+//****************************************
+//javascript cho tung form
+//****************************************
+var tabs;
+var motaDetail;
+
+function editObj(formName,formSuffix){
+	var form =  jQuery("#" + formName + formSuffix);
+	var dataString = form.serialize();
+
+	if(!form.validate().form()) {
+		return false;
+		
+	}
+	var url = formName + "Update.action";
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#msg").html("Thành công!");
+				jQuery("#employeeid").html(result[1]);
+				
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+			
+		}
+	});
+
+}
+
+jQuery(function() {
+	tabs = jQuery("#tabs").tabs({
+		fx: { opacity: 'toggle' },
+		select: function(event, ui) {
+			jQuery(this).css('overflow', 'hidden');
+		},
+		show: function(event, ui) {
+			jQuery(this).css('height', 'auto');
+			jQuery(this).css('overflow', 'visible');
+		}
+	});//tabs
+
+	jQuery(".date").datepicker({	
+		changeMonth: true,
+		changeYear: true,
+		yearRange: '1900:',
+		showButtonPanel: true,
+		showOn: "button",
+		buttonImage: "images/calendar.gif",
+		buttonImageOnly: true
+
+	});
+	jQuery( ".date" ).datepicker( "option", "dateFormat", 'dd/mm/yy' );
+
+	//textarea : wysiwyg
+	htmlBox("motaForm7");
+});
+</script>
+
+
+<body >
+<center> <b> Nhân viên $!employee.tenNV </b> </center>
+<div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs">
+	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+		<li class="ui-state-default ui-corner-top"><a href="#tabs-1" >Nhan Vien </a></li>
+		<li class="ui-state-default ui-corner-top"><a href="#tabs-2" >Trinh do ngoai ngu</a></li>
+
+	</ul>
+
+	<div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tabs-1">
+		
+		<fieldset>
+		<legend>Th&ocirc;ng tin NV </legend>
+
+		<form id="form7EditForm">
+
+		<input type="hidden" id="employeeid" name="id" value="$!employee.id" />
+		<font style="color : red; bold : true; font-size : 14px;" ><div id="msg"> </div></font>
+		<table>
+		<tr>
+		<td>
+		<label> Mã NV</label>
+		</td>
+		<td>
+		 <input id="maNV" name="maNV" value="$!employee.maNV" class='required '/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Tên NV </label>
+		</td>
+		<td>
+		 <input id="tenNV" name="tenNV" value="$!employee.tenNV" class='required '/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Tuổi </label>
+		</td>
+		<td>
+		 <input id="tuoi" name="tuoi" value="$!employee.tuoi" class='required number'/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label> Giới tính</label>
+		</td>
+		<td>
+		#if($!employee.gioitinh == true)
+		<input type="radio" id='Nam' name="gioitinh" value="1"  checked /><label for="Nam"> Nam </label>
+		<input type="radio" id='Nu' name="gioitinh" value="0"  /><label for="Nu"> Nữ </label>
+		#else 
+		<input type="radio" id='Nam' name="gioitinh" value="1"   /><label for="Nam"> Nam </label>
+		<input type="radio" id='Nu' name="gioitinh" value="0"  checked/><label for="Nu"> Nữ </label>
+		#end
+		 </td>
+		 </tr>
+
+
+		<tr>
+		<td>
+		<label>Sở thích: </label>
+		</td>
+		<td>
+		<select id="sothichid" name="sothichid" >
+		<option value="0" selected></option>
+		#foreach($p in $preferences)
+			#if($p.id == $!employee.sothich.id)
+			<option value="$!p.id" selected>$!p.ten</option>
+			#else 
+			<option value="$!p.id">$!p.ten</option>
+			#end
+		#end
+		</select>
+		 </td>
+		 </tr>
+
+
+		<tr>
+		<td>
+		<label>Khoa: </label>
+		</td>
+		<td>
+		<select id="khoaid" name="khoaid" >
+			#foreach($d in $departments)
+				#if($d.id == $!employee.khoa.id)
+				<option value="$!d.id" selected>$!d.ten</option>
+				#else 
+				<option value="$!d.id">$!d.ten</option>
+				#end
+			#end
+			
+		</select>
+
+		 </td>
+		 </tr>
+
+		 <tr>
+		<td>
+		<label> Hệ số lương </label>
+		</td>
+		<td>
+		 <input id="hesoluong" name="hesoluong" value="$!employee.hesoluong"/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Ngày sinh </label>
+		</td>
+		<td>
+		 <input id="ngaysinh" name="ngaysinh" value="$!employee.ngaysinh"  class='required date'/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Hinh anh </label>
+		</td>
+		<td>
+		 <input id="hinhanh" name="hinhanh" value="$!employee.hinhanh"/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Mô tả </label>
+		</td>
+		<td>
+
+		 <textarea id='motaForm7' name="mota">$!employee.mota</textarea>
+		 </td>
+		 </tr>
+
+		</table>
+
+		</form>
+		<input type="button" value="Đồng Ý" onClick="editObj('form7','EditForm');" />
+		</fieldset>
+
+	</div>
+
+	<div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tabs-2">
+	#parse("form7Detail1Form.vm")
+
+	</div>
+
+</div>
+</body>

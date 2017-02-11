@@ -1,0 +1,61 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+
+<fieldset class='x-fieldset' > 
+<legend><span id='searchToggle' onmouseover="jQuery(this).css('cursor','pointer');" onclick="jQuery('#tblQLDTTXABienNhanHoSoReportSearchForm').toggle('slow');">Tìm kiếm</span></legend> 
+<div id = "tblQLDTTXABienNhanHoSoReportSearchForm" style="display:none;"> 
+<form id="tblQLDTTXABienNhanHoSoReportForm"> 
+
+<table> 
+ <tr>  
+<td>  
+<label>Ngày nhận</label>  
+</td>  
+<td>  
+<input name="tungayNhan" value=""  size='35' class='x-form-text  date'/>  
+&nbsp; đến &nbsp; 
+<input name="denngayNhan" value=""  size='35' class='x-form-text  date'/>  
+</td>  
+</tr><tr><td>  
+<label>Số biên lai</label>  
+</td>  
+<td>  
+<input name="soBienLai" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr><tr><td>  
+<label>Cán bộ nhận: </label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+<select name="canBoId"  >  
+<option value="0">Tất cả </option>  
+#foreach($p in $tblCanBos)  
+<option value="$!p.id">$!p.ten</option>  
+#end  
+</select>  
+</div> 
+</td>  
+</tr><tr><td>  
+<label>Hồ sơ: </label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+<select name="hoSoId"  >  
+<option value="0">Tất cả </option>  
+#foreach($p in $tblQLDTTXAHoSoXetTuyens)  
+<option value="$!p.id">$!p.hoTen</option>  
+#end  
+</select>  
+</div> 
+</td>  
+</tr></table>  
+</form>  
+</fieldset>  
+</div>  
+<fieldset class='x-fieldset' >  
+<legend>Danh sách </legend>  
+<div id="tblQLDTTXABienNhanHoSoReportList" >  
+#parse("vm/tblQLDTTXABienNhanHoSoReportListResponse.vm") 
+</div>  
+</fieldset>  
+ 

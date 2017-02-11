@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	 <constant name="struts.velocity.toolboxlocation" value="WEB-INF/tools.xml" />
+	 <constant name="struts.multipart.maxSize" value="30000000" />
+	 <constant name="struts.multipart.saveDir" value="file/temp" />
+	 
+	 
+     <package extends="jasperreports-default" name="jasper" namespace="/jasper"> 
+     
+        <action class="com.lb.jwitter.action.report.jasper.JasperAction" name="jasperHTML">  
+            <result name="success" type="jasper">  
+                <param name="location">/jasper/sample.jasper  </param>
+                <param name="dataSource">myList  </param>
+                <param name="format">HTML  </param>
+            </result>  
+            
+   			<result name='error' type='velocity'>vm/error.vm</result> 
+        </action>  
+  <action class="com.lb.jwitter.action.report.jasper.JasperAction" name="jasperPDF">  
+            <result name="success" type="jasper">  
+                <param name="location">/jasper/sample.jasper  </param>
+                <param name="dataSource">myList  </param>
+                <param name="format">PDF  </param>
+            </result>  
+            
+   			<result name='error' type='velocity'>vm/error.vm</result> 
+        </action>  
+  <action class="com.lb.jwitter.action.report.jasper.JasperAction" name="jasperExcel">  
+            <result name="success" type="jasper">  
+                <param name="location">/jasper/sample.jasper  </param>
+                <param name="dataSource">myList  </param>
+                <param name="format">CSV  </param>
+            </result>  
+            
+   			<result name='error' type='velocity'>vm/error.vm</result> 
+        </action>  
+  
+  
+     
+     </package>
+     
+  
+	<include file="struts/core.xml"></include>
+	
+
+  <package name="default" extends="struts-default">
+  
+ 
+  
+  </package>
+  
+  
+  
+</struts>

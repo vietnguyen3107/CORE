@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<link rel='stylesheet' type='text/css' href='style-table.css' />
+<link type="text/css" href="jquery/themes/base/jquery.ui.all.css" rel="stylesheet" />
+
+<script type="text/javascript" src="jquery/jquery-1.4.2.js"></script> 
+<script type="text/javascript" src="jquery/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="jquery/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="jquery/ui/jquery.ui.position.js"></script>
+<script type="text/javascript" src="jquery/ui/jquery.ui.button.js"></script>
+<script type="text/javascript" src="jquery/jquery-validate/jquery.validate.min.js"></script>
+
+
+
+<script>
+
+$(function() {
+		jQuery.noConflict();
+	});
+
+function editRowDialog(rowid){
+	var recentRow =  jQuery("#"+rowid);
+
+	jQuery("tr").css('background-color', '#FFFFFF');
+	jQuery(".delete").attr('checked',false);
+
+	recentRow.css('background-color', '#FFFF99');
+	recentRow.find('input').attr('checked',true);
+
+	recentRow.find("td").each(
+	    function () {
+		    if(jQuery(this).attr("class") != ""){
+			jQuery("#"+jQuery(this).attr("class")).val(jQuery(this).text());
+		    }	
+	    }
+	); 
+}
+
+function checkRowDialog(rowid,check){
+	var recentRow =  jQuery("#"+rowid);
+	if(check){
+		recentRow.css('background-color', '#FFFF99');
+	} else {
+		recentRow.css('background-color', '#FFFFFF');
+	}
+}
+
+function clearFormDialog(formId){
+	var form =  jQuery("#" + formId);
+	form.validate().resetForm();
+	form.find("input").each(
+		function () {
+			jQuery(this).val("");
+		}
+	);
+
+	jQuery("tr").css('background-color', '#FFFFFF');
+	jQuery(".delete").attr('checked',false);
+
+}
+
+function searchFormDialog(formId,pageSize,page){
+	var form =  jQuery("#" + formId);
+	var dataString = form.serialize()+"&pageSize=" + pageSize + "&page=" + page;
+
+	jQuery.ajax({
+			type: "POST",
+			url: "departmentSearch.action",
+			data: dataString,
+			success: function(response) {
+				jQuery("#departmentList").html(response);
+			}
+	});
+}
+
+function deleteObjsDialog(formId){
+	var idList = "";
+	jQuery(".delete:checked'").each(
+		function () {
+			idList += jQuery(this).val() +",";
+		}
+	);
+	idList= idList.slice(0,idList.length-1); 
+
+	if(idList== ""){
+		return false;
+	}
+
+	var dataString = "idList=" + idList;
+
+	ajaxExeDialog(dataString, 'delete');
+
+}
+
+function saveFormDialog(formId){
+	
+	var form =  jQuery("#" + formId);
+	
+	if(!form.validate().form()) {
+		return false;
+	}
+	
+	var dataString = form.serialize();
+
+	if(jQuery('#depid') == null || jQuery('#depid').val() == "" ||  jQuery('#depid').val() == "0"){
+		ajaxExeDialog(dataString,'insert');
+	} else {
+		ajaxExeDialog(dataString,'update');
+	}
+
+	
+}
+
+function ajaxExeDialog(dataString,flag){
+	if(flag == "insert"){
+	
+		jQuery.ajax({
+				type: "POST",
+				url: "departmentInsert.action",
+				data: dataString,
+				success: function(response) {
+					jQuery('#id').val('');
+					jQuery("#departmentList").html(response);
+				}
+		});
+	} else if(flag == "update"){
+		jQuery.ajax({
+				type: "POST",
+				url: "departmentUpdate.action",
+				data: dataString,
+				success: function(response) {
+					jQuery('#id').val('');
+					jQuery("#departmentList").html(response);
+				}
+		});
+	} else if(flag == "delete"){
+		jQuery.ajax({
+			type: "POST",
+			url: "departmentDelete.action",
+			data: dataString,
+			success: function(response) {
+				jQuery("#departmentList").html(response);
+			}
+		});
+	}
+}
+
+
+</script>
+
+
+
+<fieldset>
+<form id="departmentForm">
+
+<table>
+<tr>
+<td>
+<label> Node </label>
+</td>
+<td>
+ <input id="depid" name="id" value="" type="hidden"/> 
+ <input id="depnode" name="node" value="" class='required '/> 
+ </td>
+ </tr>
+</table>
+</form>
+
+<input type="button" id="accept" name="accept" value="&#272;&ocirc;&#768;ng Y&#769;" onClick="saveFormDialog('departmentForm');"/>
+<input type="button" id="skip" name="skip" value="Bo&#777; Qua" onClick="clearFormDialog('departmentForm');"/>
+<input type="button" id="search" name="search" value="Ti&#768;m Ki&ecirc;&#769;m" onClick="searchFormDialog('departmentForm',20,1);" />
+
+
+</fieldset>
+
+
+<div align="right"> <input type="button" id="delete" name="delete" value="Delete" onClick="deleteObjsDialog('employee');" /> </div>
+<fieldset>
+<legend>DS Khoa- Pho&#768;ng </legend>
+<div id="departmentList" >
+#parse("vm/departmentListResponse.vm")
+</div>
+
+ </fieldset>
+

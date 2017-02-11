@@ -1,0 +1,103 @@
+#parse("javascript/form4Detail1_js.vm")
+
+<script>
+//===========================
+//ham goi trong thu vien javascript : employee_js.vm, neu khong dung thi de trong, return "";
+//ham dung xoa field dac trung cua moi form
+//===========================
+function clearOthers(){
+
+	//them code vao day
+	motaDetail.set_text("");
+	jQuery('#form4Detail1id').val('');
+}
+
+function radioBtnEdit(value){
+	//them code vao day
+	if(value.text().trim() == "Nam"){
+		jQuery("#Nam").attr("checked","checked");
+	} else {
+		jQuery("#Nu").attr("checked","checked");
+	}
+}
+
+function areaEdit(value){
+	//them code vao day
+	motaDetail.set_text(value.html());
+}
+
+function serializeOthers(){
+	var data = "&mota=" + motaDetail.get_html();
+	return data;
+}
+
+</script>
+
+<fieldset>
+		<legend>Trình độ ngoại ngữ</legend>
+
+		<form id="form4Detail1Form">
+		<input id="empid" name="empid" value="$!employee.id" type="hidden" />
+		<input id="form4Detail1id" name="id" value="" type="hidden" /> 
+		<font style="color : red; bold : true; font-size : 14px;" ><div id="msg">&nbsp; </div></font>
+		<table>
+		<tr>
+		<td>
+		<label> Ngoại ngữ</label>
+		</td>
+		<td>
+		<select id="ngoainguid" name="ngoainguid" >
+			<option value="0"></option>
+			#foreach($p in $languages)
+				<option value="$!p.id">$!p.ten</option>
+			#end
+		</select>
+		</td>
+		</tr>
+
+		<tr>
+		<td>
+		<label>Kết quả</label>
+		</td>
+		<td>
+		<select id="ketquaid" name="ketquaid">
+			<option value="0"></option>
+			#foreach($p in $results)
+			<option value="$!p.id">$!p.ten</option>
+			#end
+		</select>
+		</td>
+		</tr>
+
+		<tr>
+		<td>
+		<label>Ngày cấp</label>
+		</td>
+		<td>
+		<input id="ngaycap" name="ngaycap" value=""  class='required date'/> 
+		</td>
+		</tr>
+
+		<tr>
+		<td>
+		<label>Mô tả</label>
+		</td>
+		<td>
+		 <textarea id='motaDetail1'></textarea>
+		</td>
+		</tr>
+		</table>
+	</form>
+	<input type="button" id="accept" name="accept" value="&#272;&ocirc;&#768;ng Y&#769;" onClick="saveForm('form4Detail1','Form');"/>
+	<input type="button" id="skip" name="skip" value="Bo&#777; Qua" onClick="clearForm('form4Detail1','Form');"/>
+	<input type="button" id="search" name="search" value="Ti&#768;m Ki&ecirc;&#769;m" onClick="searchForm('form4Detail1',20,1);" />
+</fieldset>
+
+<div align="right"> <input type="button" id="delete" name="delete" value="Delete" onClick="deleteObjs('form4Detail1');" /> </div>
+<fieldset>
+	<legend>DS ngoại ngữ của nhân viên  $!employee.id - $!employee.tenNV</legend>
+	<div id="form4Detail1List" >
+	#parse("form4Detail1ListResponse.vm")
+	</div>
+
+</fieldset>

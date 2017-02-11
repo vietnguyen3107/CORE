@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+#parse("common.vm")
+
+<script type="text/javascript" src="jquery/ui/minified/jquery.ui.autocomplete.min.js"></script>
+<script type="text/javascript" src="jquery/combobox/jquery.combobox.js"></script>
+
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.colors.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.styles.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.syntax.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.undoredomanager.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.min.js"></script>
+
+<script type="text/javascript" src="jquery/simplemodal/jquery.simplemodal-1.4.1.js"></script>
+
+#parse("javascript/form6_js.vm")
+
+<script>
+
+//bien toan cuc
+var area;
+
+function serializeOthers(){
+	var dataString = "";
+
+	//Them code vao day
+	dataString += "&mota=" + area.get_html();	
+	//end
+
+	return dataString;
+}
+//===========================
+//ham goi trong thu vien javascript : employee_js.vm, neu khong dung thi de trong, return "";
+//ham dung xoa field dac trung cua moi form
+//===========================
+function clearOthers(){
+
+	//them code vao day
+	area.set_text("");
+}
+
+jQuery(function() {
+	jQuery(".date").datepicker({	
+		changeMonth: true,
+		changeYear: true,
+		yearRange: '1900:c+10',
+		showButtonPanel: true 
+	});
+	jQuery( ".date" ).datepicker( "option", "dateFormat", 'dd/mm/yy' );
+
+	//autocomplete combobox
+	jQuery("#khoaid").combobox();
+	jQuery("#sothichid").combobox();
+
+	//textarea : wysiwyg
+	area = htmlBox("motaSearch");
+});
+
+</script>
+
+<body>
+<fieldset>
+<legend><span id='searchToggle' onmouseover="jQuery(this).css('cursor','pointer');" onclick="jQuery('#form6SearchForm').toggle('slow');">Tìm kiếm</span>
+</legend>
+<div id="form6SearchForm" style="display:none;">
+<form id="form6Form">
+
+<input type="hidden" id="employeeid" name="id" value="" />
+<font style="color : red; bold : true; font-size : 14px;" ><div id="msg"> </div></font>
+<table>
+<tr>
+<td>
+<label> Mã NV</label>
+</td>
+<td>
+ <input id="maNV" name="maNV" value="" class='required '/> 
+ </td>
+ </tr>
+ <tr>
+<td>
+<label>Tên NV </label>
+</td>
+<td>
+ <input id="tenNV" name="tenNV" value="" class='required '/> 
+ </td>
+ </tr>
+ <tr>
+<td>
+<label>Tuổi </label>
+</td>
+<td>
+ <input id="tuoi" name="tuoi" value="" class='required number'/> 
+ </td>
+ </tr>
+ <tr>
+<td>
+<label> Giới tính</label>
+</td>
+<td>
+<input type="radio" id='Nam' name="gioitinh" value="1"  checked /><label for="Nam"> Nam </label>
+<input type="radio" id='Nu' name="gioitinh" value="0"  /><label for="Nu"> Nữ </label>
+ </td>
+ </tr>
+
+
+<tr>
+<td>
+<label>Sở thích: </label>
+</td>
+<td>
+<select id="sothichid" name="sothichid">
+	<option value="0">Tất cả </option>
+	#foreach($p in $preferences)
+		<option value="$!p.id">$!p.ten</option>
+	#end
+	
+</select>
+ </td>
+ </tr>
+
+
+<tr>
+<td>
+<label>Khoa: </label>
+</td>
+<td>
+<select id="khoaid" name="khoaid" class="required">
+	<option value="0">Tất cả </option>
+	#foreach($d in $departments)
+		<option value="$!d.id">$!d.ten</option>
+	#end
+	
+</select>
+
+ </td>
+ </tr>
+
+ <tr>
+<td>
+<label> Hệ số lương </label>
+</td>
+<td>
+ <input id="hesoluong" name="hesoluong" value=""/> 
+ </td>
+ </tr>
+ <tr>
+<td>
+<label>Ngày sinh </label>
+</td>
+<td>
+ <input id="ngaysinh" name="ngaysinh" value=""  class='required date'/> 
+ </td>
+ </tr>
+ <tr>
+<td>
+<label>Hinh anh </label>
+</td>
+<td>
+ <input id="hinhanh" name="hinhanh" value=""/> 
+ </td>
+ </tr>
+ <tr>
+<td>
+<label>Mô tả </label>
+</td>
+<td>
+
+ <textarea id='motaSearch'></textarea>
+ </td>
+ </tr>
+
+</table>
+
+</form>
+<input type="button" id="skip" name="skip" value="Bo&#777; Qua" onClick="clearForm('form6');"/>
+<input type="button" id="search" name="search" value="Ti&#768;m Ki&ecirc;&#769;m" onClick="searchForm('form6',20,1);" />
+</div>
+
+</fieldset>
+
+<div align="right">
+<input type="button" value="Thêm" onclick="openPopup('form6AddForm.action');"/>
+<input type="button" value="Xoá" onClick="deleteObjs('form6');"/>
+
+</div>
+<fieldset>
+<legend>DS NV </legend>
+<div id="form6List" >
+#parse("form6ListResponse.vm")
+</div>
+
+ </fieldset>
+</body>

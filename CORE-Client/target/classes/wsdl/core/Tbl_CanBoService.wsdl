@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Tbl_CanBoServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="tblCanBo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="diaChi" type="xs:string"/>
+            <xs:element minOccurs="0" name="dienThoai" type="xs:string"/>
+            <xs:element minOccurs="0" name="donViId" type="tns:tblDonVi"/>
+            <xs:element minOccurs="0" name="ghiChu" type="xs:string"/>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="maQuanLy" type="xs:string"/>
+            <xs:element minOccurs="0" name="ngheNghiep" type="xs:string"/>
+            <xs:element minOccurs="0" name="noiLam" type="xs:string"/>
+            <xs:element minOccurs="0" name="noiSinh" type="xs:string"/>
+            <xs:element minOccurs="0" name="ten" type="xs:string"/>
+            <xs:element minOccurs="0" name="trinhDo" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tblDonVi">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="diaChi" type="xs:string"/>
+            <xs:element minOccurs="0" name="donViChaId" type="tns:tblDonVi"/>
+            <xs:element minOccurs="0" name="email" type="xs:string"/>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="ma" type="xs:string"/>
+            <xs:element minOccurs="0" name="sdt" type="xs:string"/>
+            <xs:element minOccurs="0" name="ten" type="xs:string"/>
+            <xs:element minOccurs="0" name="truongDonVi" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="conditionReport">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="col" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value1" type="xs:anyType"/>
+            <xs:element minOccurs="0" name="value2" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_CanBoByHQL" type="tns:findtbl_CanBoByHQL"/>
+    <xs:complexType name="findtbl_CanBoByHQL">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_CanBoByHQLResponse" type="tns:findtbl_CanBoByHQLResponse"/>
+    <xs:complexType name="findtbl_CanBoByHQLResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblCanBo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_CanBo" type="tns:findAlltbl_CanBo"/>
+    <xs:complexType name="findAlltbl_CanBo">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:int"/>
+            <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_CanBoResponse" type="tns:findAlltbl_CanBoResponse"/>
+    <xs:complexType name="findAlltbl_CanBoResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblCanBo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_CanBo" type="tns:deleteListtbl_CanBo"/>
+    <xs:complexType name="deleteListtbl_CanBo">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_CanBoResponse" type="tns:deleteListtbl_CanBoResponse"/>
+    <xs:complexType name="deleteListtbl_CanBoResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="findtbl_CanBoByCondition" type="tns:findtbl_CanBoByCondition"/>
+    <xs:complexType name="findtbl_CanBoByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:conditionReport"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_CanBoByConditionResponse" type="tns:findtbl_CanBoByConditionResponse"/>
+    <xs:complexType name="findtbl_CanBoByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblCanBo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_CanBo" type="tns:updatetbl_CanBo"/>
+    <xs:complexType name="updatetbl_CanBo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:tblCanBo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_CanBoResponse" type="tns:updatetbl_CanBoResponse"/>
+    <xs:complexType name="updatetbl_CanBoResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="deletetbl_CanBo" type="tns:deletetbl_CanBo"/>
+    <xs:complexType name="deletetbl_CanBo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_CanBoResponse" type="tns:deletetbl_CanBoResponse"/>
+    <xs:complexType name="deletetbl_CanBoResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="createtbl_CanBo" type="tns:createtbl_CanBo"/>
+    <xs:complexType name="createtbl_CanBo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:tblCanBo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createtbl_CanBoResponse" type="tns:createtbl_CanBoResponse"/>
+    <xs:complexType name="createtbl_CanBoResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_CanBoByCondition" type="tns:counttbl_CanBoByCondition"/>
+    <xs:complexType name="counttbl_CanBoByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:conditionReport"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_CanBoByConditionResponse" type="tns:counttbl_CanBoByConditionResponse"/>
+    <xs:complexType name="counttbl_CanBoByConditionResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="gettbl_CanBo" type="tns:gettbl_CanBo"/>
+    <xs:complexType name="gettbl_CanBo">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="gettbl_CanBoResponse" type="tns:gettbl_CanBoResponse"/>
+    <xs:complexType name="gettbl_CanBoResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:tblCanBo"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="gettbl_CanBo">
+    <wsdl:part name="parameters" element="tns:gettbl_CanBo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_CanBo">
+    <wsdl:part name="parameters" element="tns:updatetbl_CanBo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_CanBo">
+    <wsdl:part name="parameters" element="tns:createtbl_CanBo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_CanBoResponse">
+    <wsdl:part name="parameters" element="tns:updatetbl_CanBoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_CanBoResponse">
+    <wsdl:part name="parameters" element="tns:deletetbl_CanBoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_CanBo">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_CanBo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_CanBoResponse">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_CanBoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_CanBo">
+    <wsdl:part name="parameters" element="tns:deletetbl_CanBo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_CanBoByCondition">
+    <wsdl:part name="parameters" element="tns:counttbl_CanBoByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_CanBoByConditionResponse">
+    <wsdl:part name="parameters" element="tns:counttbl_CanBoByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_CanBoByHQLResponse">
+    <wsdl:part name="parameters" element="tns:findtbl_CanBoByHQLResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_CanBoResponse">
+    <wsdl:part name="parameters" element="tns:findAlltbl_CanBoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_CanBoByCondition">
+    <wsdl:part name="parameters" element="tns:findtbl_CanBoByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_CanBoByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findtbl_CanBoByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_CanBo">
+    <wsdl:part name="parameters" element="tns:findAlltbl_CanBo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_CanBoResponse">
+    <wsdl:part name="parameters" element="tns:createtbl_CanBoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_CanBoByHQL">
+    <wsdl:part name="parameters" element="tns:findtbl_CanBoByHQL">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_CanBoResponse">
+    <wsdl:part name="parameters" element="tns:gettbl_CanBoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Tbl_CanBoService">
+    <wsdl:operation name="findtbl_CanBoByHQL">
+      <wsdl:input name="findtbl_CanBoByHQL" message="tns:findtbl_CanBoByHQL">
+    </wsdl:input>
+      <wsdl:output name="findtbl_CanBoByHQLResponse" message="tns:findtbl_CanBoByHQLResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_CanBo">
+      <wsdl:input name="findAlltbl_CanBo" message="tns:findAlltbl_CanBo">
+    </wsdl:input>
+      <wsdl:output name="findAlltbl_CanBoResponse" message="tns:findAlltbl_CanBoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_CanBo">
+      <wsdl:input name="deleteListtbl_CanBo" message="tns:deleteListtbl_CanBo">
+    </wsdl:input>
+      <wsdl:output name="deleteListtbl_CanBoResponse" message="tns:deleteListtbl_CanBoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_CanBoByCondition">
+      <wsdl:input name="findtbl_CanBoByCondition" message="tns:findtbl_CanBoByCondition">
+    </wsdl:input>
+      <wsdl:output name="findtbl_CanBoByConditionResponse" message="tns:findtbl_CanBoByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_CanBo">
+      <wsdl:input name="updatetbl_CanBo" message="tns:updatetbl_CanBo">
+    </wsdl:input>
+      <wsdl:output name="updatetbl_CanBoResponse" message="tns:updatetbl_CanBoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_CanBo">
+      <wsdl:input name="deletetbl_CanBo" message="tns:deletetbl_CanBo">
+    </wsdl:input>
+      <wsdl:output name="deletetbl_CanBoResponse" message="tns:deletetbl_CanBoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_CanBo">
+      <wsdl:input name="createtbl_CanBo" message="tns:createtbl_CanBo">
+    </wsdl:input>
+      <wsdl:output name="createtbl_CanBoResponse" message="tns:createtbl_CanBoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_CanBoByCondition">
+      <wsdl:input name="counttbl_CanBoByCondition" message="tns:counttbl_CanBoByCondition">
+    </wsdl:input>
+      <wsdl:output name="counttbl_CanBoByConditionResponse" message="tns:counttbl_CanBoByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_CanBo">
+      <wsdl:input name="gettbl_CanBo" message="tns:gettbl_CanBo">
+    </wsdl:input>
+      <wsdl:output name="gettbl_CanBoResponse" message="tns:gettbl_CanBoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Tbl_CanBoServiceServiceSoapBinding" type="tns:Tbl_CanBoService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="findtbl_CanBoByHQL">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findtbl_CanBoByHQL">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findtbl_CanBoByHQLResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_CanBo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findAlltbl_CanBo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAlltbl_CanBoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_CanBo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteListtbl_CanBo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteListtbl_CanBoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_CanBoByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findtbl_CanBoByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findtbl_CanBoByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_CanBo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatetbl_CanBo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatetbl_CanBoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_CanBo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletetbl_CanBo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletetbl_CanBoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_CanBo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createtbl_CanBo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createtbl_CanBoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_CanBoByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="counttbl_CanBoByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="counttbl_CanBoByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_CanBo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="gettbl_CanBo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="gettbl_CanBoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tbl_CanBoServiceService">
+    <wsdl:port name="Tbl_CanBoServicePort" binding="tns:Tbl_CanBoServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

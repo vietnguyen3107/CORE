@@ -1,0 +1,7 @@
+﻿#if($msg.preMessage_b == true && $msg.postMessage_b == true )
+{"code":"SUCCESS", "msg": "$!msg.postMessage_s"}
+#elseif($msg.preMessage_b == false)
+{"code":"ERROR", "msg": "$!msg.preMessage_s"}
+#elseif($msg.postMessage_b == false)
+{"code":"ERROR", "msg": "$!msg.postMessage_s"}
+#end

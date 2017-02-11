@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<package name="tblQLDTLTOptionGroup" extends="struts-default">
+ <!-- ====================TBL_QLDTLT_OPTIONGROUP===================================================================== -->
+<action name='tblQLDTLTOptionGroupUpdate' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGroupUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGroupInsert' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGroupInsertAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblQLDTLTOptionGroupEditForm</param>
+       <param name="parse">true</param> <param name="id">${id}</param>    
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGroupDelete' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGroupDeleteAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblQLDTLTOptionGroupSearch</param><param name="parse">true</param>    </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGroupForm' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGroupFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/option/tblQLDTLTOptionGroupForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGroupSearch' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGroupSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/option/tblQLDTLTOptionGroupListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGroupEditForm' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGroupEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/option/tblQLDTLTOptionGroupEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGroupAddForm' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGroupAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/option/tblQLDTLTOptionGroupAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLTOptionGrouptblQLDTLTOptionDelete' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGrouptblQLDTLTOptionDeleteAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblQLDTLTOptionGrouptblQLDTLTOptionSearch</param><param name="parse">true</param> <param name="optionGroupId">${optionGroupId}</param>   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGrouptblQLDTLTOptionUpdate' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGrouptblQLDTLTOptionUpdateAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblQLDTLTOptionGrouptblQLDTLTOptionSearch</param><param name="parse">true</param> <param name="optionGroupId">${optionGroupId}</param>   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGrouptblQLDTLTOptionInsert' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGrouptblQLDTLTOptionInsertAction'> 
+   <result name='success' type='redirectAction'> 
+       <param name="actionName">tblQLDTLTOptionGrouptblQLDTLTOptionSearch</param><param name="parse">true</param> <param name="optionGroupId">${optionGroupId}</param>   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGrouptblQLDTLTOptionSearch' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGrouptblQLDTLTOptionSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/option/tblQLDTLTOptionGrouptblQLDTLTOptionListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGrouptblQLDTLTOptionEditForm' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGrouptblQLDTLTOptionEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/option/tblQLDTLTOptionGrouptblQLDTLTOptionEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTLTOptionGrouptblQLDTLTOptionForm' 
+   class='com.lb.jwitter.action.option.TblQLDTLTOptionGrouptblQLDTLTOptionFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/option/tblQLDTLTOptionGrouptblQLDTLTOptionForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+ </package>
+</struts>

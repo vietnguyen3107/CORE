@@ -1,0 +1,3418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+ 
+<package name="hocvien" extends="struts-default">
+
+  
+  <!-- ===================BANG DIEM===================== -->
+      <action name='khoaBangDiem' 
+   class='com.lb.jwitter.action.bangdiem.KhoaBangDiemAction' > 
+	  <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action>
+  
+  <action name='xuatBangDiemChuyenCan' 
+   class='com.lb.jwitter.action.bangdiem.XuatBangDiemChuyenCan' > 
+	  <result name='success' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result>  
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action>
+
+  <action name='xuatBangDiemLop' 
+   class='com.lb.jwitter.action.bangdiem.XuatBangDiemLopMonHoc' > 
+	  <result name='success' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result>  
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action>
+
+
+<action name='xuatBangDiemLichThi' 
+   class='com.lb.jwitter.action.bangdiem.XuatBangDiemLichThi' > 
+	  <result name='success' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result>  
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action>
+
+
+<action name='danhSachThiDownload' 
+   class='com.lb.jwitter.action.bangdiem.XuatBangDiemLopMonHoc'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action>
+
+<action name='bangDiemLopMonHocUpload' 
+   class='com.lb.jwitter.action.util.FileUploadAction' > 
+	<result name='success' type="redirectAction">
+   		<param name="actionName">nhapBangDiemLopMonHoc</param>
+        <param name="parse">true</param>
+        <param name="destFile">${destFile}</param>
+        <param name="lopMonHocId">${lopMonHocId}</param>
+   </result>   
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='nhapBangDiemLopMonHoc' 
+	class='com.lb.jwitter.action.bangdiem.NhapBangDiemLopMonHoc'> 
+	<interceptor-ref name="completeStack" />
+      <interceptor-ref name="execAndWait">
+        <param name="delay">2000</param>
+        <param name="delaySleepInterval">500</param>
+      </interceptor-ref> 
+   <result name="wait">vm/control/running.jsp</result>
+   <result name='success' type='velocity'> 
+       vm/lopmonhoc/tblQLDTTKBLopMonHoctblQLDTTKBLopMonHocHocVienDiemSoForm.vm
+   </result> 
+   <result name='error' type='velocity'>vm/error-submit.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  <action name='xoaBangDiemLopMonHoc' 
+	class='com.lb.jwitter.action.bangdiem.XoaBangDiemLopMonHocAction'> 
+   <result name='success' type='velocity'> 
+       vm/lopmonhoc/tblQLDTTKBLopMonHoctblQLDTTKBLopMonHocHocVienDiemSoForm.vm
+   </result> 
+   <result name='error' type='velocity'>vm/error-submit.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  
+   <!-- =================== CAP BANG TOT NGHIEP===================================================================== -->
+<action name='capBangTotNghiepForm' 
+   class='com.lb.jwitter.action.totnghiep.CapBangTotNghiepFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/capBangTotNghiepForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+<action name='capBangTotNghiepSearch' 
+   class='com.lb.jwitter.action.totnghiep.CapBangTotNghiepSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/capBangTotNghiepListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  <action name='capBangTotNghiepSave' 
+   class='com.lb.jwitter.action.totnghiep.CapBangTotNghiepSaveAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/json.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  <action name='capBangTotNghiepExport' 
+   class='com.lb.jwitter.action.totnghiep.CapBangTotNghiepExportAction'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result>
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+   <!-- ====================XET TOT NGHIEP ===================================================================== -->
+<action name='quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachDelete' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachInsert' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachSearch' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachUpdate' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachEditForm' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghieptblQLDTTNDotTotNghiepDanhSachEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+<action name='quyetDinhTotNghiepInsert' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghiepInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghiepEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='quyetDinhTotNghiepUpdate' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghiepUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='quyetDinhTotNghiepEditForm' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghiepEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghiepEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='quyetDinhTotNghiepAddForm' 
+   class='com.lb.jwitter.action.totnghiep.QuyetDinhTotNghiepAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/quyetDinhTotNghiepAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  <action name='xetTotNghiepForm' 
+   class='com.lb.jwitter.action.totnghiep.XetTotNghiepFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/xetTotNghiepForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+    
+  
+  <action name='xetTotNghiepSearch' 
+   class='com.lb.jwitter.action.totnghiep.XetTotNghiepSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/xetTotNghiepListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  <action name='xetTotNghiepSave' 
+   class='com.lb.jwitter.action.totnghiep.XetTotNghiepSaveAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+   <!-- ====================TBL_QLDT_TN_SOCAPBANGTOTNGHIEP===================================================================== -->
+<action name='tblQLDTTNSoCapBangTotNghiepForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNSoCapBangTotNghiepFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNSoCapBangTotNghiepForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNSoCapBangTotNghiepDelete' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNSoCapBangTotNghiepDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNSoCapBangTotNghiepListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNSoCapBangTotNghiepInsert' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNSoCapBangTotNghiepInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNSoCapBangTotNghiepSearch' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNSoCapBangTotNghiepSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNSoCapBangTotNghiepListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNSoCapBangTotNghiepUpdate' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNSoCapBangTotNghiepUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNSoCapBangTotNghiepEditForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNSoCapBangTotNghiepEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNSoCapBangTotNghiepEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNSoCapBangTotNghiepAddForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNSoCapBangTotNghiepAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNSoCapBangTotNghiepAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+  
+ <!-- ====================TBL_QLDT_TN_DOTTOTNGHIEP===================================================================== -->
+<action name='xuatBangTotNghiepTamThoi' 
+   class='com.lb.jwitter.action.totnghiep.XuatBangTotNghiepTamThoiAction'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='xuatBangTotNghiep' 
+   class='com.lb.jwitter.action.totnghiep.XuatBangTotNghiepAction'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">fileDownload</param>
+        <param name="parse">true</param>
+        <param name="fileName">${filename}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTNDotTotNghiepForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghiepFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghiepForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghiepDelete' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghiepDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghiepListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghiepInsert' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghiepInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghiepEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghiepSearch' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghiepSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghiepListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghiepUpdate' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghiepUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghiepEditForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghiepEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghiepEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghiepAddForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghiepAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghiepAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachDelete' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachInsert' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachSearch' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilegeJson.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachUpdate' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilegeJson.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachEditForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNDotTotNghieptblQLDTTNDotTotNghiepDanhSachEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilegeJson.vm </result> 
+</action> 
+
+
+
+
+ <!-- ====================TBL_QLDT_TN_QUYDINHCHUANDAURA===================================================================== -->
+<action name='tblQLDTTNQuyDinhChuanDauRaForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNQuyDinhChuanDauRaAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNQuyDinhChuanDauRaForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNQuyDinhChuanDauRaDelete' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNQuyDinhChuanDauRaAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNQuyDinhChuanDauRaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNQuyDinhChuanDauRaInsert' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNQuyDinhChuanDauRaAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNQuyDinhChuanDauRaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNQuyDinhChuanDauRaSearch' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNQuyDinhChuanDauRaAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNQuyDinhChuanDauRaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNQuyDinhChuanDauRaUpdate' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNQuyDinhChuanDauRaAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNQuyDinhChuanDauRaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTNQuyDinhChuanDauRaEditForm' 
+   class='com.lb.jwitter.action.totnghiep.TblQLDTTNQuyDinhChuanDauRaAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/totnghiep/tblQLDTTNQuyDinhChuanDauRaEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+ <!-- ====================TBL_QLDT_DM_LOAICHUNGCHI===================================================================== -->
+<action name='tblQLDTDMLoaiChungChiForm' 
+   class='com.lb.jwitter.action.TblQLDTDMLoaiChungChiAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMLoaiChungChiForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMLoaiChungChiDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMLoaiChungChiAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMLoaiChungChiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMLoaiChungChiInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMLoaiChungChiAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMLoaiChungChiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMLoaiChungChiSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMLoaiChungChiAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMLoaiChungChiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMLoaiChungChiUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMLoaiChungChiAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMLoaiChungChiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMLoaiChungChiEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMLoaiChungChiAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMLoaiChungChiEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+  
+  
+  <!-- ==================================DANG KY LICH DAY============================================== -->
+   <action name='dangKyLichDayForm' 
+   class='com.lb.jwitter.action.control.DangKyLichDayFormAction'  > 
+   <result name='success' type='velocity'> 
+       vm/control/dangKyLichDayForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='dangKyLichDaySearch' 
+   class='com.lb.jwitter.action.control.DangKyLichDaySearchAction' > 
+   <result name='success' type='velocity'> 
+       vm/control/dangKyLichDayListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='dangKyLichDayUpdate' 
+   class='com.lb.jwitter.action.control.DangKyLichDayUpdateAction'  method='update'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">dangKyLichDaySearch</param>
+        <param name="parse">true</param>
+        <param name="hocKyId">${hocKyId}</param>
+        <param name="coSoId">${coSoId}</param>
+        <param name="ngayHoc">${ngayHoc}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='huyDangKyHoacBaoNghi' 
+   class='com.lb.jwitter.action.control.DangKyLichDayUpdateAction'  method='huy'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">dangKyLichDaySearch</param>
+        <param name="parse">true</param>
+        <param name="hocKyId">${hocKyId}</param>
+        <param name="coSoId">${coSoId}</param>
+        <param name="ngayHoc">${ngayHoc}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+   <!-- ====================TBL_QLDT_TKB_TheoDoiGioGiang===================================================================== -->
+  
+   <action name='tblQLDTTKBTheoDoiGioGiangForm' 
+   class='com.lb.jwitter.action.control.TblQLDTTKBTheoDoiGioGiangAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/control/tblQLDTTKBTheoDoiGioGiangForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBTheoDoiGioGiangSearch' 
+   class='com.lb.jwitter.action.control.TblQLDTTKBTheoDoiGioGiangAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/control/tblQLDTTKBTheoDoiGioGiangListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBTheoDoiGioGiangUpdate' 
+   class='com.lb.jwitter.action.control.TblQLDTTKBTheoDoiGioGiangAction' method="save"> 
+   <result name='success' type='velocity'> 
+       vm/control/tblQLDTTKBTheoDoiGioGiangListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+ 
+   <!-- ====================TBL_QLDT_DKMH_MONHOCMODANGKY===================================================================== -->
+<action name='tblQLDTDKMHMonHocMoDangKyForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHMonHocMoDangKyFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHMonHocMoDangKyForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHMonHocMoDangKyDelete' 
+   class='com.lb.jwitter.action.TblQLDTDKMHMonHocMoDangKyDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHMonHocMoDangKyListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHMonHocMoDangKyInsert' 
+   class='com.lb.jwitter.action.TblQLDTDKMHMonHocMoDangKyInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHMonHocMoDangKySearch' 
+   class='com.lb.jwitter.action.TblQLDTDKMHMonHocMoDangKySearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHMonHocMoDangKyListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHMonHocMoDangKyUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDKMHMonHocMoDangKyUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHMonHocMoDangKyEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHMonHocMoDangKyEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHMonHocMoDangKyEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHMonHocMoDangKyAddForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHMonHocMoDangKyAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHMonHocMoDangKyAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+   <!-- ====================TBL_QLDT_DKMH_HOCVIEN_DANGKY_MONHOC===================================================================== -->
+<action name='tblQLDTDKMHHocVienDangKyMonHocForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienDangKyMonHocFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienDangKyMonHocForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienDangKyMonHocDelete' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienDangKyMonHocDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienDangKyMonHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienDangKyMonHocInsert' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienDangKyMonHocInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienDangKyMonHocSearch' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienDangKyMonHocSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienDangKyMonHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienDangKyMonHocUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienDangKyMonHocUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienDangKyMonHocEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienDangKyMonHocEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienDangKyMonHocEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienDangKyMonHocAddForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienDangKyMonHocAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienDangKyMonHocAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='some' 
+   class='com.lb.jwitter.action.control.SomeAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+  <!-- ===================== LICH THI ========================================================= -->
+<action name='tblQLDTLichThiForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+<action name='tblQLDTLichThiSearch' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiFormAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action>  
+
+<action name='tblQLDTLichThiUpdate' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiUpdateAction' method='execute'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">tblQLDTLichThiSearch</param>
+        <param name="parse">true</param>
+        <param name="hocKyId">${hocKyId}</param>
+        <param name="coSoId">${coSoId}</param>
+        <param name="tuanThi">${tuanThi}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action>  
+
+<action name='tblQLDTLichThiHocVienForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiHocVienFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiHocVienForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichThiHocVienInsert' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiHocVienInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiHocVienListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichThiHocVienDelete' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiHocVienDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiHocVienListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  <!-- ===================== TKB ========================================================= -->
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucSearch' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucDelete' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucDeleteAction'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhSearch</param>
+        <param name="parse">true</param>
+        <param name="hocKyId">${hocKyId}</param>
+        <param name="nganhId">${nganhId}</param>
+        <param name="chuyenNganhId">${chuyenNganhId}</param>
+        <param name="khoaHoc">${khoaHoc}</param>
+        <param name="coSoId">${coSoId}</param>
+   </result>
+   <result name='error' type='velocity'>vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucUpdateError.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucSave' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucSaveAction'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">tblQLDTTKBThoiKhoaBieuChinhThucSearch</param>
+        <param name="parse">true</param>
+        <param name="hocKyId">${hocKyId}</param>
+        <param name="lopMonHocId">${lopMonHocId}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucUpdate' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucUpdateAction'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhSearch</param>
+        <param name="parse">true</param>
+        <param name="hocKyId">${hocKyId}</param>
+        <param name="nganhId">${nganhId}</param>
+        <param name="chuyenNganhId">${chuyenNganhId}</param>
+        <param name="khoaHoc">${khoaHoc}</param>
+        <param name="coSoId">${coSoId}</param>
+        <param name="maLopSinhVien">${maLopSinhVien}</param>
+        <param name="moLopYN">${moLopYN}</param>
+        <param name="phongSearchId">${phongSearchId}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucUpdateError.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucInsert' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucInsertAction'> 
+   <result name='success' type="redirectAction">
+   		<param name="actionName">tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhSearch</param>
+        <param name="parse">true</param>
+        <param name="hocKyId">${hocKyId}</param>
+        <param name="nganhId">${nganhId}</param>
+        <param name="chuyenNganhId">${chuyenNganhId}</param>
+        <param name="khoaHoc">${khoaHoc}</param>
+        <param name="coSoId">${coSoId}</param>
+   </result> 
+   <result name='error' type='velocity'>vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucUpdateError.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucPhongTrongSearch' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucUpdateAction' method="searchPhongTrong"> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucPhongTrongJsonResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  <!-- =====================Search Combobox ========================================================= -->
+<action name='tblQLDTTKBLopMonHocSearchCombobox' 
+   class='com.lb.jwitter.action.lopmonhoc.TblQLDTTKBLopMonHocSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/lopmonhoc/tblQLDTTKBLopMonHocComboboxResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  <action name='tblQLDTCTDTNganhSearchCombobox' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTNganhAction' method="search"> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTNganhComboboxResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  
+<action name='tblQLDTCTDTChuyenNganhSearchCombobox' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTChuyenNganhSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTChuyenNganhComboboxResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+    
+<action name='tblQLDTCTDTKhoiNganhSearchCombobox' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTKhoiNganhSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTKhoiNganhComboboxResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTDMPhongSearchCombobox' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method="search"> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTPhongComboboxResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+      
+
+  
+  <!-- ====================REPORT===================================================================== -->
+  <!-- ====================REPORT===================================================================== -->
+  <!-- ====================REPORT===================================================================== -->
+  <action name='tblQLDTTKBLopMonHocTheoKhoaQuanLyReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBLopMonHocTheoKhoaQuanLyReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBLopMonHocTheoKhoaQuanLyReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+    
+<action name='tblQLDTTKBLopMonHocTheoKhoaQuanLyReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBLopMonHocTheoKhoaQuanLyReportAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBLopMonHocTheoKhoaQuanLyReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+    
+<action name='tblQLDTTKBLopMonHocKhoiNganhReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBLopMonHocKhoiNganhReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBLopMonHocKhoiNganhReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+    
+<action name='tblQLDTTKBLopMonHocKhoiNganhReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBLopMonHocKhoiNganhReportAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBLopMonHocKhoiNganhReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+    <action name='tblQLDTTKBTheoDoiGioGiangReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBTheoDoiGioGiangReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBTheoDoiGioGiangReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+<action name='tblQLDTTKBTheoDoiGioGiangReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBTheoDoiGioGiangReportAction'  > 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBTheoDoiGioGiangReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+ 
+ 
+ 
+ <action name='bangTheoDoiGiangDayReportForm' 
+   class='com.lb.jwitter.action.report.bangTheoDoiGiangDayReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/bangTheoDoiGiangDayReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='bangTheoDoiGiangDayReportSearch' 
+   class='com.lb.jwitter.action.report.bangTheoDoiGiangDayReportAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/report/bangTheoDoiGiangDayReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+ 
+ 
+  <action name='tblQLDTDKMHChiTietHocVienReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHChiTietHocVienReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTDKMHChiTietHocVienReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTDKMHChiTietHocVienReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHChiTietHocVienReportAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTDKMHChiTietHocVienReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+  
+  <action name='tblQLDTLichPhongReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTLichPhongReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTLichPhongReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichPhongReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTLichPhongReportAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTLichPhongReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhReportAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+  
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucSinhVienReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBThoiKhoaBieuChinhThucSinhVienReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBThoiKhoaBieuChinhThucSinhVienReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucSinhVienReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBThoiKhoaBieuChinhThucSinhVienReportAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBThoiKhoaBieuChinhThucSinhVienReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+    
+  
+  
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBThoiKhoaBieuChinhThucReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBThoiKhoaBieuChinhThucReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+   
+  
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTTKBThoiKhoaBieuChinhThucReportAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTTKBThoiKhoaBieuChinhThucReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhFormAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhSearch' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhFormAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuChinhThucTheoKhoiNganhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+	
+        <action name='tblQLDTDKMHKetQuaDKTheoKhoaHocReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHKetQuaDKTheoKhoaHocReportAction' method="form"> 
+	   <result name='success' type='velocity'> 
+	       vm/report/tblQLDTDKMHKetQuaDKTheoKhoaHocReportForm.vm 
+	   </result> 
+	   <result name='error' type='velocity'>vm/error.vm</result> 
+	   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+	</action> 
+      <action name='tblQLDTDKMHKetQuaDKTheoKhoaHocReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHKetQuaDKTheoKhoaHocReportAction' method="execute"> 
+	   <result name='success' type='velocity'> 
+	       vm/report/tblQLDTDKMHKetQuaDKTheoKhoaHocReportListResponse.vm 
+	   </result> 
+	   <result name='error' type='velocity'>vm/error.vm</result> 
+	   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+	</action> 
+	
+	<!-- =====REPORT THEO HOC PHAN ======-->
+  <action name='tblQLDTDKHPKetQuaDKHPReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTDKHPKetQuaDKHPReportAction' method="form"> 
+     <result name='success' type='velocity'> 
+         vm/report/tblQLDTDKHPKetQuaDKHPReportForm.vm 
+     </result> 
+     <result name='error' type='velocity'>vm/error.vm</result> 
+     <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+  </action> 
+      <action name='tblQLDTDKHPKetQuaDKHPReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTDKHPKetQuaDKHPReportAction' method="execute"> 
+     <result name='success' type='velocity'> 
+         vm/report/tblQLDTDKHPKetQuaDKHPReportListResponse.vm 
+     </result> 
+     <result name='error' type='velocity'>vm/error.vm</result> 
+     <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+  </action> 
+  <!-- ====================REPORT PHIEU THU===================================================================== -->
+        <action name='tblQLDTHPPhieuThuTheoMSHVReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTHPPhieuThuReportAction' method="form"> 
+	   <result name='success' type='velocity'> 
+	       vm/report/tblQLDTHPPhieuThuTheoMSHVReportForm.vm 
+	   </result> 
+	   <result name='error' type='velocity'>vm/error.vm</result> 
+	   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+	</action> 
+    <action name='tblQLDTHPPhieuThuTheoMSHVReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTHPPhieuThuReportAction' method="execute"> 
+	   <result name='success' type='velocity'> 
+	       vm/report/tblQLDTHPPhieuThuTheoMSHVReportListResponse.vm 
+	   </result> 
+	   <result name='error' type='velocity'>vm/error.vm</result> 
+	   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+	</action> 
+	
+  <!-- ======================tblQLDTQLHVTaiKhoanReportForm=================================================================== -->
+  
+    <action name='tblQLDTQLHVTaiKhoanReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTQLHVTaiKhoanReportAction' method="form"> 
+	   <result name='success' type='velocity'> 
+	       vm/report/tblQLDTQLHVTaiKhoanReportForm.vm 
+	   </result> 
+	   <result name='error' type='velocity'>vm/error.vm</result> 
+	   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+	</action> 
+      <action name='tblQLDTQLHVTaiKhoanReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTQLHVTaiKhoanReportAction' method="execute"> 
+	   <result name='success' type='velocity'> 
+	       vm/report/tblQLDTQLHVTaiKhoanReportListresponse.vm 
+	   </result> 
+	   <result name='error' type='velocity'>vm/error.vm</result> 
+	   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+	</action> 
+  
+  
+  <action name='tblQLDTDKMHKetQuaDKReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHKetQuaDKReportFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTDKMHKetQuaDKReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+  
+  
+    <action name='tblQLDTDKMHKetQuaDKReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHKetQuaDKReportSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTDKMHKetQuaDKReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTDKMHKetQuaDKHocVienReportForm' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHKetQuaDKHocVienReportAction' method="form"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTDKMHKetQuaDKHocVienReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTDKMHKetQuaDKHocVienReportSearch' 
+   class='com.lb.jwitter.action.report.TblQLDTDKMHKetQuaDKHocVienReportAction' method="execute"> 
+   <result name='success' type='velocity'> 
+       vm/report/tblQLDTDKMHKetQuaDKHocVienReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+  
+  
+   <!-- ====================TBL_QLDT_DKMH_HOCVIEN_COSO===================================================================== -->
+<action name='tblQLDTDKMHHocVienCoSoForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienCoSoFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienCoSoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienCoSoDelete' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienCoSoDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienCoSoInsert' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienCoSoInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienCoSoSearch' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienCoSoSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienCoSoUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienCoSoUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienCoSoEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienCoSoEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienCoSoEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHHocVienCoSoAddForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHHocVienCoSoAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHHocVienCoSoAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+  
+ <!-- ====================TBL_QLDT_DKMH_QUYDINHDKCOSO===================================================================== -->
+<action name='tblQLDTDKMHQuyDinhDKCoSoForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHQuyDinhDKCoSoAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHQuyDinhDKCoSoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHQuyDinhDKCoSoDelete' 
+   class='com.lb.jwitter.action.TblQLDTDKMHQuyDinhDKCoSoAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHQuyDinhDKCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHQuyDinhDKCoSoInsert' 
+   class='com.lb.jwitter.action.TblQLDTDKMHQuyDinhDKCoSoAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHQuyDinhDKCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHQuyDinhDKCoSoSearch' 
+   class='com.lb.jwitter.action.TblQLDTDKMHQuyDinhDKCoSoAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHQuyDinhDKCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHQuyDinhDKCoSoUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDKMHQuyDinhDKCoSoAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHQuyDinhDKCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHQuyDinhDKCoSoEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHQuyDinhDKCoSoAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHQuyDinhDKCoSoEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+  
+  
+  
+  <!-- ====================XET TUYEN===================================================================== -->
+  <!-- ====================XET TUYEN===================================================================== -->
+  <!-- ====================XET TUYEN===================================================================== -->
+
+   <!-- ====================TBL_QLDT_TS_HOSOXETTUYEN===================================================================== -->
+<action name='xetTuyenForm' 
+   class='com.lb.jwitter.action.XetTuyenFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/xetTuyenForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='xetTuyenDelete' 
+   class='com.lb.jwitter.action.XetTuyenDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/xetTuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='xetTuyenInsert' 
+   class='com.lb.jwitter.action.XetTuyenInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/xetTuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='xetTuyenSearch' 
+   class='com.lb.jwitter.action.XetTuyenSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/xetTuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='xetTuyenUpdate' 
+   class='com.lb.jwitter.action.XetTuyenUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='xetTuyenEditForm' 
+   class='com.lb.jwitter.action.XetTuyenEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/xetTuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='xetTuyenAddForm' 
+   class='com.lb.jwitter.action.XetTuyenAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/xetTuyenAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  
+  
+   <!-- ====================TBL_QLDT_QLDIEM_DONXINCHUYENDIEM===================================================================== -->
+<action name='tblQLDTQLDiemDonXinChuyenDiemForm' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemDelete' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemInsert' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemSearch' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemUpdate' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemEditForm' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemAddForm' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+  <action name='tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietDelete' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietInsert' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietSearch' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietUpdate' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietEditForm' 
+   class='com.lb.jwitter.action.TblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTQLDiemDonXinChuyenDiemtblQLDTQLDiemDonXinChuyenDiemChiTietEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+   <!-- ====================TBL_QLDT_DKMH_DOTDK===================================================================== -->
+<action name='tblQLDTDKMHDotDKForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHDotDKAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHDotDKForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHDotDKDelete' 
+   class='com.lb.jwitter.action.TblQLDTDKMHDotDKAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHDotDKListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHDotDKInsert' 
+   class='com.lb.jwitter.action.TblQLDTDKMHDotDKAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHDotDKListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHDotDKSearch' 
+   class='com.lb.jwitter.action.TblQLDTDKMHDotDKAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHDotDKListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHDotDKUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDKMHDotDKAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHDotDKListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDKMHDotDKEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDKMHDotDKAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDKMHDotDKEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+
+   <!-- ====================TBL_QLDT_TS_THONGBAOTUYENSINH===================================================================== -->
+<action name='tblQLDTTSThongBaoTuyenSinhForm' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhDelete' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhInsert' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhSearch' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhUpdate' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhEditForm' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhAddForm' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+  <action name='tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatDelete' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatInsert' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatSearch' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatUpdate' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatEditForm' 
+   class='com.lb.jwitter.action.TblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSThongBaoTuyenSinhtblQLDTTSDMDiemDatEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+  
+   <!-- ====================TBL_QLDT_TS_HOSOXETTUYEN===================================================================== -->
+<action name='tblQLDTTSHoSoXetTuyenForm' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSHoSoXetTuyenForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyenDelete' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSHoSoXetTuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyenInsert' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSHoSoXetTuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyenSearch' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSHoSoXetTuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyenUpdate' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyenEditForm' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSHoSoXetTuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyenAddForm' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenAddFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSHoSoXetTuyenAddForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTSHoSoXetTuyenTimNganh' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyenAddFormAction' method='timNganh'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSHoSoXetTuyenNganhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+  <action name='tblQLDTTSHoSoXetTuyentblQLDTTSHoSoThongTinInsert' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyentblQLDTTSHoSoThongTinInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyentblQLDTTSHoSoThongTinUpdate' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyentblQLDTTSHoSoThongTinUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+<action name='tblQLDTTSHoSoXetTuyentblQLDTTSHoSoDiemTongInsert' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyentblQLDTTSHoSoDiemTongInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSHoSoXetTuyentblQLDTTSHoSoDiemTongUpdate' 
+   class='com.lb.jwitter.action.TblQLDTTSHoSoXetTuyentblQLDTTSHoSoDiemTongUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+
+ 
+
+
+ <!-- ====================DANH MUC===================================================================== -->
+ <!-- ====================DANH MUC===================================================================== -->
+ <!-- ====================DANH MUC===================================================================== -->
+ 
+ 
+
+ <!-- ====================TBL_QLDT_CTDT_HINHTHUCDAOTAO===================================================================== -->
+<action name='tblQLDTCTDTHinhThucDaoTaoForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHinhThucDaoTaoAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/template1/tblQLDTCTDTHinhThucDaoTaoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHinhThucDaoTaoDelete' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHinhThucDaoTaoAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/template1/tblQLDTCTDTHinhThucDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHinhThucDaoTaoInsert' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHinhThucDaoTaoAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/template1/tblQLDTCTDTHinhThucDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHinhThucDaoTaoSearch' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHinhThucDaoTaoAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/template1/tblQLDTCTDTHinhThucDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHinhThucDaoTaoUpdate' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHinhThucDaoTaoAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/template1/tblQLDTCTDTHinhThucDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHinhThucDaoTaoEditForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHinhThucDaoTaoAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/template1/tblQLDTCTDTHinhThucDaoTaoEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+ 
+ 
+ <!-- ====================TBL_QLDT_DM_COSO===================================================================== -->
+<action name='tblQLDTDMCoSoForm' 
+   class='com.lb.jwitter.action.TblQLDTDMCoSoAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMCoSoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMCoSoDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMCoSoAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMCoSoInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMCoSoAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMCoSoSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMCoSoAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMCoSoUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMCoSoAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMCoSoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMCoSoEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMCoSoAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMCoSoEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+ 
+ 
+ <action name='tblQLDTDMChiNhanhForm' 
+   class='com.lb.jwitter.action.TblQLDTDMChiNhanhAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMChiNhanhForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMChiNhanhDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMChiNhanhAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMChiNhanhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMChiNhanhInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMChiNhanhAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMChiNhanhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMChiNhanhSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMChiNhanhAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMChiNhanhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMChiNhanhUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMChiNhanhAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMChiNhanhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMChiNhanhEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMChiNhanhAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMChiNhanhEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHocKyTrongNamForm' 
+   class='com.lb.jwitter.action.TblQLDTHocKyTrongNamAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTHocKyTrongNamForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHocKyTrongNamDelete' 
+   class='com.lb.jwitter.action.TblQLDTHocKyTrongNamAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTHocKyTrongNamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHocKyTrongNamInsert' 
+   class='com.lb.jwitter.action.TblQLDTHocKyTrongNamAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTHocKyTrongNamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHocKyTrongNamSearch' 
+   class='com.lb.jwitter.action.TblQLDTHocKyTrongNamAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTHocKyTrongNamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHocKyTrongNamUpdate' 
+   class='com.lb.jwitter.action.TblQLDTHocKyTrongNamAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTHocKyTrongNamListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTHocKyTrongNamEditForm' 
+   class='com.lb.jwitter.action.TblQLDTHocKyTrongNamAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTHocKyTrongNamEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMDanTocForm' 
+   class='com.lb.jwitter.action.TblQLDTDMDanTocAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMDanTocForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMDanTocDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMDanTocAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMDanTocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMDanTocInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMDanTocAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMDanTocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMDanTocSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMDanTocAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMDanTocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMDanTocUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMDanTocAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMDanTocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMDanTocEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMDanTocAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMDanTocEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMGiayToForm' 
+   class='com.lb.jwitter.action.TblQLDTTSDMGiayToAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMGiayToForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMGiayToDelete' 
+   class='com.lb.jwitter.action.TblQLDTTSDMGiayToAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMGiayToListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMGiayToInsert' 
+   class='com.lb.jwitter.action.TblQLDTTSDMGiayToAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMGiayToListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMGiayToSearch' 
+   class='com.lb.jwitter.action.TblQLDTTSDMGiayToAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMGiayToListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMGiayToUpdate' 
+   class='com.lb.jwitter.action.TblQLDTTSDMGiayToAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMGiayToListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMGiayToEditForm' 
+   class='com.lb.jwitter.action.TblQLDTTSDMGiayToAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMGiayToEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTNganhForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTNganhAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTNganhForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTNganhDelete' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTNganhAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTNganhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTNganhInsert' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTNganhAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTNganhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTNganhSearch' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTNganhAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTNganhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTNganhUpdate' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTNganhAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTNganhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTNganhEditForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTNganhAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTNganhEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTKhoaForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTKhoaAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTKhoaForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTKhoaDelete' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTKhoaAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTKhoaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTKhoaInsert' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTKhoaAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTKhoaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTKhoaSearch' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTKhoaAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTKhoaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTKhoaUpdate' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTKhoaAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTKhoaListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTKhoaEditForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTKhoaAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTKhoaEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTietHocForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTietHocAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTietHocForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTietHocDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMTietHocAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTietHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTietHocInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMTietHocAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTietHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTietHocSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMTietHocAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTietHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTietHocUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMTietHocAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTietHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTietHocEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTietHocAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTietHocEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTonGiaoForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTonGiaoAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTonGiaoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTonGiaoDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMTonGiaoAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTonGiaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTonGiaoInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMTonGiaoAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTonGiaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTonGiaoSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMTonGiaoAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTonGiaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTonGiaoUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMTonGiaoAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTonGiaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTonGiaoEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTonGiaoAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTonGiaoEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMDiemDatForm' 
+   class='com.lb.jwitter.action.TblQLDTTSDMDiemDatAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMDiemDatForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMDiemDatDelete' 
+   class='com.lb.jwitter.action.TblQLDTTSDMDiemDatAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMDiemDatInsert' 
+   class='com.lb.jwitter.action.TblQLDTTSDMDiemDatAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMDiemDatSearch' 
+   class='com.lb.jwitter.action.TblQLDTTSDMDiemDatAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMDiemDatUpdate' 
+   class='com.lb.jwitter.action.TblQLDTTSDMDiemDatAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMDiemDatListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTSDMDiemDatEditForm' 
+   class='com.lb.jwitter.action.TblQLDTTSDMDiemDatAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTTSDMDiemDatEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMPhongForm' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMPhongForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMPhongDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMPhongListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMPhongInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMPhongListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMPhongSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMPhongListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMPhongUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMPhongListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMPhongEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMPhongEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTDMPhongTrongSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMPhongAction' method="searchPhongTrong"> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMPhongJsonResponse.vm
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTDMHuyenForm' 
+   class='com.lb.jwitter.action.TblQLDTDMHuyenAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMHuyenForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMHuyenDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMHuyenAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMHuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMHuyenInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMHuyenAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMHuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMHuyenSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMHuyenAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMHuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMHuyenUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMHuyenAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMHuyenListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMHuyenEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMHuyenAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMHuyenEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMThangDiemForm' 
+   class='com.lb.jwitter.action.TblQLDTDMThangDiemAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMThangDiemForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMThangDiemDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMThangDiemAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMThangDiemListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMThangDiemInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMThangDiemAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMThangDiemListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMThangDiemSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMThangDiemAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMThangDiemListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMThangDiemUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMThangDiemAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMThangDiemListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMThangDiemEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMThangDiemAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMThangDiemEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTinhForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTinhAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTinhForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTinhDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMTinhAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTinhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTinhInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMTinhAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTinhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTinhSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMTinhAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTinhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTinhUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMTinhAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTinhListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTinhEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTinhAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTinhEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTruongTHPTForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTruongTHPTAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTruongTHPTForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTruongTHPTDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMTruongTHPTAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTruongTHPTListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTruongTHPTInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMTruongTHPTAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTruongTHPTListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTruongTHPTSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMTruongTHPTAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTruongTHPTListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTruongTHPTUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMTruongTHPTAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTruongTHPTListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMTruongTHPTEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMTruongTHPTAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMTruongTHPTEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMNgayTrongTuanForm' 
+   class='com.lb.jwitter.action.TblQLDTDMNgayTrongTuanAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMNgayTrongTuanForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMNgayTrongTuanDelete' 
+   class='com.lb.jwitter.action.TblQLDTDMNgayTrongTuanAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMNgayTrongTuanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMNgayTrongTuanInsert' 
+   class='com.lb.jwitter.action.TblQLDTDMNgayTrongTuanAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMNgayTrongTuanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMNgayTrongTuanSearch' 
+   class='com.lb.jwitter.action.TblQLDTDMNgayTrongTuanAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMNgayTrongTuanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMNgayTrongTuanUpdate' 
+   class='com.lb.jwitter.action.TblQLDTDMNgayTrongTuanAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMNgayTrongTuanListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTDMNgayTrongTuanEditForm' 
+   class='com.lb.jwitter.action.TblQLDTDMNgayTrongTuanAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/tblQLDTDMNgayTrongTuanEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTBoMonForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTBoMonAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTBoMonForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTBoMonDelete' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTBoMonAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTBoMonListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTBoMonInsert' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTBoMonAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTBoMonListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTBoMonSearch' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTBoMonAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTBoMonListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTBoMonUpdate' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTBoMonAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTBoMonListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTBoMonEditForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTBoMonAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTBoMonEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHeDaoTaoForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHeDaoTaoAction' method='form'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTHeDaoTaoForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHeDaoTaoDelete' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHeDaoTaoAction' method='delete'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTHeDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHeDaoTaoInsert' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHeDaoTaoAction' method='insert'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTHeDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHeDaoTaoSearch' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHeDaoTaoAction' method='search'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTHeDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHeDaoTaoUpdate' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHeDaoTaoAction' method='update'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTHeDaoTaoListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTCTDTHeDaoTaoEditForm' 
+   class='com.lb.jwitter.action.ctdt.TblQLDTCTDTHeDaoTaoAction' method='editForm'> 
+   <result name='success' type='velocity'> 
+       vm/ctdt/tblQLDTCTDTHeDaoTaoEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+ 
+  
+
+ <!-- ====================TBL_QLDT_LICHTHI_LOPMONHOC===================================================================== -->
+<action name='tblQLDTLichThiLopMonHocForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiLopMonHocFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiLopMonHocForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichThiLopMonHocSearch' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiLopMonHocSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiLopMonHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichThiLopMonHocEditForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiLopMonHocEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiLopMonHocEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichThiLopMonHocInsert' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiLopMonHocInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiLopMonHoctblQLDTLichThiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichThiLopMonHocUpdate' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiLopMonHocUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiLopMonHoctblQLDTLichThiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTLichThiLopMonHocDelete' 
+   class='com.lb.jwitter.action.tkb.TblQLDTLichThiLopMonHocDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTLichThiLopMonHoctblQLDTLichThiListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+ <!-- ====================TBL_QLDT_TKB_LOPMONHOC===================================================================== -->
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHocForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHocFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHocForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHocSearch' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHocSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHocUpdate' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHocUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/success.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHocEditForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHocEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHocEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucDelete' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucDeleteAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucInsert' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucInsertAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucSearch' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucUpdate' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucUpdateAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+
+<action name='tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucEditForm' 
+   class='com.lb.jwitter.action.tkb.TblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucEditFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/tkb/tblQLDTTKBThoiKhoaBieuLopMonHoctblQLDTTKBThoiKhoaBieuChinhThucEditForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='thongKeDiemSoReportForm' 
+   class='com.lb.jwitter.action.report.ThongKeDiemSoReportFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/thongKeDiemSoReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+<action name='thongKeDiemSoReportSearch' 
+   class='com.lb.jwitter.action.report.ThongKeDiemSoReportSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/thongKeDiemSoReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='thongKeCTDTReportForm' 
+   class='com.lb.jwitter.action.report.ThongKeCTDTReportFormAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/thongKeCTDTReportForm.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+  
+<action name='thongKeCTDTReportSearch' 
+   class='com.lb.jwitter.action.report.ThongKeCTDTReportSearchAction'> 
+   <result name='success' type='velocity'> 
+       vm/report/thongKeCTDTReportListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<!-- ==================== Action Onchange to reload ==================== -->
+<action name="tblQLDTCTDTNganhtblQLDTCTDTChuyenNganhChange" 
+	class="com.lb.jwitter.action.lopmonhoc.TblQLDTTKBLopMonHocDuKienFormAddAutomationFormAction"
+	method="ReloadTblQLDTCTDTChuyenNganhByTblQLDTCTDTNganh">
+   <result name='success' type='velocity'> 
+       vm/tblQLDTCTDTNganhtblQLDTCTDTChuyenNganhJSONListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result>
+</action>
+<action name="tblQLDTCTDTChuyenNganhtblQLDTCTDTKhoiNganhChange" 
+	class="com.lb.jwitter.action.lopmonhoc.TblQLDTTKBLopMonHocDuKienFormAddAutomationFormAction"
+	method="ReloadTblQLDTCTDTKhoiNganhByTblQLDTCTDTChuyenNganh">
+   <result name='success' type='velocity'> 
+       vm/tblQLDTCTDTChuyenNganhtblQLDTCTDTKhoiNganhJSONListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result>
+</action>
+
+<action name='tblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocInsertAutomation' 
+   class='com.lb.jwitter.action.lopmonhoc.TblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocInsertAutoAction'> 
+   <result name='success' type='velocity'> 
+       vm/lopmonhoc/tblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocInsertAllAutomation' 
+   class='com.lb.jwitter.action.lopmonhoc.TblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocInsertAutoAction' method="selectAll"> 
+   <result name='success' type='velocity'> 
+       vm/lopmonhoc/tblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+
+<action name='tblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocUpdate' 
+   class='com.lb.jwitter.action.lopmonhoc.TblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocUpdateAutoAction'> 
+   <result name='success' type='velocity'> 
+       vm/lopmonhoc/tblQLDTCTDTLopMonHocDuKientblQLDTCTDTKhoiNganhMonHocListResponse.vm 
+   </result> 
+   <result name='error' type='velocity'>vm/error.vm</result> 
+   <result name='noprivilege' type='velocity'>vm/noprivilege.vm </result> 
+</action> 
+		<!--
+    	<action name='report1Form'
+			class='com.lb.jwitter.action.report.Report1Action' method="form">
+			<result name='success' type='velocity'>
+				vm/report/report1Form.vm
+			</result>
+			
+			<result name='error' type='velocity'>vm/error.vm</result>
+			<result name='noprivilege' type='velocity'>
+				vm/noprivilege.vm
+			</result>
+		</action>
+		
+		<action name='report1'
+			class='com.lb.jwitter.action.report.Report1Action' method="report1">
+			<result name='success' type='velocity'>
+				vm/report/report.vm
+			</result>
+			
+			<result name='error' type='velocity'>vm/error.vm</result>
+			<result name='noprivilege' type='velocity'>
+				vm/noprivilege.vm
+			</result>
+		</action>
+		
+		<action name='report2Form'
+			class='com.lb.jwitter.action.report.Report2Action' method="form">
+			<result name='success' type='velocity'>
+				vm/report/report2Form.vm
+			</result>
+			
+			<result name='error' type='velocity'>vm/error.vm</result>
+			<result name='noprivilege' type='velocity'>
+				vm/noprivilege.vm
+			</result>
+		</action>
+		
+		<action name='report2'
+			class='com.lb.jwitter.action.report.Report2Action' method="report2">
+			<result name='success' type='velocity'>
+				vm/report/report2.vm
+			</result>
+			
+			<result name='error' type='velocity'>vm/error.vm</result>
+			<result name='noprivilege' type='velocity'>
+				vm/noprivilege.vm
+			</result>
+		</action>
+  -->	
+  	
+  
+</package>
+ 
+</struts>

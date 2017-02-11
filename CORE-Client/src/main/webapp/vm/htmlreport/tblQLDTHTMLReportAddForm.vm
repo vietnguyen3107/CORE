@@ -1,0 +1,178 @@
+﻿#parse("vm/common.vm") 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+#set ($dateTool = $struts.bean('org.apache.velocity.tools.generic.DateTool')) 
+<script> 
+function clearForm(formName, formSuffix){ 
+    var form =  jQuery("#" + formName + formSuffix); 
+    //clear all message validate error  
+    form.validate().resetForm(); 
+    //clear all input 
+    form.find(':input').each(function() { 
+        switch(this.type) { 
+            case 'password': 
+            case 'select-multiple': 
+            case 'select-one': 
+            case 'text': 
+            case 'hidden': 
+            case 'textarea': 
+            jQuery(this).val(''); 
+            break; 
+            case 'checkbox': 
+            case 'radio': 
+            this.checked = false; 
+        } 
+    }); 
+   //clear all background of table row 
+    //jQuery("tr").css('background-color', '#FFFFFF'); 
+    //clear all check box 
+    jQuery(".delete").prop('checked',false); 
+} 
+function addObj(formName){ 
+    var form =  jQuery("#" + formName + "AddForm"); 
+    if(!form.validate().form()) { 
+        return false;	 
+    } 
+    var dataString = form.serialize(); 
+    var url = formName + "Insert.action"; 
+    form.prop("action",url); 
+    form.submit(); 
+} 
+function htmlBox(itemId){ 
+    if(jQuery("#"+ itemId).length > 0){ 
+        new Ext.form.HtmlEditor({ 
+                id:itemId , 
+                applyTo:itemId, 
+                width: 500, 
+                height: 100, 
+                enableAlignments:true, 
+                enableSourceEdit:true, 
+                enableLists:true 
+        }); 
+    } 
+} 
+function datepicker(){ 
+    jQuery(".date").datepicker({	 
+        changeMonth: true, 
+        changeYear: true, 
+        yearRange: '1900:c+10', 
+        howButtonPanel: true, 
+        dateFormat : 'dd/mm/yy' 
+    }); 
+} 
+jQuery(function() { 
+    //textarea : wysiwyg 
+    htmlBox("tblQLDTHTMLReportTextarea"); 
+    datepicker(); 
+}); 
+</script> 
+
+<div id="loading" /> 
+<fieldset class='x-fieldset'> 
+<legend> tbl_QLDT_HTMLReport </legend> 
+<form id="tblQLDTHTMLReportAddForm"> 
+<table>  
+<input type="hidden" id="tblQLDTHTMLReportid" name="id" value="$!tblQLDTHTMLReport.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Mã</label>  
+</td>  
+<td>  
+<input name="ma" value="$!tblQLDTHTMLReport.ma"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" value="$!tblQLDTHTMLReport.ten"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>CSS</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="css" class=''>$!tblQLDTHTMLReport.css</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Javascript</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="javascript" class=''>$!tblQLDTHTMLReport.javascript</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Header</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="header" class=''>$!tblQLDTHTMLReport.header</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Body</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="body" class=''>$!tblQLDTHTMLReport.body</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Footer</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="footer" class=''>$!tblQLDTHTMLReport.footer</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Truy vấn SQL</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="bodySql" class=''>$!tblQLDTHTMLReport.bodySql</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Truy vấn cho Header</label>  
+</td>  
+<td>  
+<textarea id="tblQLDTHTMLReportTextarea" name="headerSql" class=''>$!tblQLDTHTMLReport.headerSql</textarea>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Mô tả báo cáo</label>  
+</td>  
+<td>  
+<input name="description" value="$!tblQLDTHTMLReport.description"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Loại báo cáo</label>  
+</td>  
+<td>  
+<input name="type" value="$!tblQLDTHTMLReport.type"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>File template jasper</label>  
+</td>  
+<td>  
+<input name="fileTemplate" value="$!tblQLDTHTMLReport.fileTemplate"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button'  class='x-panel-btns'  id="skip" name="skip" value="Bo&#777; Qua" onClick="clearForm('tblQLDTHTMLReport','AddForm');"/>  
+<input type='button' class='x-panel-btns'  id="add" name="add" value="Tạo mới" onClick="addObj('tblQLDTHTMLReport');" />  
+</fieldset>  
+</div>  
+

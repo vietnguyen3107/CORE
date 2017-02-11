@@ -1,0 +1,8 @@
+{
+    "success": true,
+    "data": [
+#foreach($d in $results) 
+	{"id":$!d.objAlias.getEntryByKey("id").getValue(), "ten": "$!d.objAlias.getEntryByKey("ma").getValue() - $!d.objAlias.getEntryByKey("ten").getValue()", "ma": "$!d.objAlias.getEntryByKey("ma").getValue()"},
+#end
+]
+}

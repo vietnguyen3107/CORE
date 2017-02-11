@@ -1,0 +1,265 @@
+<script> 
+
+function exportQuyetDinhMoLop(formId, khoaDaoTaoId){
+	mask(formId);
+	getKhoaDaoTaoDuKienJson(khoaDaoTaoId,
+		function(response){
+			var data = setKhoaDaoTao2Data(response);
+			exportDoc("template/kehoach/quyetdinhmolop_template.docx", data,"quyetdinhmolop_" +data.ma+ ".docx" );
+			unmask(formId);
+		}
+	);
+}
+function exportPhieuDeXuat(formId, khoaDaoTaoId){
+	mask(formId);
+	getKhoaDaoTaoDuKienJson(khoaDaoTaoId,
+		function(response){
+			var data = setKhoaDaoTao2Data(response);
+			exportDoc("template/kehoach/phieudexuat_template1.docx", data,"phieudexuat_" +data.ma+ ".docx" );
+			unmask(formId);
+		}
+	);
+}
+
+function exportToTrinhPheDuyet(formId, khoaDaoTaoId){
+	mask(formId);
+	getKhoaDaoTaoDuKienJson(khoaDaoTaoId,
+		function(response){
+			var data = setKhoaDaoTao2Data(response);
+			exportDoc("template/kehoach/totrinhpheduyet_template.docx", data,"totrinh_" +data.ma+ ".docx" );
+			unmask(formId);
+		}
+	);
+}
+
+function exportKeHoach(formId, khoaDaoTaoId){
+	mask(formId);
+	getKhoaDaoTaoDuKienJson(khoaDaoTaoId,
+		function(response){
+			var data = setKhoaDaoTao2Data(response);
+			exportDoc("template/kehoach/keHoach_template.docx", data,"keHoach_" +data.ma+ ".docx" );
+			unmask(formId);
+		}
+	);
+}
+
+function getKhoaDaoTaoDuKienJson(id, callback){
+	
+	jQuery.ajax({ 
+        type: "POST", 
+        url: "tblQLDTLTKhoaDaoTaoDuKienJson.action", 
+        data: "id=" + id, 
+		dataType: "json",
+        success: function(rs) { 
+			
+			if(typeof callback === 'function'){
+				callback(rs);
+			}
+        } 
+    }); 
+}
+function getKhoaDaoTaoDuKien_LichGiang_TaiLieuJson(khoaDaoTaoDukienId,callback){
+	
+	jQuery.ajax({ 
+		type: "POST", 
+		url: "getTblQLDTLTKhoaDaoTaoDuKienLichGiangTaiLieuJson.action", 
+		data: "id=" + khoaDaoTaoDukienId, 
+		dataType: "json",
+		success: function(lichGiangsResponse) { 
+			
+			if(typeof callback === 'function'){
+				callback(lichGiangsResponse);
+			}
+        } 
+    }); 
+}
+function setKhoaDaoTao2Data(khoaDaoTao){
+	var data = {};
+	data.ma = khoaDaoTao.ma;
+					data.ten = khoaDaoTao.ten;
+					data.bomon = khoaDaoTao.donViDaoTaoId.ten;	
+					data.ngayKhaiGiang = khoaDaoTao.ngayKhaiGiang.day + "/" +  khoaDaoTao.ngayKhaiGiang.month + "/" +  khoaDaoTao.ngayKhaiGiang.year ;
+					data.ngayKetThuc = khoaDaoTao.ngayKetThuc.day + "/" +  khoaDaoTao.ngayKetThuc.month + "/" +  khoaDaoTao.ngayKetThuc.year ;
+			
+					data.ngay = jQuery.datepicker.formatDate('dd', new Date());
+					data.thang = jQuery.datepicker.formatDate('mm', new Date());
+					data.nam = jQuery.datepicker.formatDate('yy', new Date());
+					
+					data.soTiet = khoaDaoTao.soTiet;
+					try{
+					
+						data.noiDaoTao = khoaDaoTao.noiDaoTaoOptionId.ten;
+					}catch(e){
+					
+						data.noiDaoTao = "";
+					}
+					data.donViTaiTro = khoaDaoTao.donViTaiTro;
+					
+					data.siSo = khoaDaoTao.siSo;
+					data.hocPhi = khoaDaoTao.hocPhi;
+					data.hocPhiText = num2Text(khoaDaoTao.hocPhi);
+					data.soTienTaiTro = khoaDaoTao.soTienTaiTro;
+					data.tongThu = 0;
+					if(!isNaN(data.siSo) && !isNaN(data.hocPhi))
+					{
+						data.tongThu = data.siSo * data.hocPhi;
+						if(!isNaN(data.soTienTaiTro))
+							data.tongThu += data.soTienTaiTro;
+						
+						data.duToanText = num2Text(data.tongThu);
+						
+						data.thueDN = data.tongThu*10/100;
+						data.tongThuSauThue = data.tongThu - data.thueDN;
+						data.phanTramTrichKinhPhi = 5;
+						data.trichKinhPhi = data.tongThuSauThue * data.phanTramTrichKinhPhi/100;
+					}
+					
+					//format
+					data.tongThu = jQuery.format.number(parseInt(data.tongThu), '#,#00');
+					if(!isNaN(data.soTienTaiTro))
+						data.soTienTaiTro = jQuery.format.number(parseInt(data.soTienTaiTro), '#,#00');
+					if(!isNaN(data.hocPhi))
+						data.hocPhi = jQuery.format.number(parseInt(data.hocPhi), '#,#00');
+						
+					data.thueDN = jQuery.format.number(parseInt(data.thueDN), '#,#00');
+					data.tongThuSauThue = jQuery.format.number(parseInt(data.tongThuSauThue), '#,#00');
+					data.trichKinhPhi = jQuery.format.number(parseInt(data.trichKinhPhi), '#,#00');
+					
+					data.duChi = '';
+					data.duChiText = '';
+					data.chiPhiToChuc = '';
+
+					data.mucTieus = [];
+					var mucTieus = khoaDaoTao.mucTieu.split("\n");
+					jQuery.each( mucTieus, function( key, value ) {
+						var pp = {};
+						pp.mucTieu = value;
+						data.mucTieus.push(pp);
+					});
+					
+					data.doiTuongs = [];
+					var doiTuongs = khoaDaoTao.doiTuong.split("\n");
+					jQuery.each( doiTuongs, function( key, value ) {
+						var pp = {};
+						pp.doiTuong = value;
+						data.doiTuongs.push(pp);
+					});
+					
+					data.giangViens = [];
+					var giangViens = khoaDaoTao.giangVien.split("\n");
+					jQuery.each( giangViens, function( key, value ) {
+						var pp = {};
+						pp.giangVien = value;
+						data.giangViens.push(pp);
+					});
+					
+					data.banToChucs = [];
+					var banToChucs = khoaDaoTao.banToChuc.split("\n");
+					jQuery.each( banToChucs, function( key, value ) {
+						var pp = {};
+						pp.banToChuc = value;
+						data.banToChucs.push(pp);
+					});
+					
+					data.phuongPhapDayHocs = [];
+					var phuongPhapDayHocs = khoaDaoTao.phuongPhapDayHoc.split("\n");
+					jQuery.each( phuongPhapDayHocs, function( key, value ) {
+						var pp = {};
+						pp.phuongPhapDayHoc = value;
+						data.phuongPhapDayHocs.push(pp);
+					});
+
+					data.thietBis = [];
+					var thietBis = khoaDaoTao.thietBiHocLieu.split("\n");
+					jQuery.each( thietBis, function( key, value ) {
+						var pp = {};
+						pp.thietBi = value;
+						data.thietBis.push(pp);
+					});
+
+					data.phuongPhaps = [];
+					var phuongPhaps = khoaDaoTao.phuongPhapDanhGia.split("\n");
+					jQuery.each( phuongPhaps, function( key, value ) {
+						var pp = {};
+						pp.phuongPhapDanhGia = value;
+						data.phuongPhaps.push(pp);
+					});
+
+	return data;
+}
+
+function setLichGiang2Data(lichGiangs){
+	var data ={};
+	data.lichGiangs = [];
+					jQuery.each(lichGiangs, function( key, obj ) {
+						var lg = {};
+						lg.ngay = obj.ngay.day + "/" +  obj.ngay.month + "/" +  obj.ngay.year ;
+						lg.tuGio = obj.tuGio;
+						lg.denGio = obj.denGio;
+						lg.ten = obj.ten;
+						
+						//noidung
+						lg.noiDungs = [];
+						var noiDungs = obj.noiDung.split("\n");
+						jQuery.each( noiDungs, function( key, value ) {
+							var pp = {};
+							pp.noiDung = value;
+							lg.noiDungs.push(pp);
+						});
+						/////////////////////
+						
+						lg.thoiLuong = obj.thoiLuong;
+						if(obj.giangVienId != null)
+							lg.giangVienTen = obj.giangVienId.hocHam + '.' + obj.giangVienId.hocVi + ' ' + obj.giangVienId.ho + ' ' +obj.giangVienId.ten;
+						else
+							lg.giangVienTen = "";
+						data.lichGiangs.push(lg);
+					});
+	return data.lichGiangs;
+}
+function setTaiLieu2Data(taiLieus){
+	var data ={};
+	data.taiLieus = [];
+					jQuery.each(taiLieus, function( key, obj ) {
+						var lg = {};
+						lg.stt = obj.stt;
+						lg.ten = obj.ten;
+						lg.loaiTaiLieu = obj.loaiTaiLieu;
+						
+						data.taiLieus.push(lg);
+					});
+	return data.taiLieus;
+}
+function exportKhungCTDT(formId, khoaDaoTaoId){
+	mask(formId);
+	getKhoaDaoTaoDuKien_LichGiang_TaiLieuJson(khoaDaoTaoId,
+		function(response){
+			var data = setKhoaDaoTao2Data(response.tblQLDTLTKhoaDaoTaoDuKien);
+			data.lichGiangs = setLichGiang2Data(response.tblQLDTLTKhoaDaoTaoDuKienLichGiangs);
+			exportDoc("template/kehoach/khungCTDT_template.docx", data,"khungCTDT_" +data.ma+ ".docx" );
+			
+			unmask(formId);
+
+		}
+	);
+}
+
+function exportKhungCTDTChiTiet(formId, khoaDaoTaoId){
+	mask(formId);
+	getKhoaDaoTaoDuKien_LichGiang_TaiLieuJson(khoaDaoTaoId,
+		function(response){
+		
+			var data = setKhoaDaoTao2Data(response.tblQLDTLTKhoaDaoTaoDuKien);
+			data.lichGiangs = setLichGiang2Data(response.tblQLDTLTKhoaDaoTaoDuKienLichGiangs);
+			data.taiLieus = setTaiLieu2Data(response.tblQLDTLTKhoaDaoTaoDuKienTaiLieus);
+			
+			exportDoc("template/kehoach/chuongTrinhDTLTChiTiet_template.docx", data,"chuongTrinhDTLTChiTiet_" +data.ma+ ".docx" );
+			
+			unmask(formId);
+
+		}
+	);
+}
+
+
+</script>

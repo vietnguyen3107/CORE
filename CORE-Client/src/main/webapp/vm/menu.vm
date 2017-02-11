@@ -1,0 +1,18 @@
+﻿<script>
+	Docs.classData =
+	{
+		"id":"mainMenu","iconCls":"icon-docs","text":"MENU","singleClickExpand":true,"children":$!menuTreeJson
+		
+	};
+
+	//icon for tab
+    Docs.icons = {
+		#foreach($qMnu in $tblQuyenMenus)
+			#if($qMnu.menuId.menuCha)
+				"$qMnu.menuId.menuId":"icon-form"
+				,
+			#end
+		#end
+	};
+    
+</script>

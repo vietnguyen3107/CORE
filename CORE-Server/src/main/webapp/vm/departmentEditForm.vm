@@ -1,0 +1,19 @@
+
+<fieldset>
+<form id="departmentForm">
+<div id="msg">&nbsp; </div>
+<table>
+<tr>
+<td>
+<label> Node </label>
+</td>
+<td>
+ <input type="hidden" id="id" name="id" value="$department.id"/> 
+ <input id="node" name="node" value="$!department.ten" class='required '/> 
+ </td>
+ </tr>
+</table>
+</form>
+<input type="button" id="save" name="save" value="Dong Y" onclick="updateRow('departmentForm');" />
+
+</fieldset>

@@ -1,0 +1,7 @@
+#if($msg.preMessage_b == false)
+$!msg.preMessage_b<result/>
+$!msg.preMessage_s
+#else 
+$!msg.postMessage_b<result/>
+$!msg.postMessage_s
+#end

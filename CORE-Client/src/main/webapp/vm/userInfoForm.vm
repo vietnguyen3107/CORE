@@ -1,0 +1,173 @@
+﻿
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+#parse("vm/common.vm") 
+
+<script>
+function updateUserInfo(formName){
+    var form =  jQuery("#" + formName + "Form"); 
+    if(!form.validate().form()) { 
+        return false;	 
+    } 
+    var dataString = form.serialize(); 
+	
+	mask(formName + "Form");
+	var url = formName + "Update.action"; 
+    jQuery.ajax({ 
+        type: "POST", 
+        url: url, 
+        data: dataString, 
+        success: function(response) { 
+				unmask(formName + "Form");
+                Ext.example.msg('Done', 'Successfull!'); 
+
+        } 
+    }); 
+
+}
+Ext.onReady(function(){
+	jQuery(".date").datepicker({	 
+        changeMonth: true, 
+        changeYear: true, 
+        yearRange: '1900:c+10', 
+        howButtonPanel: true, 
+        dateFormat : 'dd/mm/yy' 
+    }); 
+}); 
+
+</script>
+<div id = "userInfo"> 
+
+<form id="userInfoForm"> 
+
+  
+<fieldset class='x-fieldset' > 
+<legend> Thông tin đăng nhập </legend> 
+<table width="100%">  
+<input type="hidden" id="tblTaiKhoanid" name="taiKhoanid" value="$!taiKhoanDangNhap.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td width="20%">  
+<label>Tên đăng nhập</label>  
+</td>  
+<td>  
+<input name="txtusername" value="$!taiKhoanDangNhap.username"   size='35' class='x-form-text  ' disabled />  
+<input name="username" value="$!taiKhoanDangNhap.username"   size='35' class='x-form-text  ' type="hidden" />  
+</td>  
+</tr>
+<tr>  
+<td>  
+<label>Mật khẩu</label>  
+</td>  
+<td>  
+<input type="password" name="password" value=""   size='35' class='x-form-text '/>  
+
+</td>  
+</tr>   
+   </table>
+
+<table width="100%">  
+	<tr>  
+		<td width="20%"> </td>  
+		<td >  
+			<input type='button' class='x-panel-btns' style='margin:6px;' name="accept" value="Cập nhật mật khẩu" onClick="updateUserInfo('userInfo');"/>  
+		</td>  
+	</tr>
+</table>
+
+</fieldset>
+
+<fieldset class='x-fieldset' > 
+<legend> Thông tin cá nhân </legend> 
+<table width="100%">   
+<input type="hidden" id="tblCanBoid" name="id" value="$!tblCanBo.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td width="20%">     
+<label>Tên</label>  
+</td>  
+<td>  
+<input name="ten" value="$!tblCanBo.ten"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>   
+<tr>  
+<td>  
+<label>Mã quản lý</label>  
+</td>  
+<td>  
+<input disabled name="maQuanLy" value="$!tblCanBo.maQuanLy"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Ngày sinh</label>  
+</td>  
+<td>  
+<input id="ngaySinhtblCanBo" name="ngaySinh" 
+ #if($tblCanBo.ngaySinh) value="$!numTool.format('00',$tblCanBo.ngaySinh.day)/$!numTool.format('00',$tblCanBo.ngaySinh.month)/$!tblCanBo.ngaySinh.year" #end  size='35' class='x-form-text  date '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nơi sinh</label>  
+</td>  
+<td>  
+<input name="noiSinh" value="$!tblCanBo.noiSinh"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Địa chỉ</label>  
+</td>  
+<td>  
+<input name="diaChi" value="$!tblCanBo.diaChi"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Điện thoại</label>  
+</td>  
+<td>  
+<input name="dienThoai" value="$!tblCanBo.dienThoai"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Trình độ</label>  
+</td>  
+<td>  
+<input name="trinhDo" value="$!tblCanBo.trinhDo"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nghề nghiệp</label>  
+</td>  
+<td>  
+<input name="ngheNghiep" value="$!tblCanBo.ngheNghiep"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Nơi làm</label>  
+</td>  
+<td>  
+<input name="noiLam" value="$!tblCanBo.noiLam"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table> 
+</fieldset>
+
+<table width="100%">  
+	<tr>  
+		<td width="20%"> </td>  
+		<td >  
+			<input type='button' class='x-panel-btns' style='margin:6px;'  id="accept" name="accept" value="Cập nhật" onClick="updateUserInfo('userInfo');"/>  
+		</td>  
+	</tr>
+</table>
+
+</form>  
+
+
+
+</div>

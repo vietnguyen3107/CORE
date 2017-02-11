@@ -1,0 +1,85 @@
+$!msg.preMessage_b<result/>
+
+#set ($dateTool = $struts.bean('org.apache.velocity.tools.generic.DateTool'))
+<form id='employeeListForm' name='employeeListForm'>
+<table border='0' width='100%' cellpadding='1' cellspacing='1' bgcolor='#999999'>
+<theader>
+<tr class='tableheader'>
+	<th>ID</th>
+	<th>Mã NV</th>	
+	<th>Tên NV</th>
+	<th>Tuổi </th>
+	<th>Giới tính </th>
+	<th>Sở thích </th>
+	<th>Sở thích ID</th>
+	<th>Khoa </th>
+	<th>KhoaID </th>
+	<th>Hệ số lương </th>
+	<th>Ngày sinh </th>
+	<th>Hình ảnh </th>
+	<th>Mô tả </th>
+	<th>Chọn</th>
+	<th>Sửa</th>
+</tr>
+
+</theader>
+<tbody>
+#set($i = 0)
+#foreach($d in $employees)
+	#if($d.id)
+	<tr class='tableitem' id="form7$d.id" onDblClick="jQuery(this).parent().find('.edit').click();" onmouseover="jQuery(this).css('cursor','pointer');">
+	
+		<td id="employeeid">$!d.id</td>
+		<td id="maNV">$!d.maNV</td>
+		<td id="tenNV">$!d.tenNV</td>
+		<td id="tuoi">$!d.tuoi</td>
+		<td id="gioitinh">
+		#if($!d.gioitinh)
+			Nam
+		#else
+			Nữ
+		#end
+		
+		</td>
+		<td id="sothichidcombo">$!d.sothich.ten</td>
+		<td id="sothichid">$!d.sothich.id</td>
+		<td id="khoaidcombo">$!d.khoa.ten</td>
+		<td id="khoaid">$!d.khoa.id</td>
+		<td id="hesoluong">$!d.hesoluong</td>
+		<td id="ngaysinh">$!dateTool.format('dd/MM/yyyy',$!d.ngaysinh)</td>
+		<td id="hinhanh">$!d.hinhanh</td>
+		<td id="mota" class='area'>$!d.mota</td>
+		
+
+		<td>
+		<input type="checkbox" value="$d.id" class='delete' onClick="checkRow('form7$d.id',this.checked);"/>
+		</td>	
+		<td>
+		<input type="button" class="edit" value="Sửa" onclick="openPopup('form7EditForm.action?id=$d.id');"/>
+		</td>
+	</tr>
+	#end
+
+#set($i = $i +1)
+#end
+</tbody>
+</table>
+</form>
+
+
+#set($nextpage=$page+1)
+
+#if($page > 0)
+	#set($prepage=$page-1)
+#end
+<br>
+#if($page > 1)
+<INPUT TYPE=BUTTON OnClick="searchForm('form7',$pageSize,$prepage);" VALUE="&lt;&lt; Trang tr&#432;&#417;&#769;c" />   
+&nbsp&nbsp 
+#end
+
+<font size='2'><b> Trang $page </b></font>
+
+#if($i == $pageSize && $i > 0)
+&nbsp   &nbsp   <INPUT TYPE=BUTTON OnClick="searchForm('form7',$pageSize,$nextpage);" VALUE="Trang sau >>" />
+#end

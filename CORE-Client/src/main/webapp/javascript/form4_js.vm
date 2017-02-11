@@ -1,0 +1,82 @@
+<script>
+/*****
+form4Form.vm
+form4AddForm.vm
+*****/
+//bien toan cuc : cac suffix cho url
+var insertLink = "Insert.action";
+var updateLink = "Update.action";
+var deleteLink = "Delete.action";
+var searchLink = "Search.action";
+var responseSuffix = "List";
+
+$(function() {
+		jQuery.noConflict();
+});
+
+
+//=================
+//Ham xoa trang cac field nhap lieu co ban,
+//cac field dac biet cua moi Form se duoc goi trong ham con: clearOthers();
+//=================
+function clearForm(formName, formSuffix){
+	var form =  jQuery("#" + formName + formSuffix);
+
+	//clear all message validate error 
+	form.validate().resetForm();
+
+	//clear all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+		    case 'password':
+		    case 'select-multiple':
+		    case 'select-one':
+		    case 'text':
+		    case 'hidden':
+		    case 'textarea':
+			jQuery(this).val('');
+			break;
+		    case 'checkbox':
+		    case 'radio':
+			this.checked = false;
+		}
+	});
+	
+	//clear all background of table row
+	jQuery("tr").css('background-color', '#FFFFFF');
+
+	//clear all check box
+	jQuery(".delete").attr('checked',false);
+
+	//clear message
+	jQuery('#msg').html("");
+	//clear special field
+	clearOthers();
+
+}
+
+
+//======================
+//ham ajax thuc thi=
+//======================
+function ajaxExe(dataString,url, responseId){
+	dataString += serializeOthers();
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#" + responseId).html(result[1]);
+				jQuery("#msg").html("Thành công!").fadeIn(2000).fadeOut(2000);
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+			
+		}
+	});
+	
+}
+
+</script>

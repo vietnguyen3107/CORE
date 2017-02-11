@@ -1,0 +1,2336 @@
+<script>
+
+Ext.BLANK_IMAGE_URL = 'resources/s.gif';
+
+Docs = {};
+
+
+//ham khoi tao
+ApiPanel = function() {
+    ApiPanel.superclass.constructor.call(this, {
+        id:'api-tree',
+        region:'west',
+        split:true,
+        header: false,
+        width: 280,
+        minSize: 175,
+        maxSize: 500,
+        collapsible: true,
+        margins:'0 0 5 5',
+        cmargins:'0 0 0 0',
+        rootVisible:false,
+        lines:false,
+        autoScroll:true,
+        animCollapse:true,
+        animate: true,
+        collapseMode:'mini',
+        loader: new Ext.tree.TreeLoader({
+			preloadChildren: true,
+			clearOnLoad: false
+		}),
+        root: new Ext.tree.AsyncTreeNode({
+            text:'Ext JS',
+            id:'root',
+            expanded:true,
+            children:[Docs.classData]
+         }),
+        collapseFirst:false
+    });
+
+    this.getSelectionModel().on('beforeselect', function(sm, node){
+        return node.isLeaf();
+    });
+};
+
+/*
+
+khoi tao cay thu muc ben trai
+danh sach thu muc duoc dinh nghia trong file tree.js, Docs.classData 
+*/
+Ext.extend(ApiPanel, Ext.tree.TreePanel, {
+
+	//ham khoi tao
+    initComponent: function(){
+        this.hiddenPkgs = [];
+
+        Ext.apply(this, {
+		tbar:[ ' ',
+			new Ext.form.TextField({
+				width: 200,
+				emptyText:'Tìm kiếm Menu',
+                enableKeyEvents: true,
+				selectOnFocus : true,
+				clearIcon: true,
+				listeners:{
+					render: function(f){
+                    	this.filter = new Ext.tree.TreeFilter(this, {
+                    		clearBlank: true,
+                    		autoClear: true
+                    	});
+					},
+                    keydown: {
+                        fn: this.filterTree,
+                        buffer: 350,
+                        scope: this
+                    },
+                    scope: this
+				}
+			}), ' ', ' ',
+			
+			{
+                iconCls: 'icon-expand-all',
+				tooltip: 'Expand All',
+                handler: function(){ this.root.expand(true); },
+                scope: this
+            }, '-', {
+                iconCls: 'icon-collapse-all',
+                tooltip: 'Collapse All',
+                handler: function(){ 
+					//this.root.collapse(true); 
+					this.root.eachChild(function(childnode) {
+						childnode.eachChild(function(childnodechild) {
+							childnodechild.collapse(true); 
+						});
+					});
+				},
+                scope: this
+			}
+		]
+        })
+        ApiPanel.superclass.initComponent.call(this);
+
+    }, //init function
+	//ham tim kiem tren tree
+	filterTree: function(t, e){
+		var text = t.getValue();
+		Ext.each(this.hiddenPkgs, function(n){
+			n.ui.show();
+		});
+		if(!text){
+			this.filter.clear();
+			return;
+		}
+		this.expandAll();
+		
+		var re = new RegExp('.*' + Ext.escapeRe(text) + '*' , 'i');
+		this.filter.filterBy(function(n){
+			return !n.attributes.isClass || re.test(n.text);
+		});
+		
+		// hide empty packages that weren't filtered
+		this.hiddenPkgs = [];
+                var me = this;
+		this.root.cascade(function(n){
+			if(!n.attributes.isClass && n.ui.ctNode.offsetHeight < 3){
+				n.ui.hide();
+				me.hiddenPkgs.push(n);
+			}
+		});
+	},//filter tree
+	//ham select 1 doi tuong tren tree
+    selectClass : function(cls){
+        if(cls){
+            var parts = cls.split('.');
+            var last = parts.length-1;
+            var res = [];
+            var pkg = [];
+            for(var i = 0; i < last; i++){ // things get nasty - static classes can have .
+                var p = parts[i];
+                var fc = p.charAt(0);
+                var staticCls = fc.toUpperCase() == fc;
+                if(p == 'Ext' || !staticCls){
+                    pkg.push(p);
+                    res[i] = 'pkg-'+pkg.join('.');
+                }else if(staticCls){
+                    --last;
+                    res.splice(i, 1);
+                }
+            }
+            res[last] = cls;
+
+            this.selectPath('/root/apidocs/'+res.join('/'));
+        }
+    }
+});
+
+/*
+	Mo 1 tab : extend class Panel
+	Moi tab la 1 docPanel
+*/
+DocPanelForm = Ext.extend(Ext.Panel, {
+    closable: true,
+    autoScroll:true,
+    
+    //khoi tao cac button component phia tren
+    initComponent : function(){
+        var ps = this.cclass.split('.');
+
+        Ext.apply(this,{
+            tbar: ['->',{
+		id: 'boqua-' + this.cclass,
+                text: 'Bỏ Qua (Ctrl+Q)',
+                handler: this.clearForm.createDelegate(this, [this.cclass]),
+                iconCls: 'icon-config'
+            }, '-',{
+                text: 'Tìm Kiếm (Ctrl+R)',
+                handler: this.searchForm.createDelegate(this, [this.cclass]),
+                scope: this,
+                iconCls: 'icon-search'
+            }, '-',{
+                text: 'Thêm (Ctrl+W)',
+                handler: function(){
+			var url = this.cclass + "AddForm.action";
+			openPopup(this.cclass, url,'Thêm mới');
+                },
+                scope: this,
+                iconCls: 'icon-add'
+            }, '-',{
+		text: 'Xoá (Ctrl+D)',
+		handler: this.deleteForm.createDelegate(this, [this.cclass]),
+                scope: this,
+                iconCls: 'icon-delete'
+            }, '-',{
+                text: 'Refresh (F4)',
+                handler: function(){
+			refreshActiveTab();
+                },
+                scope: this,
+                iconCls: 'icon-refresh'
+            }]
+        });
+
+        DocPanelForm.superclass.initComponent.call(this);
+    },
+    //ham dc goi trong button toolbar
+    clearForm : function(formId){
+	var form =  jQuery("#" + formId+ "Form");
+
+	//clear all message validate error 
+	form.validate().resetForm();
+
+	//clear all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+		    case 'password':
+		    case 'select-multiple':
+		    case 'select-one':
+		    case 'text':
+		    case 'hidden':
+		    case 'textarea':
+			jQuery(this).val('');
+			break;
+		    case 'checkbox':
+		    case 'radio':
+			this.checked = false;
+		}
+	});
+	
+	//clear all background of table row
+	//jQuery("#" + formId + "List").find("tr:gt(0)").css('background-color', '#FFFFFF');
+
+	//clear all check box
+	jQuery(".delete").prop('checked',false);
+
+	//clear message
+	jQuery('#msg').html("");
+		
+	//search form
+	var dataString = form.serialize()+"&pageSize=20&page=1";
+	var url = formId + "Search.action";
+	this.ajaxExe(dataString,url,  formId);
+    },
+    searchForm : function(formId){
+	var form =  jQuery("#" + formId + "Form");
+	var dataString = form.serialize()+"&pageSize=20&page=1";
+
+	var url = formId + "Search.action";
+	this.ajaxExe(dataString,url,  formId);
+	
+    },
+    deleteForm : function(formId){
+	var idList = "";
+	jQuery("#" + formId + "List").find(".delete:checked").each(
+		function () {
+			idList += jQuery(this).val() +",";
+		}
+	);
+	idList= idList.slice(0,idList.length-1); 
+
+	if(idList== ""){
+		Ext.example.msg('', 'Không có item nào được chọn!');
+		return false;
+	}
+
+	Ext.MessageBox.show({
+		title:'Delete Confirm',
+		msg: 'Bạn có muốn xoá tất cả những item đã chọn?',
+		buttons: Ext.MessageBox.YESNO,
+		animEl: this.id,
+		icon: Ext.MessageBox.QUESTION,
+		fn : function(btn){
+			if(btn == 'yes'){
+				var dataString = "idList=" + idList;
+				var url = formId + "Delete.action";
+				var responseId = formId + "List";
+				var tableId = formId + "Table";
+				
+				mask(responseId);
+				jQuery.ajax({
+					type: "POST",
+					url: url,
+					data: dataString,
+					success: function(response) {
+						unmask(responseId);
+						try{
+							var obj = jQuery.parseJSON(response);
+
+							Ext.example.msg(obj.code,obj.msg); 
+						}catch(error){
+							{
+								jQuery("#" + responseId).html(response);
+
+								gridTable(tableId);
+								//jcarousel(formId,1);
+								Ext.example.msg('Done', 'Thành công!');
+								//mPanel.getActiveTab().scrollToMember(responseId);
+							}	
+						}
+					},
+					error: function(){
+						unmask(responseId);
+						Ext.example.msg('Error', 'Có lỗi xảy ra!');
+					}
+				});
+			}
+		}
+	});
+    },
+    ajaxExe : function(dataString,url, formId){
+	var responseId = formId + "List";
+	var tableId = formId + "Table";
+	
+	mask(responseId);
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			unmask(responseId);
+			try{
+				var obj = jQuery.parseJSON(response);
+
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+
+				gridTable(tableId);
+				//jcarousel(formId,1);
+				Ext.example.msg('Done', 'Thành công!');
+				//mPanel.getActiveTab().scrollToMember(responseId);
+			}
+		},
+		error: function(){
+			unmask(responseId);
+			Ext.example.msg('Error', 'Có lỗi xảy ra!');
+		}
+	});
+	
+    },
+     scrollToMember : function(member){
+        var el = Ext.fly(member);
+        if(el){
+            var top = (el.getOffsetsTo(this.body)[1]) + this.body.dom.scrollTop;
+            this.body.scrollTo('top', top-15, {duration:0.75, callback: this.hlMember.createDelegate(this, [member])});
+        }
+    },
+    hlMember : function(member){
+        var el = Ext.fly(this.cclass + '-' + member);
+        if(el){
+            if (tr = el.up('tr')) {
+                tr.highlight('#cadaf9');
+            }
+        }
+    }
+});
+
+/*
+	Mo 1 tab : extend class Panel
+	Moi tab la 1 docPanel
+*/
+DocPanelNoAddForm = Ext.extend(Ext.Panel, {
+    closable: true,
+    autoScroll:true,
+    
+    //khoi tao cac button component phia tren
+    initComponent : function(){
+        var ps = this.cclass.split('.');
+
+        Ext.apply(this,{
+            tbar: ['->',{
+		id: 'boqua-' + this.cclass,
+                text: 'Bỏ Qua (Ctrl+Q)',
+                handler: this.clearForm.createDelegate(this, [this.cclass]),
+                iconCls: 'icon-config'
+            }, '-',{
+                text: 'Tìm Kiếm (Ctrl+R)',
+                handler: this.searchForm.createDelegate(this, [this.cclass]),
+                scope: this,
+                iconCls: 'icon-search'
+            }, '-',{
+		text: 'Xoá (Ctrl+D)',
+		handler: this.deleteForm.createDelegate(this, [this.cclass]),
+                scope: this,
+                iconCls: 'icon-delete'
+            }, '-',{
+                text: 'Refresh (F4)',
+                handler: function(){
+			refreshActiveTab();
+                },
+                scope: this,
+                iconCls: 'icon-refresh'
+            }]
+        });
+
+        DocPanelForm.superclass.initComponent.call(this);
+    },
+    //ham dc goi trong button toolbar
+    clearForm : function(formId){
+	var form =  jQuery("#" + formId+ "Form");
+
+	//clear all message validate error 
+	form.validate().resetForm();
+
+	//clear all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+		    case 'password':
+		    case 'select-multiple':
+		    case 'select-one':
+		    case 'text':
+		    case 'hidden':
+		    case 'textarea':
+			jQuery(this).val('');
+			break;
+		    case 'checkbox':
+		    case 'radio':
+			this.checked = false;
+		}
+	});
+		
+		//clear all background of table row
+		//jQuery("#" + formId + "List").find("tr:gt(0)").css('background-color', '#FFFFFF');
+
+		//clear all check box
+		jQuery(".delete").prop('checked',false);
+
+		//clear message
+		jQuery('#msg').html("");
+		
+		jQuery('#accept' + formId).attr('value', 'Thêm mới');
+		//search form
+		var dataString = form.serialize()+"&pageSize=20&page=1";
+		var url = formId + "Search.action";
+		this.ajaxExe(dataString,url,  formId);
+    },
+    searchForm : function(formId){
+		var form =  jQuery("#" + formId + "Form");
+		var dataString = form.serialize()+"&pageSize=20&page=1";
+
+		var url = formId + "Search.action";
+		this.ajaxExe(dataString,url,  formId);
+	
+    },
+    deleteForm : function(formId){
+		var idList = "";
+		jQuery("#" + formId + "List").find(".delete:checked").each(
+			function () {
+				idList += jQuery(this).val() +",";
+			}
+		);
+		idList= idList.slice(0,idList.length-1); 
+
+		if(idList== ""){
+			Ext.example.msg('', 'Không có item nào được chọn!');
+			return false;
+		}
+
+		Ext.MessageBox.show({
+			title:'Delete Confirm',
+			msg: 'Bạn có muốn xoá tất cả những item đã chọn?',
+			buttons: Ext.MessageBox.YESNO,
+			animEl: this.id,
+			icon: Ext.MessageBox.QUESTION,
+			fn : function(btn){
+				if(btn == 'yes'){
+					var dataString = "idList=" + idList;
+					var url = formId + "Delete.action";
+					var responseId = formId + "List";
+					var tableId = formId + "Table";
+					mask(responseId);
+					jQuery.ajax({
+						type: "POST",
+						url: url,
+						data: dataString,
+						success: function(response) {
+							unmask(responseId);
+							try{
+								var obj = jQuery.parseJSON(response);
+
+								Ext.example.msg(obj.code,obj.msg); 
+							}catch(error){
+								{
+									jQuery("#" + responseId).html(response);
+
+									gridTable(tableId);
+									//jcarousel(formId,1);
+									Ext.example.msg('Done', 'Thành công!');
+									//mPanel.getActiveTab().scrollToMember(responseId);
+								}	
+							}
+						},
+						error: function(){
+							unmask(responseId);
+							Ext.example.msg('Error', 'Có lỗi xảy ra!');
+						}
+					});
+				}
+			}
+		});
+    },
+    ajaxExe : function(dataString,url, formId){
+	var responseId = formId + "List";
+	var tableId = formId + "Table";
+	
+	mask(responseId);
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			unmask(responseId);
+			try{
+				var obj = jQuery.parseJSON(response);
+
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+
+				gridTable(tableId);
+				//jcarousel(formId,1);
+				Ext.example.msg('Done', 'Thành công!');
+				//mPanel.getActiveTab().scrollToMember(responseId);
+			}
+		},
+		error: function(){
+			unmask(responseId);
+			Ext.example.msg('Error', 'Có lỗi xảy ra!');
+		}
+	});
+	
+    },
+     scrollToMember : function(member){
+        var el = Ext.fly(member);
+        if(el){
+            var top = (el.getOffsetsTo(this.body)[1]) + this.body.dom.scrollTop;
+            this.body.scrollTo('top', top-15, {duration:0.75, callback: this.hlMember.createDelegate(this, [member])});
+        }
+    },
+    hlMember : function(member){
+        var el = Ext.fly(this.cclass + '-' + member);
+        if(el){
+            if (tr = el.up('tr')) {
+                tr.highlight('#cadaf9');
+            }
+        }
+    }
+});
+/*
+	Mo 1 tab : extend class Panel
+	Moi tab la 1 docPanel
+*/
+DocPanelNoDeleteForm = Ext.extend(Ext.Panel, {
+    closable: true,
+    autoScroll:true,
+    
+    //khoi tao cac button component phia tren
+    initComponent : function(){
+        var ps = this.cclass.split('.');
+
+        Ext.apply(this,{
+            tbar: ['->',{
+		id: 'boqua-' + this.cclass,
+                text: 'Bỏ Qua (Ctrl+Q)',
+                handler: this.clearForm.createDelegate(this, [this.cclass]),
+                iconCls: 'icon-config'
+            }, '-',{
+                text: 'Tìm Kiếm (Ctrl+R)',
+                handler: this.searchForm.createDelegate(this, [this.cclass]),
+                scope: this,
+                iconCls: 'icon-search'
+            }, '-',{
+                text: 'Refresh (F4)',
+                handler: function(){
+			refreshActiveTab();
+                },
+                scope: this,
+                iconCls: 'icon-refresh'
+            }]
+        });
+
+        DocPanelForm.superclass.initComponent.call(this);
+    },
+    //ham dc goi trong button toolbar
+    clearForm : function(formId){
+		var form =  jQuery("#" + formId+ "Form");
+
+		//clear all message validate error 
+		form.validate().resetForm();
+
+		//clear all input
+		form.find(':input').each(function() {
+			switch(this.type) {
+				case 'password':
+				case 'select-multiple':
+				case 'select-one':
+				case 'text':
+				case 'hidden':
+				case 'textarea':
+				jQuery(this).val('');
+				break;
+				case 'checkbox':
+				case 'radio':
+				this.checked = false;
+			}
+		});
+		
+		//clear all background of table row
+		//jQuery("#" + formId + "List").find("tr:gt(0)").css('background-color', '#FFFFFF');
+
+		//clear all check box
+		jQuery(".delete").prop('checked',false);
+
+		//clear message
+		jQuery('#msg').html("");
+			
+		//search form
+		var dataString = form.serialize()+"&pageSize=20&page=1";
+		var url = formId + "Search.action";
+		this.ajaxExe(dataString,url,  formId);
+    },
+	searchForm : function(formId){
+		var form =  jQuery("#" + formId + "Form");
+		var dataString = form.serialize()+"&pageSize=20&page=1";
+
+		var url = formId + "Search.action";
+		this.ajaxExe(dataString,url,  formId);
+    },
+
+    ajaxExe : function(dataString,url, formId){
+		var responseId = formId + "List";
+		var tableId = formId + "Table";
+		mask(responseId);
+		
+		jQuery.ajax({
+			type: "POST",
+			url: url,
+			data: dataString,
+			success: function(response) {
+				mask(responseId);
+				try{
+					var obj = jQuery.parseJSON(response);
+
+					Ext.example.msg(obj.code,obj.msg); 
+				}catch(error){
+					jQuery("#" + responseId).html(response);
+
+					gridTable(tableId);
+					//jcarousel(formId,1);
+					Ext.example.msg('Done', 'Thành công!');
+					//mPanel.getActiveTab().scrollToMember(responseId);
+				}
+			},
+			error: function(){
+				mask(responseId);
+				Ext.example.msg('Error', 'Có lỗi xảy ra!');
+			}
+		});
+	
+    },
+    scrollToMember : function(member){
+        var el = Ext.fly(member);
+        if(el){
+            var top = (el.getOffsetsTo(this.body)[1]) + this.body.dom.scrollTop;
+            this.body.scrollTo('top', top-15, {duration:0.75, callback: this.hlMember.createDelegate(this, [member])});
+        }
+    },
+    hlMember : function(member){
+        var el = Ext.fly(this.cclass + '-' + member);
+        if(el){
+            if (tr = el.up('tr')) {
+                tr.highlight('#cadaf9');
+            }
+        }
+    }
+});
+/*
+	Mo 1 tab : extend class Panel
+	Moi tab la 1 docPanel
+*/
+DocPanelNoMenuForm = Ext.extend(Ext.Panel, {
+    closable: true,
+    autoScroll:true,
+    
+    //khoi tao cac button component phia tren
+    initComponent : function(){
+        var ps = this.cclass.split('.');
+
+        Ext.apply(this,{
+		
+        });
+
+        DocPanelForm.superclass.initComponent.call(this);
+    },
+	searchForm : function(formId){
+		var form =  jQuery("#" + formId + "Form");
+		var dataString = form.serialize()+"&pageSize=20&page=1";
+
+		var url = formId + "Search.action";
+		this.ajaxExe(dataString,url,  formId);
+    },
+	ajaxExe : function(dataString,url, formId){
+		var responseId = formId + "List";
+		var tableId = formId + "Table";
+		
+		mask(responseId);
+		
+		jQuery.ajax({
+			type: "POST",
+			url: url,
+			data: dataString,
+			success: function(response) {
+				unmask(responseId);
+				try{
+					var obj = jQuery.parseJSON(response);
+					Ext.example.msg(obj.code,obj.msg); 
+				}catch(error){
+					jQuery("#" + responseId).html(response);
+
+					gridTable(tableId);
+					//jcarousel(formId,1);
+					Ext.example.msg('Done', 'Thành công!');
+					//mPanel.getActiveTab().scrollToMember(responseId);
+				}
+			},
+			error: function(){
+				unmask(responseId);
+				Ext.example.msg('Error', 'Có lỗi xảy ra!');
+			}
+		});
+    },
+	scrollToMember : function(member){
+        var el = Ext.fly(member);
+        if(el){
+            var top = (el.getOffsetsTo(this.body)[1]) + this.body.dom.scrollTop;
+            this.body.scrollTo('top', top-15, {duration:0.75, callback: this.hlMember.createDelegate(this, [member])});
+        }
+    },
+    hlMember : function(member){
+        var el = Ext.fly(this.cclass + '-' + member);
+        if(el){
+            if (tr = el.up('tr')) {
+                tr.highlight('#cadaf9');
+            }
+        }
+    }
+});
+
+/*
+	Mo 1 tab : extend class Panel
+	Moi tab la 1 docPanel
+*/
+DocPanelReport = Ext.extend(Ext.Panel, {
+    closable: true,
+    autoScroll:true,
+    
+    //khoi tao cac button component phia tren
+    initComponent : function(){
+        var ps = this.cclass.split('.');
+
+        Ext.apply(this,{
+            tbar: ['->',{
+                text: 'Bỏ Qua (Ctrl+Q)',
+                handler: this.clearForm.createDelegate(this, [this.cclass]),
+                iconCls: 'icon-config'
+            }, '-',{
+                text: 'Báo Cáo (Ctrl+R)',
+                handler: this.reportGenerator.createDelegate(this, [this.cclass]),
+                scope: this,
+                iconCls: 'icon-fav'
+            },'-',{
+                text: 'Print',
+                handler: function(){
+                    var divToPrint=document.getElementById(this.cclass+"Grid");
+                    newWin= window.open("");
+                    var html ="<style>table {font-size:small; margin: 1em; border-collapse: collapse; }"+
+                        "td, th { padding: .3em; border: 1px #ccc solid; } "+
+                        ".print-noborder {border: 0px; } "+
+                        "@media print { thead { display: table-header-group; } .no-print, .no-print *{ display: none !important; border:none; } }"+
+                        "</style>"+
+						" <table width='99%' class='no-print'><tr><td align='right'><button onclick='window.print();'> In báo cáo </button></td></tr></table><br/> " +
+                        divToPrint.outerHTML ;
+                    newWin.document.write(html);
+                    //newWin.print();
+                    //newWin.close();
+                },
+                scope: this,
+                iconCls: 'icon-print'
+            }, 
+            
+            '-',
+	
+	    'Export to : ',
+            {
+		id:this.cclass +'ExportCB',
+		name : this.cclass,
+                xtype: 'combo',
+		editable: false,
+		triggerAction: 'all',
+		mode: 'local',
+		width:120,
+		store: [['xls', 'Excel']],
+		listeners: {
+			'select': function(){
+				if(this.value =="xls"){
+					exportExcel(this.name, jQuery(".fileName").val());
+				}
+			}
+		}
+            }, 
+            
+            '-'
+			,{
+                text: 'Refresh (F4)',
+                handler: function(){
+			refreshActiveTab();
+                },
+                scope: this,
+                iconCls: 'icon-refresh'
+            }]
+        });
+
+        DocPanelReport.superclass.initComponent.call(this);
+    },
+    //ham dc goi trong button toolbar
+    clearForm : function(formId){
+		var form =  jQuery("#" + formId+ "Form");
+
+		//clear all message validate error 
+		form.validate().resetForm();
+
+		//clear all input
+		form.find(':input').each(function() {
+			switch(this.type) {
+				case 'password':
+				case 'select-multiple':
+				case 'select-one':
+				case 'text':
+				case 'hidden':
+				case 'textarea':
+				jQuery(this).val('');
+				break;
+				case 'checkbox':
+				case 'radio':
+				this.checked = false;
+			}
+		});
+		
+		//clear all background of table row
+		jQuery("#" + formId + "List").find("tr:gt(0)").css('background-color', '#FFFFFF');
+
+		//clear all check box
+		jQuery(".delete").prop('checked',false);
+
+		//clear message
+		jQuery('#msg').html("");
+			
+		//search form
+		var dataString = form.serialize()+"&pageSize=20&page=1";
+		var url = formId + "Search.action";
+		this.ajaxExe(dataString,url,  formId);
+    },
+    reportGenerator : function(formid){
+		var dataString = jQuery("#"+formid+ 'Form').serialize();
+		var tableId = formid + "Table";
+		var responseId = formid + "List";
+		
+		mask(responseId);
+		
+		jQuery.ajax({
+			type: "POST",
+			url: formid + "Search.action",
+			data: dataString,
+			success: function(response) {
+				unmask(responseId);
+				try{
+					var obj = jQuery.parseJSON(response);
+					Ext.example.msg(obj.code,obj.msg); 
+				}catch(error){
+					
+					jQuery("#" + responseId).html(response);
+					gridTable(tableId);
+					jQuery('#' +formid + 'Grid').tablesorter();
+					//Xet cac cot the hien tren bao cao (neu ko check thi khong hien thi)
+					 jQuery("#"+formid+ "FieldList :input:not(:checked)").each(function() {
+					   columnToogle(formid,jQuery(this).val()); 
+					 });
+					 //mPanel.getActiveTab().scrollToMember(responseId);
+				 }
+			}
+		});
+	
+    },
+	ajaxExe : function(dataString,url, formId){
+		var responseId = formId + "List";
+		var tableId = formId + "Table";
+		
+		mask(responseId);
+		
+		jQuery.ajax({
+			type: "POST",
+			url: url,
+			data: dataString,
+			success: function(response) {
+				unmask(responseId);
+				try{
+					var obj = jQuery.parseJSON(response);
+					Ext.example.msg(obj.code,obj.msg); 
+				}catch(error){
+					jQuery("#" + responseId).html(response);
+
+					gridTable(tableId);
+					//jcarousel(formId,1);
+					Ext.example.msg('Done', 'Thành công!');
+					//mPanel.getActiveTab().scrollToMember(responseId);
+				}
+			},
+			error: function(){
+				unmask(responseId);
+				Ext.example.msg('Error', 'Có lỗi xảy ra!');
+			}
+		});
+    },
+     scrollToMember : function(member){
+        var el = Ext.fly(member);
+        if(el){
+            var top = (el.getOffsetsTo(this.body)[1]) + this.body.dom.scrollTop;
+            this.body.scrollTo('top', top-15, {duration:0.75, callback: this.hlMember.createDelegate(this, [member])});
+        }
+    },
+    hlMember : function(member){
+        var el = Ext.fly(this.cclass + '-' + member);
+        if(el){
+            if (tr = el.up('tr')) {
+                tr.highlight('#cadaf9');
+            }
+        }
+    }
+});
+
+DocPanelXetTuyen = Ext.extend(Ext.Panel, {
+    closable: true,
+    autoScroll:true,
+    
+    //khoi tao cac button component phia tren
+    initComponent : function(){
+        var ps = this.cclass.split('.');
+
+        Ext.apply(this,{
+            tbar: ['->',{
+                text: 'Bỏ Qua (Ctrl+Q)',
+                handler: this.clearForm.createDelegate(this, [this.cclass]),
+                iconCls: 'icon-config'
+            }, '-',{
+                text: 'Đồng Ý (Ctrl+S)',
+                handler: this.xetTuyenSave.createDelegate(this, [this.cclass]),
+                scope: this,
+                iconCls: 'icon-fav'
+            }, '-',
+	    'Lưu và xuất File : ',
+            {
+		id:this.cclass +'ExportCB',
+		name : this.cclass,
+        xtype: 'combo',
+		editable: false,
+		triggerAction: 'all',
+		mode: 'local',
+		width:120,
+		store: [['xls', 'Excel'], ['doc', 'Word'], ['pdf', 'PDF']],
+		listeners: {
+			'select': function(){
+				var formName = this.name;
+				if(this.value =="xls"){
+					if(jQuery('#' +this.name+ 'Changed').prop('checked')){
+						Ext.MessageBox.show({
+							title:'Confirm',
+							msg: "Bạn có muốn lưu lại các thay đổi?",
+							buttons: Ext.MessageBox.YESNO,
+							animEl: Ext.getBody(),
+							icon: Ext.MessageBox.QUESTION,
+							fn : function(btn){
+								if(btn == 'yes'){
+									xetTuyenSave(formName);
+									exportExcel(formName);
+								}else if(btn == 'no') {
+									exportExcel(formName);
+								}
+							}
+						});
+					} else{
+						exportExcel(formName);
+					}
+					
+				}
+			}
+		}
+            }, '-',{
+                text: 'Refresh (F4)',
+                handler: function(){
+			refreshActiveTab();
+                },
+                scope: this,
+                iconCls: 'icon-refresh'
+            }]
+        });
+
+        DocPanelReport.superclass.initComponent.call(this);
+    },
+    //ham dc goi trong button toolbar
+    clearForm : function(formId){
+		var form =  jQuery("#" + formId+ "Form");
+		//clear message
+		jQuery('#msg').html("");
+    },
+    xetTuyenSave : function(formid){
+
+		xetTuyenSave(formid);
+	
+    },
+     scrollToMember : function(member){
+        var el = Ext.fly(member);
+        if(el){
+            var top = (el.getOffsetsTo(this.body)[1]) + this.body.dom.scrollTop;
+            this.body.scrollTo('top', top-15, {duration:0.75, callback: this.hlMember.createDelegate(this, [member])});
+        }
+    },
+    hlMember : function(member){
+        var el = Ext.fly(this.cclass + '-' + member);
+        if(el){
+            if (tr = el.up('tr')) {
+                tr.highlight('#cadaf9');
+            }
+        }
+    }
+});
+
+MainPanel = function(){
+	
+	this.searchStore = new Ext.data.Store({
+        proxy: new Ext.data.ScriptTagProxy({
+            url: 'http://extjs.com/playpen/api.php'
+        }),
+        reader: new Ext.data.JsonReader({
+	            root: 'data'
+	        }, 
+			['cls', 'member', 'type', 'doc']
+		),
+		baseParams: {},
+        listeners: {
+            'beforeload' : function(){
+                this.baseParams.qt = Ext.getCmp('search-type').getValue();
+            }
+        }
+    }); 
+	
+    MainPanel.superclass.constructor.call(this, {
+        id:'doc-body',
+        region:'center',
+        margins:'0 5 5 0',
+        resizeTabs: true,
+        minTabWidth: 135,
+        tabWidth: 135,
+        plugins: new Ext.ux.TabCloseMenu(),
+        enableTabScroll: true,
+        activeTab: 0,
+
+        items: {
+            id:'welcome-panel',
+            title: 'Trang chủ',
+            autoLoad: {url: 'welcome.html', callback: this.initSearch, scope: this},
+            iconCls:'icon-docs',
+            autoScroll: true
+			
+        }
+    });
+};
+
+//init main panel
+Ext.extend(MainPanel, Ext.TabPanel, {
+
+    initEvents : function(){
+        MainPanel.superclass.initEvents.call(this);
+        this.body.on('click', this.onClick, this);
+    },
+	
+	//bat su kien onClick tren doi tuong thuoc MainPanel
+    onClick: function(e, target){
+        if(target = e.getTarget('a:not(.exi)', 3)){
+            var cls = Ext.fly(target).getAttributeNS('ext', 'cls');
+	
+            e.stopEvent();
+            if(cls){
+                var member = Ext.fly(target).getAttributeNS('ext', 'member');
+                this.loadClass(target.href, cls, member,'','');
+            }else if(target.className == 'inner-link'){
+                this.getActiveTab().scrollToSection(target.href.split('#')[1]);
+            }else{
+                window.open(target.href);
+            }
+        }else if(target = e.getTarget('.micon', 2)){
+            e.stopEvent();
+            var tr = Ext.fly(target.parentNode);
+            if(tr.hasClass('expandable')){
+                tr.toggleClass('expanded');
+            }
+        }
+    },
+    //Ham mo 1 tab trong main panel: tab moi hoac tab dang dc mo truoc do.
+    loadClass : function(href, cls, member, pck,tl){
+        var id = 'docs-' + cls;
+
+        var tab = this.getComponent(id);
+        if(tab){ //neu tab da dc mo truoc do
+            this.setActiveTab(tab); //active tab
+            if(member){//neu co tham so member thi chuyen den vi tri cua member
+                //tab.scrollToMember(member);
+            }
+        }else{ //neu tab chua dc mo truoc do
+            var autoLoad = {
+			url: href,
+			scripts:true
+		}; //set url cho tab
+
+        autoLoad.callback = function(){
+
+			//initialize form
+			initForm(cls);
+
+
+			
+
+		
+			//jcarousel(cls,1);
+			//iframeLoadCallback();
+		}
+
+	    // them 1 tab moi vao DocPanel
+	    var p;
+	    if(pck == 'report'){
+		 p = this.add(new DocPanelReport({
+			id: id,
+			cclass : cls,
+			autoLoad: autoLoad,
+			iconCls: Docs.icons[cls],
+			title : tl
+		    }));
+	    }else if(pck == 'xetTuyen'){
+			p = this.add(new DocPanelXetTuyen({
+			id: id,
+			cclass : cls,
+			autoLoad: autoLoad,
+			title : tl,
+			iconCls: Docs.icons[cls]
+		    }));
+		}else if(pck == 'noMenu'){
+			p = this.add(new DocPanelNoMenuForm({
+			id: id,
+			cclass : cls,
+			autoLoad: autoLoad,
+			title : tl,
+			iconCls: Docs.icons[cls]
+		    }));
+		}else if(pck == 'noAdd'){
+			p = this.add(new DocPanelNoAddForm({
+			id: id,
+			cclass : cls,
+			autoLoad: autoLoad,
+			title : tl,
+			iconCls: Docs.icons[cls]
+		    }));
+		}else if(pck == 'noDelete'){
+			p = this.add(new DocPanelNoDeleteForm({
+			id: id,
+			cclass : cls,
+			autoLoad: autoLoad,
+			title : tl,
+			iconCls: Docs.icons[cls]
+		    }));
+		}else {
+
+		 p = this.add(new DocPanelForm({
+			id: id,
+			cclass : cls,
+			autoLoad: autoLoad,
+			iconCls: Docs.icons[cls],
+			title : tl
+		    }));
+	    }
+	    //active tab vua dc them vao DocPanel
+            this.setActiveTab(p);
+        }
+    },
+	
+	initSearch : function(){
+		// Custom rendering Template for the View
+	    var resultTpl = new Ext.XTemplate(
+	        '<tpl for=".">',
+	        '<div class="search-item">',
+	            '<a class="member" ext:cls="{cls}" ext:member="{member}" href="output/{cls}.html">',
+				'<img src="../resources/images/default/s.gif" class="item-icon icon-{type}"/>{member}',
+				'</a> ',
+				'<a class="cls" ext:cls="{cls}" href="output/{cls}.html">{cls}</a>',
+	            '<p>{doc}</p>',
+	        '</div></tpl>'
+	    );
+		
+		var p = new Ext.DataView({
+            applyTo: 'search',
+			tpl: resultTpl,
+			loadingText:'Searching...',
+            store: this.searchStore,
+            itemSelector: 'div.search-item',
+			emptyText: '<h3>Use the search field above to search the Ext API for classes, properties, config options, methods and events.</h3>'
+        });
+	},
+	
+	doSearch : function(e){
+		var k = e.getKey();
+		if(!e.isSpecialKey()){
+			var text = e.target.value;
+			if(!text){
+				this.searchStore.baseParams.q = '';
+				this.searchStore.removeAll();
+			}else{
+				this.searchStore.baseParams.q = text;
+				this.searchStore.reload();
+			}
+		}
+	}
+});
+
+//Ham main : chay khi load page
+
+var mPanel;
+Ext.onReady(function(){
+	//khoi tao doi tuong EXT
+    Ext.QuickTips.init();
+
+	//khoi tao doi tuong ApiPanel
+    var api = new ApiPanel();
+	//khoi tao doi tuong mainPanel
+    var mainPanel = new MainPanel();
+	mPanel = mainPanel;
+
+	//bat su kien click tren tree node
+    api.on('click', function(node, e){
+         if(node.isLeaf()){
+            e.stopEvent();
+            mainPanel.loadClass(node.attributes.href, node.id,'',node.attributes.package,node.text);
+         }
+    });
+
+    mainPanel.on('tabchange', function(tp, tab){
+        api.selectClass(tab.cclass); 
+    });
+
+    var viewport = new Ext.Viewport({
+        layout:'border',
+        items:[ {
+            cls: 'docs-header',
+            height: 44,
+            region:'north',
+            xtype:'box',
+            el:'header',
+            border:false,
+            margins: '0 0 5 0'
+        }, api, mainPanel ]
+    });
+
+    api.expandPath('/root/mainMenu');
+
+    // allow for link in
+    var page = window.location.href.split('?')[1];
+    if(page){
+        var ps = Ext.urlDecode(page);
+        var cls = ps['class'];
+        mainPanel.loadClass('output/' + cls + '.html', cls, ps.member, '','');
+    }
+    
+    viewport.doLayout();
+	
+	setTimeout(function(){
+        Ext.get('loading').remove();
+        Ext.get('loading-mask').fadeOut({remove:true});
+    }, 250);
+	
+
+
+
+	
+});
+
+Ext.app.SearchField = Ext.extend(Ext.form.TwinTriggerField, {
+    initComponent : function(){
+        if(!this.store.baseParams){
+			this.store.baseParams = {};
+		}
+		Ext.app.SearchField.superclass.initComponent.call(this);
+		this.on('specialkey', function(f, e){
+            if(e.getKey() == e.ENTER){
+                this.onTrigger2Click();
+            }
+        }, this);
+    },
+
+    validationEvent:false,
+    validateOnBlur:false,
+    trigger1Class:'x-form-clear-trigger',
+    trigger2Class:'x-form-search-trigger',
+    hideTrigger1:true,
+    width:180,
+    hasSearch : false,
+    paramName : 'query',
+
+    onTrigger1Click : function(){
+        if(this.hasSearch){
+            this.store.baseParams[this.paramName] = '';
+			this.store.removeAll();
+			this.el.dom.value = '';
+            this.triggers[0].hide();
+            this.hasSearch = false;
+			this.focus();
+        }
+    },
+
+    onTrigger2Click : function(){
+        var v = this.getRawValue();
+        if(v.length < 1){
+            this.onTrigger1Click();
+            return;
+        }
+		if(v.length < 2){
+			Ext.Msg.alert('Invalid Search', 'You must enter a minimum of 2 characters to search the API');
+			return;
+		}
+		this.store.baseParams[this.paramName] = v;
+        var o = {start: 0};
+        this.store.reload({params:o});
+        this.hasSearch = true;
+        this.triggers[0].show();
+		this.focus();
+    }
+});
+
+
+/**
+ * Makes a ComboBox more closely mimic an HTML SELECT.  Supports clicking and dragging
+ * through the list, with item selection occurring when the mouse button is released.
+ * When used will automatically set {@link #editable} to false and call {@link Ext.Element#unselectable}
+ * on inner elements.  Re-enabling editable after calling this will NOT work.
+ *
+ * @author Corey Gilmore
+ * http://extjs.com/forum/showthread.php?t=6392
+ *
+ * @history 2007-07-08 jvs
+ * Slight mods for Ext 2.0
+ */
+Ext.ux.SelectBox = function(config){
+	this.searchResetDelay = 1000;
+	config = config || {};
+	config = Ext.apply(config || {}, {
+		editable: false,
+		forceSelection: true,
+		rowHeight: false,
+		lastSearchTerm: false,
+        triggerAction: 'all',
+        mode: 'local'
+    });
+
+	Ext.ux.SelectBox.superclass.constructor.apply(this, arguments);
+
+	this.lastSelectedIndex = this.selectedIndex || 0;
+};
+
+Ext.extend(Ext.ux.SelectBox, Ext.form.ComboBox, {
+    lazyInit: false,
+	initEvents : function(){
+		Ext.ux.SelectBox.superclass.initEvents.apply(this, arguments);
+		// you need to use keypress to capture upper/lower case and shift+key, but it doesn't work in IE
+		this.el.on('keydown', this.keySearch, this, true);
+		this.cshTask = new Ext.util.DelayedTask(this.clearSearchHistory, this);
+	},
+
+	keySearch : function(e, target, options) {
+		var raw = e.getKey();
+		var key = String.fromCharCode(raw);
+		var startIndex = 0;
+
+		if( !this.store.getCount() ) {
+			return;
+		}
+
+		switch(raw) {
+			case Ext.EventObject.HOME:
+				e.stopEvent();
+				this.selectFirst();
+				return;
+
+			case Ext.EventObject.END:
+				e.stopEvent();
+				this.selectLast();
+				return;
+
+			case Ext.EventObject.PAGEDOWN:
+				this.selectNextPage();
+				e.stopEvent();
+				return;
+
+			case Ext.EventObject.PAGEUP:
+				this.selectPrevPage();
+				e.stopEvent();
+				return;
+		}
+
+		// skip special keys other than the shift key
+		if( (e.hasModifier() && !e.shiftKey) || e.isNavKeyPress() || e.isSpecialKey() ) {
+			return;
+		}
+		if( this.lastSearchTerm == key ) {
+			startIndex = this.lastSelectedIndex;
+		}
+		this.search(this.displayField, key, startIndex);
+		this.cshTask.delay(this.searchResetDelay);
+	},
+
+	onRender : function(ct, position) {
+		this.store.on('load', this.calcRowsPerPage, this);
+		Ext.ux.SelectBox.superclass.onRender.apply(this, arguments);
+		if( this.mode == 'local' ) {
+			this.calcRowsPerPage();
+		}
+	},
+
+	onSelect : function(record, index, skipCollapse){
+		if(this.fireEvent('beforeselect', this, record, index) !== false){
+			this.setValue(record.data[this.valueField || this.displayField]);
+			if( !skipCollapse ) {
+				this.collapse();
+			}
+			this.lastSelectedIndex = index + 1;
+			this.fireEvent('select', this, record, index);
+		}
+	},
+
+	render : function(ct) {
+		Ext.ux.SelectBox.superclass.render.apply(this, arguments);
+		if( Ext.isSafari ) {
+			this.el.swallowEvent('mousedown', true);
+		}
+		this.el.unselectable();
+		this.innerList.unselectable();
+		this.trigger.unselectable();
+		this.innerList.on('mouseup', function(e, target, options) {
+			if( target.id && target.id == this.innerList.id ) {
+				return;
+			}
+			this.onViewClick();
+		}, this);
+
+		this.innerList.on('mouseover', function(e, target, options) {
+			if( target.id && target.id == this.innerList.id ) {
+				return;
+			}
+			this.lastSelectedIndex = this.view.getSelectedIndexes()[0] + 1;
+			this.cshTask.delay(this.searchResetDelay);
+		}, this);
+
+		this.trigger.un('click', this.onTriggerClick, this);
+		this.trigger.on('mousedown', function(e, target, options) {
+			e.preventDefault();
+			this.onTriggerClick();
+		}, this);
+
+		this.on('collapse', function(e, target, options) {
+			Ext.getDoc().un('mouseup', this.collapseIf, this);
+		}, this, true);
+
+		this.on('expand', function(e, target, options) {
+			Ext.getDoc().on('mouseup', this.collapseIf, this);
+		}, this, true);
+	},
+
+	clearSearchHistory : function() {
+		this.lastSelectedIndex = 0;
+		this.lastSearchTerm = false;
+	},
+
+	selectFirst : function() {
+		this.focusAndSelect(this.store.data.first());
+	},
+
+	selectLast : function() {
+		this.focusAndSelect(this.store.data.last());
+	},
+
+	selectPrevPage : function() {
+		if( !this.rowHeight ) {
+			return;
+		}
+		var index = Math.max(this.selectedIndex-this.rowsPerPage, 0);
+		this.focusAndSelect(this.store.getAt(index));
+	},
+
+	selectNextPage : function() {
+		if( !this.rowHeight ) {
+			return;
+		}
+		var index = Math.min(this.selectedIndex+this.rowsPerPage, this.store.getCount() - 1);
+		this.focusAndSelect(this.store.getAt(index));
+	},
+
+	search : function(field, value, startIndex) {
+		field = field || this.displayField;
+		this.lastSearchTerm = value;
+		var index = this.store.find.apply(this.store, arguments);
+		if( index !== -1 ) {
+			this.focusAndSelect(index);
+		}
+	},
+
+	focusAndSelect : function(record) {
+		var index = typeof record === 'number' ? record : this.store.indexOf(record);
+		this.select(index, this.isExpanded());
+		this.onSelect(this.store.getAt(record), index, this.isExpanded());
+	},
+
+	calcRowsPerPage : function() {
+		if( this.store.getCount() ) {
+			this.rowHeight = Ext.fly(this.view.getNode(0)).getHeight();
+			this.rowsPerPage = this.maxHeight / this.rowHeight;
+		} else {
+			this.rowHeight = false;
+		}
+	}
+
+});
+
+Ext.Ajax.on('requestcomplete', function(ajax, xhr, o){
+    if(typeof urchinTracker == 'function' && o && o.url){
+        urchinTracker(o.url);
+    }
+});
+
+
+
+
+//====================================
+// Ham mo 1 external page bang dialog
+//====================================
+function openPopup(tabId, url,title){
+
+	if(!Ext.get("docs-" + tabId)) 
+		return false;
+		
+    var x = Ext.get("docs-" + tabId).getWidth();
+    var y = Ext.get("docs-" + tabId).getHeight() - 30;
+
+	
+	var win = new Ext.Window(
+		{
+			id : url,
+			title : title,
+			modal : false,
+			shadow : true,
+			draggable : false,
+			renderTo : "docs-" + tabId,
+			html: '<iframe src="'+url+'" width="' + x + '" height="' + y + '"  frameborder="0" hspace="0" vspace="0" scrolling="auto"></iframe>'
+		}
+	);
+			
+	win.show();
+	win.on('hide',function(){
+        var formName = mPanel.getActiveTab().cclass;
+        var form =  jQuery("#" + formName + "Form");
+        var dataString = form.serialize()+"&pageSize=20&page=1";
+
+        var url = formName + "Search.action";
+		//searchForm(mPanel.getActiveTab().cclass, 20,1, '');
+
+        ajaxExe(url,dataString,formName,1);
+		//refreshActiveTab();
+	});
+
+}
+
+
+ function refreshActiveTab(){
+	mPanel.getActiveTab().getUpdater().refresh(function() {
+
+		//initialize form
+		initForm(mPanel.getActiveTab().cclass);
+		
+	});
+	
+}
+/*
+function iframeOnLoad(el){
+		var formName = mPanel.getActiveTab().cclass;
+		var form =  jQuery("#" + formName + "Form");
+		var dataString = form.serialize()+"&pageSize=20&page=1";
+
+		var url = formName + "Search.action";
+		ajaxExe(url,dataString,formName,1);
+}
+*/
+function initForm(cls){
+		htmlBox(cls + 'Textarea');
+		datepicker();
+		gridTable(cls + 'Table');
+		configChosen();
+		
+		autoCompleteGiangVien(cls,'',0);
+		autoCompleteHocVien(cls,'',0);
+		autoCompleteLopMonHoc(cls,'',0);
+		jQuery('a').click(function(e) {
+
+		if(typeof jQuery(this).attr('href') == "undefined")
+			return false;
+			//do other stuff when a click happens
+		});
+}
+
+function gridTable(tableId){
+
+	if(jQuery("#"+tableId).length > 0){
+		jQuery("#"+tableId).addClass("grid");
+		/*
+		var grid = new Ext.ux.grid.TableGrid(tableId, {
+			autoWidth: true,
+			layout: 'fit',
+			stripeRows: true// stripe alternate rows
+
+		});
+
+		grid.render();
+
+		grid.on('rowdblclick', function(grid, rowIndex, e) {
+			jQuery("#"+mPanel.getActiveTab().cclass+"Edit"+rowIndex).click();
+		});
+		*/
+	}
+
+}
+
+function jcarousel(formName, page){
+	jQuery('#'+formName + "jcarousel").jcarousel({
+		start: page,
+		scroll: 10,
+		visible: 10
+	});
+}
+
+function columnToogle(formid,index){
+	    jQuery('#'+formid+'Table tr').each(function() { 
+		jQuery('td:eq(' + index + ')',this).toggle();
+	    });
+
+}
+
+
+
+//====================
+//Them moi hoac sua, dung cho form : 1
+//====================
+function agreeBtnClick(formName){
+	
+	var form =  jQuery("#" + formName + "Form");
+	
+	if(!form.validate().form()) {
+		return false;
+		
+	}
+	
+	var dataString = form.serialize();
+ 
+	var url = "";
+	if( jQuery('#'+formName + "id").val() == "" ||  jQuery('#'+formName + "id").val() == "0"){
+		url = formName + "Insert.action";
+	} else {
+		url = formName + "Update.action";
+	}
+
+	ajaxExe(url,dataString,formName,1);
+	//tro lai trang thai add sau khi update
+	jQuery('#'+ formName + 'id').val('');
+
+	
+}
+
+function searchForm(formName, pageSize,page, dataSearch){
+	var dataString = dataSearch + "&pageSize=" + pageSize + "&page=" + page;
+	var url = formName + "Search.action";
+
+	ajaxExe(url,dataString,formName,page);
+}
+
+function editForm(formName, objId){
+	var dataString = "id="+ objId;
+
+	var url = formName + "EditForm.action";
+	var responseId = formName + "EditForm";
+	mask(responseId);
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			unmask(responseId);
+			try{
+				var obj = jQuery.parseJSON(response);
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+
+				initForm(formName);
+				Ext.example.msg('Done', 'Successfull!');
+				mPanel.getActiveTab().scrollToMember(responseId);
+			}
+		},
+		error: function(){
+			unmask(responseId);
+			Ext.example.msg('Done', 'Error!');
+		}
+	});
+}
+
+function ajaxExe(url,dataString,formName,page){
+	var responseId = formName + "List";
+	mask(responseId);
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			unmask(responseId);
+			try{
+				var obj = jQuery.parseJSON(response);
+
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+				gridTable(formName + "Table");
+				//jcarousel(formName,page);
+				Ext.example.msg('Done', 'Thành công!');
+				//mPanel.getActiveTab().scrollToMember(responseId);
+			}
+		},
+		error: function(){
+			unmask(responseId);
+			Ext.example.msg('Error', 'Có lỗi xảy ra!');
+		}
+	});
+}
+
+//////////////////////////===============XET TUYEN ===================//////////////////////////////////////////////////////
+function rowAlter(id) {
+	
+	jQuery('#alter'+id).prop('value', 'true');
+	
+}
+function calcMark(id, mark , checked, diemDat, tuyenThang){
+	jQuery('#xetTuyenReportChanged').prop('checked', true);
+	var maTuyenThang = 'TT';
+	
+	var diemTong = parseFloat(jQuery('#diemTong' + id).text().trim());
+    if(checked)
+		diemTong += parseFloat(mark);
+
+	else 
+		diemTong -= parseFloat(mark);
+
+	jQuery('#diemTong' + id).text(diemTong);
+
+	if(tuyenThang){
+		if(checked){
+			jQuery('#xetTuyen' + id).text("Tuyển thẳng");
+			jQuery('#maXetTuyen' + id).val(maTuyenThang);
+		} else {
+			if(diemTong >= parseFloat(diemDat) ){
+				jQuery('#xetTuyen' + id).text("Xét tuyển");
+				jQuery('#maXetTuyen' + id).val('XT');
+			}
+			else {
+				jQuery('#xetTuyen' + id).text(" ");
+				jQuery('#maXetTuyen' + id).val('KD');
+			}
+		}
+	}
+	if(!tuyenThang) {
+		if(jQuery('#maXetTuyen' + id).val() != maTuyenThang) {
+			if(diemTong >= parseFloat(diemDat) ){
+				jQuery('#xetTuyen' + id).text("Xét tuyển");
+				jQuery('#maXetTuyen' + id).val('XT');
+			}
+			else {
+				jQuery('#xetTuyen' + id).text(" ");
+				jQuery('#maXetTuyen' + id).val('KD');
+			}
+		}
+		
+	}
+	
+	
+	
+}
+function SearchConfirm(formId, useConfirm, strConfirm) {
+	if(useConfirm){
+		Ext.MessageBox.show({
+			title:'Confirm',
+			msg: strConfirm,
+			buttons: Ext.MessageBox.YESNO,
+			animEl: Ext.getBody(),
+			icon: Ext.MessageBox.QUESTION,
+			fn : function(btn){
+				if(btn == 'yes'){
+					Search(formId);
+				}
+			}
+		});
+	}else {
+		Search(formId);
+	}
+}
+function Search(formId, sortable){
+	var form =  jQuery("#" + formId + "Form");
+	var dataString = form.serialize()+"&pageSize=0&page=0";
+
+	var url = formId + "Search.action";
+
+	var responseId = formId + "List";
+	mask(responseId);
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			unmask(responseId);
+			try{
+				var obj = jQuery.parseJSON(response);
+
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+				if(sortable)	
+					jQuery('#' +formId + 'Grid').tablesorter();
+			}
+		},
+		error: function(){
+			unmask(responseId);
+			Ext.example.msg('Error', 'Có lỗi xảy ra!');
+		}
+	});
+
+}
+
+	function xetTuyenSave(formName) {
+
+		var form =  jQuery("#" + formName + "ListForm"); 
+
+		var dataString = ""; 
+
+		//saveStr format = [{key:val}] 
+		var saveStr="["; 
+		
+		
+		jQuery("#" +formName+ "Grid tr").each(function() { 
+			var recentRow =  jQuery(this); 
+			var hoSoId = recentRow.find("#hoSoId").val();
+			
+			if(!isNaN(hoSoId)){
+				var alter = jQuery(recentRow).children("input.alter").prop("value");
+				if (alter == "true"){
+					saveStr += "{"; 
+					saveStr += "'hoSoId' :  " + hoSoId + ", ";
+					saveStr += "'thangDiemList' : ["
+					recentRow.find("td #thangDiemId").each(function () {
+						if(jQuery(this).prop('checked') == true) {
+							saveStr += "{"; 
+							saveStr += "'thangDiemId' : " + jQuery(this).val() + ", ";
+							saveStr += "},"; 
+						}
+					});
+					saveStr += "],";
+					
+					saveStr += "'diemTong' : " + parseFloat(recentRow.find("#diemTong" + hoSoId).text().trim()) + ", ";
+					saveStr += "'ketQua' : '" + recentRow.find("#maXetTuyen" + hoSoId).prop('value') + "', ";
+						
+					saveStr += "},"; 
+				}
+			}
+
+		}); 
+		saveStr += "]"; 
+		dataString += "&saveStr=" + saveStr; 
+		//end 
+
+		var url = formName + "Save.action"; 
+		mask('');
+		jQuery.ajax({ 
+			type: "POST", 
+			url: url, 
+			data: dataString, 
+			success: function(response) {
+				unmask('');
+				try{
+					var obj = jQuery.parseJSON(response);
+
+					Ext.example.msg(obj.code,obj.msg); 
+				}catch(error){
+					jQuery('#' +formName+ 'Changed').prop('checked', false);
+					Ext.example.msg('Done', 'Successfull!'); 
+				}
+			} 
+		}); 
+		
+		
+	}
+	
+	function nhapHocSave(formName) {
+
+	Ext.MessageBox.show({
+		title:'Confirm',
+		msg: 'Bạn có muốn chuyển các hồ sơ đã chọn vào danh sách học viên?',
+		buttons: Ext.MessageBox.YESNO,
+		animEl: Ext.getBody(),
+		icon: Ext.MessageBox.QUESTION,
+		fn : function(btn){
+			if(btn == 'yes'){
+			
+					
+				var form =  jQuery("#" + formName + "Form");
+				
+				if(!form.validate().form()) {
+					return false;
+					
+				}
+				var dataString = form.serialize(); 
+
+				//saveStr format = [{key:val}] 
+				var saveStr="["; 
+				
+				
+				jQuery("#" +formName+ "Grid tr").each(function() { 
+					var recentRow =  jQuery(this); 
+					var hoSoId = recentRow.find("#hoSoId").val();
+
+						if(recentRow.find("#check" + hoSoId).prop('checked') == true) {
+							if(!isNaN(hoSoId)){
+								saveStr += "{"; 
+								saveStr += "'hoSoId' :  " + hoSoId + ", ";
+								saveStr += "},"; 
+							}
+						}
+
+				}); 
+				saveStr += "]"; 
+				dataString += "&saveStr=" + saveStr; 
+				//end 
+				mask('');
+				var url = formName + "Save.action"; 
+				jQuery.ajax({ 
+					type: "POST", 
+					url: url, 
+					data: dataString, 
+					success: function(response) { 
+						unmask('');
+						try{
+							var obj = jQuery.parseJSON(response);
+
+							Ext.example.msg(obj.code,obj.msg); 
+						}catch(error){
+							Ext.example.msg('Done', 'Successfull!'); 
+							refreshActiveTab();
+						}
+					} 
+				}); 
+			}
+		}
+	});
+		
+	}
+	
+function capNhatHocPhi(formName){
+	Ext.MessageBox.show({
+		title:'Cofirm',
+		msg: 'Quá trình chạy sẽ mất nhiều thời gian. Tiếp tục?',
+		buttons: Ext.MessageBox.YESNO,
+		animEl: "capNhatBtn",
+		icon: Ext.MessageBox.QUESTION,
+		fn : function(btn){
+			if(btn == 'yes'){
+				var form =  jQuery("#" + formName + "Form");
+	
+				if(!form.validate().form()) {
+					return false;
+				}
+				
+				var dataString = form.serialize();
+				var url = "tinhHocPhi.action";
+				ajaxExe(url,dataString,formName,1);
+			}
+		}
+	});
+
+}
+
+function disableEnterKey(e){
+ e = e || event;
+ return (e.keyCode || event.which || event.charCode || 0) !== 13;
+}
+
+function download(fileName){
+var tmpelem = document.createElement("iframe");
+				 tmpelem.src = "fileDownload.action?fileName=" + fileName;
+				 tmpelem.style.display = "none";
+				 document.body.appendChild(tmpelem);
+}
+
+function xemDiem(mshv){
+
+    var url = "xemDiemSoHocVienSearch.action?mSHV="+mshv;
+        var x = Ext.get(mPanel.getActiveTab().id).getWidth();
+        var y = Ext.get(mPanel.getActiveTab().id).getHeight() - 30;
+
+    var win = new Ext.Window(
+    {
+        id : url,
+        title : "Diem So",
+        modal : false,
+        shadow : true,
+        draggable : false,
+        renderTo : mPanel.getActiveTab().id,
+        html: '<iframe src="'+url+'" width="' + x + '" height="' + y + '"  frameborder="0" hspace="0" vspace="0" scrolling="yes"></iframe>'
+        }
+    );
+
+    win.show();
+}
+
+function addListFromCSV(txtFileId, url, formName){
+	// parse as CSV
+	var file = jQuery("#"+txtFileId)[0].files[0];
+	var result = "";
+	try{
+	    var csvParser = new SimpleExcel.Parser.CSV();
+		csvParser.setDelimiter(',');
+
+		
+		csvParser.loadFile(file, function () {
+			// draw HTML table based on sheet data
+			var sheet = csvParser.getSheet();
+			
+			var jsonArray = "[";
+			var header = new Array();
+			sheet.forEach(function (el, i) {  
+				var row = document.createElement('tr');
+				var jsonEl = "{";
+				el.forEach(function (el, j) {
+					if(i == 0){
+						header[j] = el.value;
+					}else{
+						jsonEl += "\"" +header[j] + "\":\"" + el.value + "\",";
+					}
+				});
+				jsonEl += "}";
+				if(i != 0)
+					jsonArray += jsonEl + ",";
+			}); 
+			jsonArray += "]";
+
+			//call ajax
+			var dataString = "dotDKId=" + jQuery("#subDKDotMonHocDangKyForm").find("select[name='dotDKId']").val();
+			dataString += "&jsonStr=" + jsonArray;			
+			ajaxExe(url,dataString,formName,1);		
+		});	
+
+	}
+	catch(err)
+	{
+		Ext.example.msg('Error', 'Lỗi định dạng file nhập!'); 
+	  jQuery("#"+txtFileId).val("");
+	  
+	  return false;
+	}	
+}
+
+function loadUploadResults(id){
+    var res = jQuery("#"+id+"Submitto").contents().find("body").html();
+    
+    if(res.trim() != ""){
+        jQuery("#"+id+"List").html(res);
+        gridTable(id+"SaveFromXLSTable");
+    }
+    Ext.getBody().unmask();
+    if(jQuery("#"+id+"SaveFromXLSTable").length > 0){
+        Ext.example.msg('Done', 'Thành công!');
+    }
+}
+
+function countTableColumn(tableId) {
+    var colCount = 0;
+    $('#' + tableId + ' tr:nth-child(1) td').each(function () {
+        if ($(this).attr('colspan')) {
+            colCount += +$(this).attr('colspan');
+        } else {
+            colCount++;
+        }
+    });
+    return colCount;
+}
+
+
+/****************************
+*	GROUPING TABLE BY ROW
+*****************************/
+	function group(jQueryrows, columnIndexGroup, prev_ColumnIndexGroup){
+		if (columnIndexGroup === -1){
+			return;
+		}
+		var i , currentIndex = columnIndexGroup, count=1, lst=[];
+		var tds = jQueryrows.find('td:eq('+ currentIndex +')');
+		var ctrl = jQuery(tds[0]);
+		
+		var maxCount = 0;
+		if(prev_ColumnIndexGroup != -1){
+			maxCount = ctrl.closest('tr').find('td:eq('+ prev_ColumnIndexGroup +')').attr('rowspan');
+		}
+	
+		var totalCount = 0;
+		for (i=1;i<=tds.length;i++){
+			totalCount++;
+			
+			if(prev_ColumnIndexGroup != -1 && totalCount >= maxCount){
+				ctrl.attr('rowspan',count);
+				
+				count=1;
+				lst = [];
+				ctrl=jQuery(tds[i]);
+
+				if(prev_ColumnIndexGroup != -1){			
+					maxCount = ctrl.closest('tr').find('td:eq('+ prev_ColumnIndexGroup +')').attr('rowspan');
+				}
+				
+				totalCount = 0;
+			}
+			else{
+				if (ctrl.text().trim() ==  jQuery(tds[i]).text().trim()){
+					count++;
+					jQuery(tds[i]).addClass('deleted');
+
+				}
+				else{
+					ctrl.attr('rowspan',count);
+					
+					count=1;
+					lst = [];
+					ctrl=jQuery(tds[i]);
+				}
+			}
+
+		}
+	}
+
+	function groupTable(tableId, columns){
+		for(var i = 0; i < columns.length; i++){
+			if(i == 0)
+				group(jQuery('#'+tableId+ ' tr:has(td)'),columns[i],-1);
+			else
+				group(jQuery('#'+tableId+ ' tr:has(td)'),columns[i],columns[i-1]);
+	    }
+		
+		
+		jQuery('#'+tableId+ ' .deleted').remove();
+	}
+	
+/*******************************
+*	AUTO COMPLETE
+***************************************/
+function autoCompleteObject(url, id, val, hiddenName, hiddenVal, queryParam){   
+	try{
+		var objectStore = new Ext.data.JsonStore({
+			url: url,
+			root: 'data',  // the root of the array you'll send down
+			idProperty: 'id',
+			fields: [{name:'id',mapping:'id'},{name:'ten',mapping:'ten'},{name:'ma',mapping:'ma'}]
+		});
+		var objectAutoComplete = new Ext.form.ComboBox({
+			store: objectStore,
+			displayField:'ten',
+			tpl: new Ext.XTemplate(
+				'<tpl for="."><div class="x-combo-list-item">',
+					'{ma} - {ten}',
+				'</div></tpl>'
+			),
+			valueField:'id',
+			hiddenName:hiddenName,
+			typeAhead: false,
+			mode: 'remote',
+			queryParam: queryParam,  //contents of the field sent to server.
+			hideTrigger: true,    //hide trigger so it doesn't look like a combobox.
+			selectOnFocus:true,
+			//width: 150,
+			minChars : 2,
+			autoSelect : false,
+			applyTo:  id,  //the id of the html element to render to.   
+			value: val,
+			hiddenValue:  hiddenVal
+	 
+		});
+	}catch(err){
+		alert(err);
+	}
+}
+function autoCompleteHocVien(id, val, hiddenVal){    
+    try{
+		var hocVienStore = new Ext.data.JsonStore({
+			url: 'tblQLDTQLHVHocVienJsonSearch.action',
+			root: 'data',  // the root of the array you'll send down
+			idProperty: 'id',
+			fields: [{name:'id',mapping:'id'},{name:'hoTen',mapping:'hoTen'},{name:'mshv',mapping:'mshv'}],
+					
+		});
+
+		var hocVienAutoComplete = new Ext.form.ComboBox({
+			store: hocVienStore,
+			displayField:'hoTen',
+			valueField:'id',
+			hiddenName:'hocVienId',
+			typeAhead: false,
+			mode: 'remote',
+			queryParam: 'hoTen',  //contents of the field sent to server.
+			hideTrigger: true,    //hide trigger so it doesn't look like a combobox.
+			selectOnFocus:true,
+			//width: 150,
+			minChars : 2,
+			autoSelect : false,
+			applyTo:  id + "HocVienAutoComp",  //the id of the html element to render to.   
+			value: val,
+			hiddenValue:  hiddenVal,
+			 
+		});
+	}catch(err){
+	
+	}
+}
+function autoCompleteGiangVien(id, val, hiddenVal){   
+
+	try{
+    //jQuery(".giangVien").attr("id", id + "AutoComp");
+    
+    var giangVienStore = new Ext.data.JsonStore({
+	    url: 'tblQLDTGiangVienJsonSearch.action',
+	    root: 'data',  // the root of the array you'll send down
+	    idProperty: 'id',
+	    fields: [{name:'id',mapping:'id'},{name:'ten',mapping:'ten'},{name:'ma',mapping:'ma'}],
+        baseParams: {
+			gvCoHuuYN:  jQuery("#" + id + "gvCoHuuYN").val()
+		}        
+	});
+
+	var giangVienAutoComplete = new Ext.form.ComboBox({
+	    store: giangVienStore,
+	    displayField:'ten',
+	    valueField:'id',
+	    hiddenName:'giangVienId',
+	    typeAhead: false,
+	    mode: 'remote',
+	    queryParam: 'ten',  //contents of the field sent to server.
+	    hideTrigger: true,    //hide trigger so it doesn't look like a combobox.
+	    selectOnFocus:true,
+	    //width: 150,
+	    minChars : 2,
+		autoSelect : false,
+	    applyTo:  id + "GiangVienAutoComp",  //the id of the html element to render to.   
+        value: val,
+		hiddenValue:  hiddenVal,listeners: {
+			'beforequery': function(queryEvent) {
+				   this.store.baseParams.gvCoHuuYN = jQuery("#" + id + "gvCoHuuYN").val();
+			}
+		}
+		 
+	});
+	
+	}catch(err){
+	
+	}
+}
+
+function autoCompleteLopMonHoc(id, val, hiddenVal){   
+	try{
+		var lopMonHocStore = new Ext.data.JsonStore({
+			url: 'tblQLDTTKBLopMonHocJsonSearch.action',
+			root: 'data',  // the root of the array you'll send down
+			idProperty: 'id',
+			fields: [{name:'id',mapping:'id'},{name:'ten',mapping:'ten'},{name:'ma',mapping:'ma'}],
+			baseParams: {
+				hocKyId:  jQuery("#" + id + "HocKyId").val()
+			}
+					
+		});
+		var lopMonHocAutoComplete = new Ext.form.ComboBox({
+			store: lopMonHocStore,
+			displayField:'ten',
+			tpl: new Ext.XTemplate(
+				'<tpl for="."><div class="x-combo-list-item">',
+					'{ma} <br/> {ten}',
+				'</div></tpl>'
+			),
+			valueField:'id',
+			hiddenName:'lopMonHocId',
+			typeAhead: false,
+			mode: 'remote',
+			queryParam: 'param',  //contents of the field sent to server.
+			hideTrigger: true,    //hide trigger so it doesn't look like a combobox.
+			selectOnFocus:true,
+			//width: 150,
+			minChars : 2,
+			autoSelect : false,
+			applyTo:  id + "LopMonHocAutoComp",  //the id of the html element to render to.   
+			value: val,
+			hiddenValue:  hiddenVal,
+			listeners: {
+				'beforequery': function(queryEvent) {
+					   this.store.baseParams.hocKyId = jQuery("#" + id + "HocKyId").val();
+				}
+			}
+						 
+		});
+	
+	}catch(err){
+	
+	}
+}
+
+</script>
+
+#parse('javascript/common_js.vm')
+

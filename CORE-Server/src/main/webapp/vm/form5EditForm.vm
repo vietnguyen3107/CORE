@@ -1,0 +1,331 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+#parse("common.vm")
+
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.colors.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.styles.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.syntax.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.undoredomanager.js"></script>
+<script type="text/javascript" src="jquery/htmlbox/htmlbox.min.js"></script>
+
+<script type="text/javascript" src="jquery/splitter/splitter.js"></script>
+
+
+<script>
+//****************************************
+//javascript chung cho cac form kieu form5AddForm
+//****************************************
+
+$(function() {
+		jQuery.noConflict();
+	}
+);
+//======================
+//ham ajax thuc thi=
+//======================
+function ajaxExe(dataString,url, responseId){
+	alert(dataString);
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#msg").html("Thành công!");
+				jQuery("#" + responseId).html(result[1]);
+				
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+			
+		}
+	});
+	
+}
+
+//An tat ca cac div con cua divid, ngoai tru the div co id = show
+function toggle(container, show){
+	var contentDiv = jQuery("#"+ container);
+	var showDiv = jQuery("#" + show);
+	contentDiv.children().not(show).each(function(){
+		jQuery(this).hide();
+	  });
+	showDiv.show();
+}
+
+function htmlBox(textarea){
+	return jQuery("#" + textarea).css("height","100").css("width","600").htmlbox({
+			toolbars:[
+			    [
+				// Cut, Copy, Paste
+				"separator","cut","copy","paste",
+				// Undo, Redo
+				"separator","undo","redo",
+				// Bold, Italic, Underline, Strikethrough, Sup, Sub
+				"separator","bold","italic","underline","strike","sup","sub",
+				// Left, Right, Center, Justify
+				"separator","justify","left","center","right",
+				// Ordered List, Unordered List, Indent, Outdent
+				"separator","ol","ul","indent","outdent",
+				// Hyperlink, Remove Hyperlink, Image
+				"separator","link","unlink","image"
+				],
+				[// Show code
+				"separator","code",
+			// Formats, Font size, Font family, Font color, Font, Background
+			"separator","formats","fontsize","fontfamily",
+				"separator","fontcolor","highlight",
+				]	
+			],
+			skin:"blue"
+	});
+
+}
+
+
+/* 
+   Simple JQuery Collapsing menu.
+Copyright 2007 by Marco van Hylckama Vlieg
+
+web: http://www.i-marco.nl/weblog/
+email: marco@i-marco.nl
+
+Free for non-commercial use
+*/
+
+function initMenu(menuid) {
+  jQuery('#'+menuid+ ' ul').hide();
+  jQuery('#'+menuid+ ' li a').click(
+    function() {
+	  jQuery('#'+menuid+ ' li > a').each(function () {
+			jQuery(this).removeClass('Over');	
+
+		});
+        jQuery(this).next().slideToggle('fast');
+	jQuery(this).addClass('Over');
+      }
+    );
+  }
+
+
+function editObj(formName,formSuffix){
+	var form =  jQuery("#" + formName + formSuffix);
+	var dataString = form.serialize();
+	if(!form.validate().form()) {
+		return false;
+		
+	}
+	//serializeOthers :ham rieng duoc viet o tung file
+	dataString += serializeOthers();
+	
+	var url = formName + "Update.action";
+	ajaxExe(dataString, url, "employeeid");
+
+}
+</script>
+
+<script>
+//****************************************
+//javascript cho tung form
+//****************************************
+var mota;
+function serializeOthers(){
+	var str = "";
+
+	//Them code vao day
+	str += "&mota=" + mota.get_html();	
+	alert(str);
+	//end
+
+	return str;
+}
+
+jQuery(function() {
+
+	initMenu('menu');
+
+	jQuery(".date").datepicker({	
+		changeMonth: true,
+		changeYear: true,
+		yearRange: '1900:',
+		showButtonPanel: true,
+		showOn: "button",
+		buttonImage: "images/calendar.gif",
+		buttonImageOnly: true
+
+	});
+	jQuery( ".date" ).datepicker( "option", "dateFormat", 'dd/mm/yy' );
+
+	 jQuery("#MySplitter").splitter({
+            type: "v",
+            outline: true,
+            sizeLeft: 180,
+            minLeft: 180,
+            resizeToWidth: true
+            
+      });
+	mota = htmlBox("motaForm5");
+
+
+});
+
+
+</script>
+
+
+<body>
+<center> <b> Nhân viên $!employee.tenNV </b> </center>
+ <div id="MySplitter">
+
+   <div id="div1"> 
+ 	<ul id="menu" >
+		<li><a href="#" onclick="toggle('div2','tabs-1');" >Thông tin chung</a></li>
+		<li><a href="#">Chi tiết</a>
+			<ul>
+				<li><a href="#" onclick="toggle('div2','tabs-2');">Chi tiết 1</a></li>
+			</ul>
+		</li>
+	</ul>	
+   </div>
+
+   <div id="div2">
+	<div id="tabs-1">
+   			
+		<fieldset>
+		<legend>Th&ocirc;ng tin NV </legend>
+
+		<form id="form5EditForm">
+
+		<input type="hidden" id="employeeid" name="id" value="$!employee.id" />
+		<font style="color : red; bold : true; font-size : 14px;" ><div id="msg"> </div></font>
+		<table>
+		<tr>
+		<td>
+		<label> Mã NV</label>
+		</td>
+		<td>
+		 <input id="maNV" name="maNV" value="$!employee.maNV" class='required '/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Tên NV </label>
+		</td>
+		<td>
+		 <input id="tenNV" name="tenNV" value="$!employee.tenNV" class='required '/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Tuổi </label>
+		</td>
+		<td>
+		 <input id="tuoi" name="tuoi" value="$!employee.tuoi" class='required number'/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label> Giới tính</label>
+		</td>
+		<td>
+		#if($!employee.gioitinh == true)
+		<input type="radio" id='Nam' name="gioitinh" value="1"  checked /><label for="Nam"> Nam </label>
+		<input type="radio" id='Nu' name="gioitinh" value="0"  /><label for="Nu"> Nữ </label>
+		#else 
+		<input type="radio" id='Nam' name="gioitinh" value="1"   /><label for="Nam"> Nam </label>
+		<input type="radio" id='Nu' name="gioitinh" value="0"  checked/><label for="Nu"> Nữ </label>
+		#end
+		 </td>
+		 </tr>
+
+
+		<tr>
+		<td>
+		<label>Sở thích: </label>
+		</td>
+		<td>
+		<select id="sothichid" name="sothichid" >
+		<option value="0" selected></option>
+		#foreach($p in $preferences)
+			#if($p.id == $!employee.sothich.id)
+			<option value="$!p.id" selected>$!p.ten</option>
+			#else 
+			<option value="$!p.id">$!p.ten</option>
+			#end
+		#end
+		</select>
+		 </td>
+		 </tr>
+
+
+		<tr>
+		<td>
+		<label>Khoa: </label>
+		</td>
+		<td>
+		<select id="khoaid" name="khoaid" >
+			#foreach($d in $departments)
+				#if($d.id == $!employee.khoa.id)
+				<option value="$!d.id" selected>$!d.ten</option>
+				#else 
+				<option value="$!d.id">$!d.ten</option>
+				#end
+			#end
+			
+		</select>
+
+		 </td>
+		 </tr>
+
+		 <tr>
+		<td>
+		<label> Hệ số lương </label>
+		</td>
+		<td>
+		 <input id="hesoluong" name="hesoluong" value="$!employee.hesoluong"/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Ngày sinh </label>
+		</td>
+		<td>
+		 <input id="ngaysinh" name="ngaysinh" value="$!employee.ngaysinh"  class='required date'/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Hinh anh </label>
+		</td>
+		<td>
+		 <input id="hinhanh" name="hinhanh" value="$!employee.hinhanh"/> 
+		 </td>
+		 </tr>
+		 <tr>
+		<td>
+		<label>Mô tả </label>
+		</td>
+		<td>
+
+		 <textarea id='motaForm5' >$!employee.mota</textarea>
+		 </td>
+		 </tr>
+
+		</table>
+
+		</form>
+		<input type="button" value="Đồng Ý" onClick="editObj('form5','EditForm');" />
+		</fieldset>
+   </div>
+
+   <div id="tabs-2"  style="display:none;" >
+	#parse("form5Detail1Form.vm")
+   </div>
+
+   </div>
+ </div> 
+
+ </body>

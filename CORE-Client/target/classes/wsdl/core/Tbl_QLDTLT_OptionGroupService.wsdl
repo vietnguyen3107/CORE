@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Tbl_QLDTLT_OptionGroupServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="tblQLDTLTOptionGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="ma" type="xs:string"/>
+            <xs:element minOccurs="0" name="maLoai" type="xs:string"/>
+            <xs:element minOccurs="0" name="ten" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="conditionReport">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="col" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value1" type="xs:anyType"/>
+            <xs:element minOccurs="0" name="value2" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListTbl_QLDTLT_OptionGroup" type="deleteListTbl_QLDTLT_OptionGroup"/>
+    <xs:complexType name="deleteListTbl_QLDTLT_OptionGroup">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListTbl_QLDTLT_OptionGroupResponse" type="deleteListTbl_QLDTLT_OptionGroupResponse"/>
+    <xs:complexType name="deleteListTbl_QLDTLT_OptionGroupResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="createTbl_QLDTLT_OptionGroup" type="createTbl_QLDTLT_OptionGroup"/>
+    <xs:complexType name="createTbl_QLDTLT_OptionGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblQLDTLTOptionGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createTbl_QLDTLT_OptionGroupResponse" type="createTbl_QLDTLT_OptionGroupResponse"/>
+    <xs:complexType name="createTbl_QLDTLT_OptionGroupResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="getTbl_QLDTLT_OptionGroup" type="getTbl_QLDTLT_OptionGroup"/>
+    <xs:complexType name="getTbl_QLDTLT_OptionGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="getTbl_QLDTLT_OptionGroupResponse" type="getTbl_QLDTLT_OptionGroupResponse"/>
+    <xs:complexType name="getTbl_QLDTLT_OptionGroupResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tblQLDTLTOptionGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findTbl_QLDTLT_OptionGroupByCondition" type="findTbl_QLDTLT_OptionGroupByCondition"/>
+    <xs:complexType name="findTbl_QLDTLT_OptionGroupByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findTbl_QLDTLT_OptionGroupByConditionResponse" type="findTbl_QLDTLT_OptionGroupByConditionResponse"/>
+    <xs:complexType name="findTbl_QLDTLT_OptionGroupByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblQLDTLTOptionGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="countTbl_QLDTLT_OptionGroupByCondition" type="countTbl_QLDTLT_OptionGroupByCondition"/>
+    <xs:complexType name="countTbl_QLDTLT_OptionGroupByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="countTbl_QLDTLT_OptionGroupByConditionResponse" type="countTbl_QLDTLT_OptionGroupByConditionResponse"/>
+    <xs:complexType name="countTbl_QLDTLT_OptionGroupByConditionResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteTbl_QLDTLT_OptionGroup" type="deleteTbl_QLDTLT_OptionGroup"/>
+    <xs:complexType name="deleteTbl_QLDTLT_OptionGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteTbl_QLDTLT_OptionGroupResponse" type="deleteTbl_QLDTLT_OptionGroupResponse"/>
+    <xs:complexType name="deleteTbl_QLDTLT_OptionGroupResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="updateTbl_QLDTLT_OptionGroup" type="updateTbl_QLDTLT_OptionGroup"/>
+    <xs:complexType name="updateTbl_QLDTLT_OptionGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblQLDTLTOptionGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updateTbl_QLDTLT_OptionGroupResponse" type="updateTbl_QLDTLT_OptionGroupResponse"/>
+    <xs:complexType name="updateTbl_QLDTLT_OptionGroupResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="findAllTbl_QLDTLT_OptionGroup" type="findAllTbl_QLDTLT_OptionGroup"/>
+    <xs:complexType name="findAllTbl_QLDTLT_OptionGroup">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:int"/>
+            <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAllTbl_QLDTLT_OptionGroupResponse" type="findAllTbl_QLDTLT_OptionGroupResponse"/>
+    <xs:complexType name="findAllTbl_QLDTLT_OptionGroupResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblQLDTLTOptionGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findColumnTbl_QLDTLT_OptionGroupByCondition" type="findColumnTbl_QLDTLT_OptionGroupByCondition"/>
+    <xs:complexType name="findColumnTbl_QLDTLT_OptionGroupByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+            <xs:element name="arg2" type="xs:int"/>
+            <xs:element name="arg3" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findColumnTbl_QLDTLT_OptionGroupByConditionResponse" type="findColumnTbl_QLDTLT_OptionGroupByConditionResponse"/>
+    <xs:complexType name="findColumnTbl_QLDTLT_OptionGroupByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="queryHQLTbl_QLDTLT_OptionGroup" type="queryHQLTbl_QLDTLT_OptionGroup"/>
+    <xs:complexType name="queryHQLTbl_QLDTLT_OptionGroup">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="queryHQLTbl_QLDTLT_OptionGroupResponse" type="queryHQLTbl_QLDTLT_OptionGroupResponse"/>
+    <xs:complexType name="queryHQLTbl_QLDTLT_OptionGroupResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblQLDTLTOptionGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="updateTbl_QLDTLT_OptionGroupResponse">
+    <wsdl:part name="parameters" element="tns:updateTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTbl_QLDTLT_OptionGroup">
+    <wsdl:part name="parameters" element="tns:createTbl_QLDTLT_OptionGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryHQLTbl_QLDTLT_OptionGroupResponse">
+    <wsdl:part name="parameters" element="tns:queryHQLTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findTbl_QLDTLT_OptionGroupByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findTbl_QLDTLT_OptionGroupByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countTbl_QLDTLT_OptionGroupByConditionResponse">
+    <wsdl:part name="parameters" element="tns:countTbl_QLDTLT_OptionGroupByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListTbl_QLDTLT_OptionGroupResponse">
+    <wsdl:part name="parameters" element="tns:deleteListTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTbl_QLDTLT_OptionGroupResponse">
+    <wsdl:part name="parameters" element="tns:createTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAllTbl_QLDTLT_OptionGroup">
+    <wsdl:part name="parameters" element="tns:findAllTbl_QLDTLT_OptionGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findColumnTbl_QLDTLT_OptionGroupByCondition">
+    <wsdl:part name="parameters" element="tns:findColumnTbl_QLDTLT_OptionGroupByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryHQLTbl_QLDTLT_OptionGroup">
+    <wsdl:part name="parameters" element="tns:queryHQLTbl_QLDTLT_OptionGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTbl_QLDTLT_OptionGroupResponse">
+    <wsdl:part name="parameters" element="tns:deleteTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTbl_QLDTLT_OptionGroup">
+    <wsdl:part name="parameters" element="tns:getTbl_QLDTLT_OptionGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTbl_QLDTLT_OptionGroupResponse">
+    <wsdl:part name="parameters" element="tns:getTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findColumnTbl_QLDTLT_OptionGroupByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findColumnTbl_QLDTLT_OptionGroupByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTbl_QLDTLT_OptionGroup">
+    <wsdl:part name="parameters" element="tns:updateTbl_QLDTLT_OptionGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTbl_QLDTLT_OptionGroup">
+    <wsdl:part name="parameters" element="tns:deleteTbl_QLDTLT_OptionGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAllTbl_QLDTLT_OptionGroupResponse">
+    <wsdl:part name="parameters" element="tns:findAllTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListTbl_QLDTLT_OptionGroup">
+    <wsdl:part name="parameters" element="tns:deleteListTbl_QLDTLT_OptionGroup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countTbl_QLDTLT_OptionGroupByCondition">
+    <wsdl:part name="parameters" element="tns:countTbl_QLDTLT_OptionGroupByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findTbl_QLDTLT_OptionGroupByCondition">
+    <wsdl:part name="parameters" element="tns:findTbl_QLDTLT_OptionGroupByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Tbl_QLDTLT_OptionGroupService">
+    <wsdl:operation name="deleteListTbl_QLDTLT_OptionGroup">
+      <wsdl:input name="deleteListTbl_QLDTLT_OptionGroup" message="tns:deleteListTbl_QLDTLT_OptionGroup">
+    </wsdl:input>
+      <wsdl:output name="deleteListTbl_QLDTLT_OptionGroupResponse" message="tns:deleteListTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createTbl_QLDTLT_OptionGroup">
+      <wsdl:input name="createTbl_QLDTLT_OptionGroup" message="tns:createTbl_QLDTLT_OptionGroup">
+    </wsdl:input>
+      <wsdl:output name="createTbl_QLDTLT_OptionGroupResponse" message="tns:createTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTbl_QLDTLT_OptionGroup">
+      <wsdl:input name="getTbl_QLDTLT_OptionGroup" message="tns:getTbl_QLDTLT_OptionGroup">
+    </wsdl:input>
+      <wsdl:output name="getTbl_QLDTLT_OptionGroupResponse" message="tns:getTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findTbl_QLDTLT_OptionGroupByCondition">
+      <wsdl:input name="findTbl_QLDTLT_OptionGroupByCondition" message="tns:findTbl_QLDTLT_OptionGroupByCondition">
+    </wsdl:input>
+      <wsdl:output name="findTbl_QLDTLT_OptionGroupByConditionResponse" message="tns:findTbl_QLDTLT_OptionGroupByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countTbl_QLDTLT_OptionGroupByCondition">
+      <wsdl:input name="countTbl_QLDTLT_OptionGroupByCondition" message="tns:countTbl_QLDTLT_OptionGroupByCondition">
+    </wsdl:input>
+      <wsdl:output name="countTbl_QLDTLT_OptionGroupByConditionResponse" message="tns:countTbl_QLDTLT_OptionGroupByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTbl_QLDTLT_OptionGroup">
+      <wsdl:input name="deleteTbl_QLDTLT_OptionGroup" message="tns:deleteTbl_QLDTLT_OptionGroup">
+    </wsdl:input>
+      <wsdl:output name="deleteTbl_QLDTLT_OptionGroupResponse" message="tns:deleteTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateTbl_QLDTLT_OptionGroup">
+      <wsdl:input name="updateTbl_QLDTLT_OptionGroup" message="tns:updateTbl_QLDTLT_OptionGroup">
+    </wsdl:input>
+      <wsdl:output name="updateTbl_QLDTLT_OptionGroupResponse" message="tns:updateTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAllTbl_QLDTLT_OptionGroup">
+      <wsdl:input name="findAllTbl_QLDTLT_OptionGroup" message="tns:findAllTbl_QLDTLT_OptionGroup">
+    </wsdl:input>
+      <wsdl:output name="findAllTbl_QLDTLT_OptionGroupResponse" message="tns:findAllTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findColumnTbl_QLDTLT_OptionGroupByCondition">
+      <wsdl:input name="findColumnTbl_QLDTLT_OptionGroupByCondition" message="tns:findColumnTbl_QLDTLT_OptionGroupByCondition">
+    </wsdl:input>
+      <wsdl:output name="findColumnTbl_QLDTLT_OptionGroupByConditionResponse" message="tns:findColumnTbl_QLDTLT_OptionGroupByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryHQLTbl_QLDTLT_OptionGroup">
+      <wsdl:input name="queryHQLTbl_QLDTLT_OptionGroup" message="tns:queryHQLTbl_QLDTLT_OptionGroup">
+    </wsdl:input>
+      <wsdl:output name="queryHQLTbl_QLDTLT_OptionGroupResponse" message="tns:queryHQLTbl_QLDTLT_OptionGroupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Tbl_QLDTLT_OptionGroupServiceServiceSoapBinding" type="tns:Tbl_QLDTLT_OptionGroupService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="deleteListTbl_QLDTLT_OptionGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteListTbl_QLDTLT_OptionGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteListTbl_QLDTLT_OptionGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createTbl_QLDTLT_OptionGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createTbl_QLDTLT_OptionGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createTbl_QLDTLT_OptionGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countTbl_QLDTLT_OptionGroupByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="countTbl_QLDTLT_OptionGroupByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="countTbl_QLDTLT_OptionGroupByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findTbl_QLDTLT_OptionGroupByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findTbl_QLDTLT_OptionGroupByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findTbl_QLDTLT_OptionGroupByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTbl_QLDTLT_OptionGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTbl_QLDTLT_OptionGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTbl_QLDTLT_OptionGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTbl_QLDTLT_OptionGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteTbl_QLDTLT_OptionGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteTbl_QLDTLT_OptionGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateTbl_QLDTLT_OptionGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateTbl_QLDTLT_OptionGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateTbl_QLDTLT_OptionGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAllTbl_QLDTLT_OptionGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findAllTbl_QLDTLT_OptionGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAllTbl_QLDTLT_OptionGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findColumnTbl_QLDTLT_OptionGroupByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findColumnTbl_QLDTLT_OptionGroupByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findColumnTbl_QLDTLT_OptionGroupByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryHQLTbl_QLDTLT_OptionGroup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryHQLTbl_QLDTLT_OptionGroup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryHQLTbl_QLDTLT_OptionGroupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tbl_QLDTLT_OptionGroupServiceService">
+    <wsdl:port name="Tbl_QLDTLT_OptionGroupServicePort" binding="tns:Tbl_QLDTLT_OptionGroupServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,139 @@
+﻿#parse("vm/common.vm") 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+<script> 
+function editObj(formName){ 
+    var form =  jQuery("#" + formName + "EditForm"); 
+    if(!form.validate().form()) { 
+        return false;		 
+    } 
+    var dataString = form.serialize(); 
+   //serializeOthers :ham cuc bo cho tung file 
+   dataString += serializeOthers(); 
+    var url = formName + "Update.action"; 
+    jQuery.ajax({ 
+        type: "POST", 
+        url: url, 
+        data: dataString, 
+        success: function(response) { 
+                Ext.example.msg('Done', 'Successfull!'); 
+
+        } 
+    }); 
+} 
+function htmlBox(itemId){ 
+    if(jQuery("#"+ itemId).length > 0){ 
+        new Ext.form.HtmlEditor({ 
+                id:itemId , 
+                applyTo:itemId, 
+                width: 500, 
+                height: 100, 
+                enableAlignments:true, 
+                enableSourceEdit:true, 
+                enableLists:true 
+        }); 
+    } 
+} 
+function datepicker(){ 
+    jQuery(".date").datepicker({	 
+        changeMonth: true, 
+        changeYear: true, 
+        yearRange: '1900:c+10', 
+        howButtonPanel: true, 
+        dateFormat : 'dd/mm/yy' 
+    }); 
+} 
+function serializeOthers(){ 
+var dataString = ""; 
+//tblQuyenNhomQuyen format = [{key:val}] 
+var tblQuyenNhomQuyen="["; 
+jQuery("#tblQuyenNhomQuyentable tr").each(function() { 
+    var recentRow =  jQuery(this); 
+    if(recentRow.find("input[name=check]").prop('checked') == true){ 
+        tblQuyenNhomQuyen += "{"; 
+        tblQuyenNhomQuyen += "'maQuyen' :" +recentRow.find("#maQuyen").val()+", "; 
+        tblQuyenNhomQuyen += "'maNhomQuyen' :" +jQuery("#tblNhomQuyenid").val()+", "; 
+        tblQuyenNhomQuyen += "},"; 
+    } 
+}); 
+tblQuyenNhomQuyen += "]"; 
+dataString += "&tblQuyenNhomQuyenStr=" + tblQuyenNhomQuyen; 
+//end 
+return dataString; 
+} 
+jQuery(function() { 
+    //textarea : wysiwyg 
+    htmlBox("tblNhomQuyenTextarea"); 
+    datepicker(); 
+ 
+    jQuery("#loading").ajaxStart(function(){ 
+       Ext.MessageBox.show({ 
+           msg: 'Please wait...', 
+           width:300, 
+           wait:true, 
+           icon:'extanim32' //custom class in msg-box.html 
+       }); 
+     }); 
+    jQuery("#loading").ajaxStop(function(){ 
+        Ext.MessageBox.hide(); 
+     });   
+}); 
+</script> 
+
+<div id = "loading" /> 
+<body> 
+<fieldset class='x-fieldset' > 
+<legend>Nhóm quyền</legend> 
+<form id="tblNhomQuyenEditForm"> 
+<table>  
+<input type="hidden" id="tblNhomQuyenid" name="id" value="$!tblNhomQuyen.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Tên nhóm quyền</label>  
+</td>  
+<td>  
+<input name="tenNhomQuyen" value="$!tblNhomQuyen.tenNhomQuyen"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Trang mặc định</label>  
+</td>  
+<td>  
+<input name="defaultPage" value="$!tblNhomQuyen.defaultPage"   size='35' class='x-form-text  '/>  
+</td>  
+</tr>  
+</table>  
+</fieldset> 
+<fieldset class='x-fieldset' > 
+<legend>Quyền</legend> 
+<table id="tblQuyenNhomQuyentable" border='0' width='100%' cellpadding='1' cellspacing='1'> 
+#foreach($tblQuyen in $tblQuyens) 
+  #set($i=0) 
+  #foreach($tblQuyenNhomQuyen in $tblQuyenNhomQuyens) 
+      #if($tblQuyenNhomQuyen.maQuyen.id == $tblQuyen.id) 
+      #set($i=1) 
+      <tr> 
+<td> 
+<input id='maQuyen' type='hidden' value='$tblQuyen.id'/>  
+<input id='check$tblQuyen.id' name='check' type='checkbox' checked />  
+<label for='check$tblQuyen.id'> $tblQuyen.ten </label> 
+</td> 
+ </tr> 
+#end 
+#end 
+#if($i == 0)
+<tr> 
+<td> 
+<input id='maQuyen' type='hidden' value='$tblQuyen.id'/>  
+<input id='check$tblQuyen.id' name='check' type='checkbox' />  
+<label for='check$tblQuyen.id'> $tblQuyen.ten </label> 
+</td> 
+ </tr> 
+#end 
+#end 
+</table> 
+</fieldset> 
+</form> 
+<input type='button' class='x-panel-btns' id='addtblNhomQuyen' name='add' value='Cập nhật' onClick="editObj('tblNhomQuyen');this.value='Thêm mới'" /> 
+</body>

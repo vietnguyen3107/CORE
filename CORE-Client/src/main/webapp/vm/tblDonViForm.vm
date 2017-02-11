@@ -1,0 +1,52 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<script> 
+jQuery(document).ready(function(){ 
+    searchForm('tblDonVi',20,1); 
+}); 
+</script> 
+
+<fieldset class='x-fieldset'> 
+<legend><span id='searchToggle' onmouseover="jQuery(this).css('cursor','pointer');" onclick="jQuery('#tblDonViSearchForm').toggle('slow');">Tìm kiếm</span></legend> 
+<div id = "tblDonViSearchForm" > 
+<form id="tblDonViForm"> 
+<table> 
+ <tr>  
+<td>  
+<label>Mã đơn vị</label>  
+</td>  
+<td>  
+<input name="ma" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr><tr><td>  
+<label>Tên đơn vị</label>  
+</td>  
+<td>  
+<input name="ten" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr><tr><td>  
+<label>Đơn vị cha: </label>  
+</td>  
+<td>  
+<div  class='form-select ' > 
+<select  class='form-select ' name="donViChaId">  
+<option value=""></option>  
+#foreach($p in $tblDonVis)  
+<option value="$!p.id">$!p.ma - $!p.ten</option>  
+#end  
+</select>  
+</div> 
+</td>  
+</tr><tr><td>  
+<label>Trưởng đơn vị</label>  
+</td>  
+<td>  
+<input name="truongDonVi" value=""  size='35' class='x-form-text'/>  
+</td>  
+</tr></table>  
+</form>  
+</fieldset>  
+</div>  
+<div id="tblDonViList" >  
+</div>  
+

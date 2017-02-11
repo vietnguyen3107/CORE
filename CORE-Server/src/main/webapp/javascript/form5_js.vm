@@ -1,0 +1,179 @@
+
+<script>
+
+//bien toan cuc : cac suffix cho url
+var insertLink = "Insert.action";
+var updateLink = "Update.action";
+var deleteLink = "Delete.action";
+var searchLink = "Search.action";
+var responseSuffix = "List";
+
+$(function() {
+		jQuery.noConflict();
+	}
+);
+
+//================
+//Ham danh da row da duoc check bang mau vang
+//================
+function checkRow(rowid,check){
+	var recentRow =  jQuery("#"+rowid);
+	if(check){
+		recentRow.css('background-color', '#FFFF99');
+	} else {
+		recentRow.css('background-color', '#FFFFFF');
+	}
+}
+
+//=================
+//Ham xoa trang cac field nhap lieu co ban,
+//cac field dac biet cua moi Form se duoc goi trong ham con: clearOthers();
+//=================
+function clearForm(formName, formSuffix){
+	var form =  jQuery("#" + formName + formSuffix);
+
+	//clear all message validate error 
+	form.validate().resetForm();
+	//clear all input
+	form.find("input[type=text],input[type=hidden]").each(
+		function () {
+			jQuery(this).val("");
+		}
+	);
+
+	form.find("select").each(
+		function () {
+			jQuery(this).val("0");
+		}
+	);
+	
+	//clear all background of table row
+	jQuery("tr").css('background-color', '#FFFFFF');
+
+	//clear all check box
+	jQuery(".delete").attr('checked',false);
+
+	//clear message
+	jQuery('#msg').html("");
+	//clear special field
+	clearOthers();
+
+}
+
+//=====================
+// Tim kiem theo cac gia tri nhap trong form
+//=====================
+function searchForm(formName,pageSize,page){
+
+	var form =  jQuery("#" + formName + "Form");
+	var dataString = form.serialize()+"&pageSize=" + pageSize + "&page=" + page;
+	var url = formName + searchLink;
+	var responseId = formName + responseSuffix;
+	ajaxExe(dataString, url, responseId);
+}
+
+//====================
+//xoa cac row da check
+//====================
+function deleteObjs(formName){
+	var idList = "";
+	jQuery(".delete:checked'").each(
+		function () {
+			idList += jQuery(this).val() +",";
+		}
+	);
+	idList= idList.slice(0,idList.length-1); 
+
+	if(idList== ""){
+		return false;
+	}
+
+	var dataString = "idList=" + idList;
+	var url = formName + deleteLink;
+	var responseId = formName + responseSuffix;
+	ajaxExe(dataString,url,  responseId);
+
+	//tro lai trang thai add
+	jQuery('#'+ formName + 'id').val('');
+
+}
+
+
+//======================
+//ham ajax thuc thi=
+//======================
+function ajaxExe(dataString,url, responseId){
+	dataString += serializeOthers();
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#" + responseId).html(result[1]);
+				jQuery("#msg").html("Thành công!").fadeIn(2000).fadeOut(2000);
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+			
+		}
+	});
+	
+}
+
+
+function htmlBox(area){
+	return  jQuery("#" + area).css("height","100").css("width","600").htmlbox({
+		    toolbars:[
+			    [
+				// Cut, Copy, Paste
+				"separator","cut","copy","paste",
+				// Undo, Redo
+				"separator","undo","redo",
+				// Bold, Italic, Underline, Strikethrough, Sup, Sub
+				"separator","bold","italic","underline","strike","sup","sub",
+				// Left, Right, Center, Justify
+				"separator","justify","left","center","right",
+				// Ordered List, Unordered List, Indent, Outdent
+				"separator","ol","ul","indent","outdent",
+				// Hyperlink, Remove Hyperlink, Image
+				"separator","link","unlink","image"
+				
+				],
+				[// Show code
+				"separator","code",
+			// Formats, Font size, Font family, Font color, Font, Background
+			"separator","formats","fontsize","fontfamily",
+				"separator","fontcolor","highlight",
+				]	
+			],
+			skin:"blue"
+		});
+}
+
+//====================================
+// Ham mo 1 external page bang dialog
+//====================================
+function openPopup(url){
+
+	jQuery.modal('<iframe src="' + url + '" height="550" width="900" style="border:0">', {
+		closeHTML:"",
+		containerCss:{
+			backgroundColor:"#fff",
+			borderColor:"#fff",
+			height:550,
+			padding:0,
+			width:900
+		},
+		opacity:80,
+		overlayCss: {backgroundColor:"#736F6E"},
+		overlayClose:true,
+		focus:false,
+		onClose: function (dialog) {
+			location.reload();
+		}
+	});
+
+}
+</script>

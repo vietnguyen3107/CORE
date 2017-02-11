@@ -1,0 +1,127 @@
+<script>
+function saveForm(formName,formSuffix){
+
+var form =  jQuery("#" + formName + formSuffix);
+	if(!form.validate().form()) {
+		return false;
+		
+	}
+	var dataString = form.serialize();
+	//ngoaingu = [ngoainguid,ketquaid,ngaycap,mota;]
+	var ngoaingu="";
+
+	jQuery("#ngoaingutable tr").each(function() {
+		var recentRow =  jQuery(this);
+		if(recentRow.find("input[name=check]").attr('checked') == true){
+			ngoaingu += recentRow.find("#ngoaingu").val()+", ";
+			ngoaingu += recentRow.find("#ketqua").val()+", ";
+			ngoaingu += recentRow.find("input[name=ngaycap]").val()+", ";
+			ngoaingu += recentRow.find("#motadetail").val()+" ;";
+		}
+		
+	});
+
+	dataString += "&ngoaingu=" + ngoaingu;
+	var url = formName + "Update.action";
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#msg").html("Thành công!");
+				
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+			
+		}
+	});
+}
+
+</script>
+
+<fieldset>
+	<legend>Trình độ ngoại ngữ </legend>
+	<form id="form7Detail1Form" >
+	<input type="hidden" id="empid" name="empid" value="$!employee.id" />
+	<table id="ngoaingutable" border='0' width='100%' cellpadding='1' cellspacing='1'>
+	#foreach($lang in $languages)
+		#set($i=0)
+		#foreach($el in $employeeLanguages)
+			#if($el.ngoaingu.id == $lang.id)
+			#set($i=1)
+			<tr>
+			<td>
+			<input id="ngoaingu" type="hidden" value="$lang.id"/> 
+			<input id="check$lang.id" name='check' type="checkbox" checked /> 
+			<label for="check$lang.id"> $lang.ten </label>
+			</td>
+			<td>
+			<label>Kết quả</label>
+			</td>
+			<td>
+			<select id="ketqua" >
+				#foreach($r in $results)
+					#if($r.id == $el.ketqua.id)
+						<option value="$!r.id" selected >$!r.ten</option>
+					#else
+						<option value="$!r.id">$!r.ten</option>
+					#end
+				#end
+			</select>
+			</td>
+			<td>
+			<label>Ngày cấp</label>
+			</td>
+			<td>
+			<input name="ngaycap" value="$!el.ngaycap"  class='date'/> 
+			</td>
+			<td>
+			<label>Mô tả</label>
+			</td>
+			<td>
+			 <textarea id='motadetail' >$!el.mota</textarea>
+			</td>
+			</tr>
+			#end
+		#end
+		#if($i == 0)
+			<tr>
+			<td>
+			<input id="ngoaingu" type="hidden" value="$lang.id" /> 
+			<input id="check$lang.id" name='check' type="checkbox" /> 
+			<label for="check$lang.id"> $lang.ten </label>
+			</td>
+			<td>
+			<label>Kết quả</label>
+			</td>
+			<td>
+			<select id="ketqua" >
+				#foreach($r in $results)
+					<option value="$!r.id">$!r.ten</option>
+				#end
+			</select>
+			</td>
+			<td>
+			<label>Ngày cấp</label>
+			</td>
+			<td>
+			<input name="ngaycap" value=""  class='date'/> 
+			</td>
+			<td>
+			<label>Mô tả</label>
+			</td>
+			<td>
+			 <textarea id='motadetail' ></textarea>
+			</td>
+			</tr>
+		#end
+	#end
+	</table>
+
+	</form>
+	</fieldset>
+<input type="button" value="Đồng Ý" onClick="saveForm('form7Detail1','Form');" />

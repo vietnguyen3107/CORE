@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Tbl_NhomQuyenServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="conditionReport">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="col" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value1" type="xs:anyType"/>
+            <xs:element minOccurs="0" name="value2" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tblNhomQuyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="defaultPage" type="xs:string"/>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="tenNhomQuyen" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_NhomQuyen" type="deletetbl_NhomQuyen"/>
+    <xs:complexType name="deletetbl_NhomQuyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_NhomQuyenResponse" type="deletetbl_NhomQuyenResponse"/>
+    <xs:complexType name="deletetbl_NhomQuyenResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="findtbl_NhomQuyenByCondition" type="findtbl_NhomQuyenByCondition"/>
+    <xs:complexType name="findtbl_NhomQuyenByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_NhomQuyenByConditionResponse" type="findtbl_NhomQuyenByConditionResponse"/>
+    <xs:complexType name="findtbl_NhomQuyenByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblNhomQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createtbl_NhomQuyen" type="createtbl_NhomQuyen"/>
+    <xs:complexType name="createtbl_NhomQuyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblNhomQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createtbl_NhomQuyenResponse" type="createtbl_NhomQuyenResponse"/>
+    <xs:complexType name="createtbl_NhomQuyenResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_NhomQuyenByCondition" type="counttbl_NhomQuyenByCondition"/>
+    <xs:complexType name="counttbl_NhomQuyenByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="conditionReport"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_NhomQuyenByConditionResponse" type="counttbl_NhomQuyenByConditionResponse"/>
+    <xs:complexType name="counttbl_NhomQuyenByConditionResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_NhomQuyen" type="findAlltbl_NhomQuyen"/>
+    <xs:complexType name="findAlltbl_NhomQuyen">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:int"/>
+            <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_NhomQuyenResponse" type="findAlltbl_NhomQuyenResponse"/>
+    <xs:complexType name="findAlltbl_NhomQuyenResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tblNhomQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_NhomQuyen" type="updatetbl_NhomQuyen"/>
+    <xs:complexType name="updatetbl_NhomQuyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tblNhomQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_NhomQuyenResponse" type="updatetbl_NhomQuyenResponse"/>
+    <xs:complexType name="updatetbl_NhomQuyenResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="gettbl_NhomQuyen" type="gettbl_NhomQuyen"/>
+    <xs:complexType name="gettbl_NhomQuyen">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="gettbl_NhomQuyenResponse" type="gettbl_NhomQuyenResponse"/>
+    <xs:complexType name="gettbl_NhomQuyenResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tblNhomQuyen"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_NhomQuyen" type="deleteListtbl_NhomQuyen"/>
+    <xs:complexType name="deleteListtbl_NhomQuyen">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_NhomQuyenResponse" type="deleteListtbl_NhomQuyenResponse"/>
+    <xs:complexType name="deleteListtbl_NhomQuyenResponse">
+        <xs:sequence/>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="deleteListtbl_NhomQuyenResponse">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_NhomQuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_NhomQuyenByConditionResponse">
+    <wsdl:part name="parameters" element="tns:counttbl_NhomQuyenByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_NhomQuyenByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findtbl_NhomQuyenByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_NhomQuyenByCondition">
+    <wsdl:part name="parameters" element="tns:counttbl_NhomQuyenByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_NhomQuyen">
+    <wsdl:part name="parameters" element="tns:createtbl_NhomQuyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_NhomQuyenResponse">
+    <wsdl:part name="parameters" element="tns:createtbl_NhomQuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_NhomQuyen">
+    <wsdl:part name="parameters" element="tns:updatetbl_NhomQuyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_NhomQuyenByCondition">
+    <wsdl:part name="parameters" element="tns:findtbl_NhomQuyenByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_NhomQuyen">
+    <wsdl:part name="parameters" element="tns:deletetbl_NhomQuyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_NhomQuyen">
+    <wsdl:part name="parameters" element="tns:findAlltbl_NhomQuyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_NhomQuyenResponse">
+    <wsdl:part name="parameters" element="tns:findAlltbl_NhomQuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_NhomQuyenResponse">
+    <wsdl:part name="parameters" element="tns:deletetbl_NhomQuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_NhomQuyenResponse">
+    <wsdl:part name="parameters" element="tns:updatetbl_NhomQuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_NhomQuyen">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_NhomQuyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_NhomQuyenResponse">
+    <wsdl:part name="parameters" element="tns:gettbl_NhomQuyenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_NhomQuyen">
+    <wsdl:part name="parameters" element="tns:gettbl_NhomQuyen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Tbl_NhomQuyenService">
+    <wsdl:operation name="deletetbl_NhomQuyen">
+      <wsdl:input name="deletetbl_NhomQuyen" message="tns:deletetbl_NhomQuyen">
+    </wsdl:input>
+      <wsdl:output name="deletetbl_NhomQuyenResponse" message="tns:deletetbl_NhomQuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_NhomQuyenByCondition">
+      <wsdl:input name="findtbl_NhomQuyenByCondition" message="tns:findtbl_NhomQuyenByCondition">
+    </wsdl:input>
+      <wsdl:output name="findtbl_NhomQuyenByConditionResponse" message="tns:findtbl_NhomQuyenByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_NhomQuyen">
+      <wsdl:input name="createtbl_NhomQuyen" message="tns:createtbl_NhomQuyen">
+    </wsdl:input>
+      <wsdl:output name="createtbl_NhomQuyenResponse" message="tns:createtbl_NhomQuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_NhomQuyenByCondition">
+      <wsdl:input name="counttbl_NhomQuyenByCondition" message="tns:counttbl_NhomQuyenByCondition">
+    </wsdl:input>
+      <wsdl:output name="counttbl_NhomQuyenByConditionResponse" message="tns:counttbl_NhomQuyenByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_NhomQuyen">
+      <wsdl:input name="findAlltbl_NhomQuyen" message="tns:findAlltbl_NhomQuyen">
+    </wsdl:input>
+      <wsdl:output name="findAlltbl_NhomQuyenResponse" message="tns:findAlltbl_NhomQuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_NhomQuyen">
+      <wsdl:input name="updatetbl_NhomQuyen" message="tns:updatetbl_NhomQuyen">
+    </wsdl:input>
+      <wsdl:output name="updatetbl_NhomQuyenResponse" message="tns:updatetbl_NhomQuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_NhomQuyen">
+      <wsdl:input name="gettbl_NhomQuyen" message="tns:gettbl_NhomQuyen">
+    </wsdl:input>
+      <wsdl:output name="gettbl_NhomQuyenResponse" message="tns:gettbl_NhomQuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_NhomQuyen">
+      <wsdl:input name="deleteListtbl_NhomQuyen" message="tns:deleteListtbl_NhomQuyen">
+    </wsdl:input>
+      <wsdl:output name="deleteListtbl_NhomQuyenResponse" message="tns:deleteListtbl_NhomQuyenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Tbl_NhomQuyenServiceServiceSoapBinding" type="tns:Tbl_NhomQuyenService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="deletetbl_NhomQuyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletetbl_NhomQuyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletetbl_NhomQuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_NhomQuyenByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findtbl_NhomQuyenByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findtbl_NhomQuyenByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_NhomQuyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createtbl_NhomQuyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createtbl_NhomQuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_NhomQuyenByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="counttbl_NhomQuyenByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="counttbl_NhomQuyenByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_NhomQuyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findAlltbl_NhomQuyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAlltbl_NhomQuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="gettbl_NhomQuyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="gettbl_NhomQuyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="gettbl_NhomQuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_NhomQuyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatetbl_NhomQuyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatetbl_NhomQuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_NhomQuyen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteListtbl_NhomQuyen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteListtbl_NhomQuyenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tbl_NhomQuyenServiceService">
+    <wsdl:port name="Tbl_NhomQuyenServicePort" binding="tns:Tbl_NhomQuyenServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

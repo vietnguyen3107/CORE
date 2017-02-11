@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Tbl_MenuServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="tblMenu">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="hinh" type="xs:string"/>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="menuCha" type="tns:tblMenu"/>
+            <xs:element minOccurs="0" name="menuId" type="xs:string"/>
+            <xs:element minOccurs="0" name="nhom" type="xs:string"/>
+            <xs:element minOccurs="0" name="STT" type="xs:int"/>
+            <xs:element minOccurs="0" name="ten" type="xs:string"/>
+            <xs:element minOccurs="0" name="url" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="conditionReport">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="col" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value1" type="xs:anyType"/>
+            <xs:element minOccurs="0" name="value2" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="gettbl_Menu" type="tns:gettbl_Menu"/>
+    <xs:complexType name="gettbl_Menu">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="gettbl_MenuResponse" type="tns:gettbl_MenuResponse"/>
+    <xs:complexType name="gettbl_MenuResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:tblMenu"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_MenuByCondition" type="tns:counttbl_MenuByCondition"/>
+    <xs:complexType name="counttbl_MenuByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:conditionReport"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="counttbl_MenuByConditionResponse" type="tns:counttbl_MenuByConditionResponse"/>
+    <xs:complexType name="counttbl_MenuByConditionResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_Menu" type="tns:updatetbl_Menu"/>
+    <xs:complexType name="updatetbl_Menu">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:tblMenu"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updatetbl_MenuResponse" type="tns:updatetbl_MenuResponse"/>
+    <xs:complexType name="updatetbl_MenuResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="deletetbl_Menu" type="tns:deletetbl_Menu"/>
+    <xs:complexType name="deletetbl_Menu">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deletetbl_MenuResponse" type="tns:deletetbl_MenuResponse"/>
+    <xs:complexType name="deletetbl_MenuResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="findAlltbl_Menu" type="tns:findAlltbl_Menu"/>
+    <xs:complexType name="findAlltbl_Menu">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:int"/>
+            <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAlltbl_MenuResponse" type="tns:findAlltbl_MenuResponse"/>
+    <xs:complexType name="findAlltbl_MenuResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblMenu"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_Menu" type="tns:deleteListtbl_Menu"/>
+    <xs:complexType name="deleteListtbl_Menu">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListtbl_MenuResponse" type="tns:deleteListtbl_MenuResponse"/>
+    <xs:complexType name="deleteListtbl_MenuResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="createtbl_Menu" type="tns:createtbl_Menu"/>
+    <xs:complexType name="createtbl_Menu">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:tblMenu"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createtbl_MenuResponse" type="tns:createtbl_MenuResponse"/>
+    <xs:complexType name="createtbl_MenuResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_MenuByCondition" type="tns:findtbl_MenuByCondition"/>
+    <xs:complexType name="findtbl_MenuByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:conditionReport"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findtbl_MenuByConditionResponse" type="tns:findtbl_MenuByConditionResponse"/>
+    <xs:complexType name="findtbl_MenuByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblMenu"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="gettbl_Menu">
+    <wsdl:part name="parameters" element="tns:gettbl_Menu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="gettbl_MenuResponse">
+    <wsdl:part name="parameters" element="tns:gettbl_MenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_MenuResponse">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_MenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_MenuResponse">
+    <wsdl:part name="parameters" element="tns:findAlltbl_MenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_Menu">
+    <wsdl:part name="parameters" element="tns:deletetbl_Menu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListtbl_Menu">
+    <wsdl:part name="parameters" element="tns:deleteListtbl_Menu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_MenuByCondition">
+    <wsdl:part name="parameters" element="tns:counttbl_MenuByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_Menu">
+    <wsdl:part name="parameters" element="tns:createtbl_Menu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletetbl_MenuResponse">
+    <wsdl:part name="parameters" element="tns:deletetbl_MenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createtbl_MenuResponse">
+    <wsdl:part name="parameters" element="tns:createtbl_MenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_MenuByCondition">
+    <wsdl:part name="parameters" element="tns:findtbl_MenuByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findtbl_MenuByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findtbl_MenuByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_MenuResponse">
+    <wsdl:part name="parameters" element="tns:updatetbl_MenuResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatetbl_Menu">
+    <wsdl:part name="parameters" element="tns:updatetbl_Menu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="counttbl_MenuByConditionResponse">
+    <wsdl:part name="parameters" element="tns:counttbl_MenuByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAlltbl_Menu">
+    <wsdl:part name="parameters" element="tns:findAlltbl_Menu">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Tbl_MenuService">
+    <wsdl:operation name="gettbl_Menu">
+      <wsdl:input name="gettbl_Menu" message="tns:gettbl_Menu">
+    </wsdl:input>
+      <wsdl:output name="gettbl_MenuResponse" message="tns:gettbl_MenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_MenuByCondition">
+      <wsdl:input name="counttbl_MenuByCondition" message="tns:counttbl_MenuByCondition">
+    </wsdl:input>
+      <wsdl:output name="counttbl_MenuByConditionResponse" message="tns:counttbl_MenuByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_Menu">
+      <wsdl:input name="updatetbl_Menu" message="tns:updatetbl_Menu">
+    </wsdl:input>
+      <wsdl:output name="updatetbl_MenuResponse" message="tns:updatetbl_MenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_Menu">
+      <wsdl:input name="deletetbl_Menu" message="tns:deletetbl_Menu">
+    </wsdl:input>
+      <wsdl:output name="deletetbl_MenuResponse" message="tns:deletetbl_MenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_Menu">
+      <wsdl:input name="findAlltbl_Menu" message="tns:findAlltbl_Menu">
+    </wsdl:input>
+      <wsdl:output name="findAlltbl_MenuResponse" message="tns:findAlltbl_MenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_Menu">
+      <wsdl:input name="deleteListtbl_Menu" message="tns:deleteListtbl_Menu">
+    </wsdl:input>
+      <wsdl:output name="deleteListtbl_MenuResponse" message="tns:deleteListtbl_MenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_Menu">
+      <wsdl:input name="createtbl_Menu" message="tns:createtbl_Menu">
+    </wsdl:input>
+      <wsdl:output name="createtbl_MenuResponse" message="tns:createtbl_MenuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_MenuByCondition">
+      <wsdl:input name="findtbl_MenuByCondition" message="tns:findtbl_MenuByCondition">
+    </wsdl:input>
+      <wsdl:output name="findtbl_MenuByConditionResponse" message="tns:findtbl_MenuByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Tbl_MenuServiceServiceSoapBinding" type="tns:Tbl_MenuService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="gettbl_Menu">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="gettbl_Menu">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="gettbl_MenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="counttbl_MenuByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="counttbl_MenuByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="counttbl_MenuByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatetbl_Menu">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatetbl_Menu">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatetbl_MenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletetbl_Menu">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletetbl_Menu">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletetbl_MenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAlltbl_Menu">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findAlltbl_Menu">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAlltbl_MenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createtbl_Menu">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createtbl_Menu">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createtbl_MenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListtbl_Menu">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteListtbl_Menu">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteListtbl_MenuResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findtbl_MenuByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findtbl_MenuByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findtbl_MenuByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tbl_MenuServiceService">
+    <wsdl:port name="Tbl_MenuServicePort" binding="tns:Tbl_MenuServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

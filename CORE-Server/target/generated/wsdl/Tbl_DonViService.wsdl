@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Tbl_DonViServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="conditionReport">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="col" type="xs:string"/>
+            <xs:element minOccurs="0" name="operator" type="xs:string"/>
+            <xs:element minOccurs="0" name="type" type="xs:string"/>
+            <xs:element minOccurs="0" name="value1" type="xs:anyType"/>
+            <xs:element minOccurs="0" name="value2" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tblDonVi">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="diaChi" type="xs:string"/>
+            <xs:element minOccurs="0" name="donViChaId" type="tns:tblDonVi"/>
+            <xs:element minOccurs="0" name="email" type="xs:string"/>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" name="lvl" type="xs:int"/>
+            <xs:element minOccurs="0" name="ma" type="xs:string"/>
+            <xs:element minOccurs="0" name="sdt" type="xs:string"/>
+            <xs:element minOccurs="0" name="ten" type="xs:string"/>
+            <xs:element minOccurs="0" name="truongDonVi" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findColumnTbl_DonViByCondition" type="tns:findColumnTbl_DonViByCondition"/>
+    <xs:complexType name="findColumnTbl_DonViByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:conditionReport"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+            <xs:element name="arg2" type="xs:int"/>
+            <xs:element name="arg3" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findColumnTbl_DonViByConditionResponse" type="tns:findColumnTbl_DonViByConditionResponse"/>
+    <xs:complexType name="findColumnTbl_DonViByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListTbl_DonVi" type="tns:deleteListTbl_DonVi"/>
+    <xs:complexType name="deleteListTbl_DonVi">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteListTbl_DonViResponse" type="tns:deleteListTbl_DonViResponse"/>
+    <xs:complexType name="deleteListTbl_DonViResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="findAllTbl_DonVi" type="tns:findAllTbl_DonVi"/>
+    <xs:complexType name="findAllTbl_DonVi">
+        <xs:sequence>
+            <xs:element name="arg0" type="xs:int"/>
+            <xs:element name="arg1" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findAllTbl_DonViResponse" type="tns:findAllTbl_DonViResponse"/>
+    <xs:complexType name="findAllTbl_DonViResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblDonVi"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="getTbl_DonVi" type="tns:getTbl_DonVi"/>
+    <xs:complexType name="getTbl_DonVi">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="getTbl_DonViResponse" type="tns:getTbl_DonViResponse"/>
+    <xs:complexType name="getTbl_DonViResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="tns:tblDonVi"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findTbl_DonViByCondition" type="tns:findTbl_DonViByCondition"/>
+    <xs:complexType name="findTbl_DonViByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:conditionReport"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="findTbl_DonViByConditionResponse" type="tns:findTbl_DonViByConditionResponse"/>
+    <xs:complexType name="findTbl_DonViByConditionResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblDonVi"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updateTbl_DonVi" type="tns:updateTbl_DonVi"/>
+    <xs:complexType name="updateTbl_DonVi">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:tblDonVi"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="updateTbl_DonViResponse" type="tns:updateTbl_DonViResponse"/>
+    <xs:complexType name="updateTbl_DonViResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="deleteTbl_DonVi" type="tns:deleteTbl_DonVi"/>
+    <xs:complexType name="deleteTbl_DonVi">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="deleteTbl_DonViResponse" type="tns:deleteTbl_DonViResponse"/>
+    <xs:complexType name="deleteTbl_DonViResponse">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:element name="countTbl_DonViByCondition" type="tns:countTbl_DonViByCondition"/>
+    <xs:complexType name="countTbl_DonViByCondition">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:conditionReport"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="countTbl_DonViByConditionResponse" type="tns:countTbl_DonViByConditionResponse"/>
+    <xs:complexType name="countTbl_DonViByConditionResponse">
+        <xs:sequence>
+            <xs:element name="return" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="queryHQLTbl_DonVi" type="tns:queryHQLTbl_DonVi"/>
+    <xs:complexType name="queryHQLTbl_DonVi">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="queryHQLTbl_DonViResponse" type="tns:queryHQLTbl_DonViResponse"/>
+    <xs:complexType name="queryHQLTbl_DonViResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:tblDonVi"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createTbl_DonVi" type="tns:createTbl_DonVi"/>
+    <xs:complexType name="createTbl_DonVi">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="tns:tblDonVi"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createTbl_DonViResponse" type="tns:createTbl_DonViResponse"/>
+    <xs:complexType name="createTbl_DonViResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="findColumnTbl_DonViByCondition">
+    <wsdl:part name="parameters" element="tns:findColumnTbl_DonViByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAllTbl_DonVi">
+    <wsdl:part name="parameters" element="tns:findAllTbl_DonVi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTbl_DonViResponse">
+    <wsdl:part name="parameters" element="tns:deleteTbl_DonViResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryHQLTbl_DonViResponse">
+    <wsdl:part name="parameters" element="tns:queryHQLTbl_DonViResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findAllTbl_DonViResponse">
+    <wsdl:part name="parameters" element="tns:findAllTbl_DonViResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countTbl_DonViByCondition">
+    <wsdl:part name="parameters" element="tns:countTbl_DonViByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTbl_DonVi">
+    <wsdl:part name="parameters" element="tns:getTbl_DonVi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findTbl_DonViByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findTbl_DonViByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTbl_DonViResponse">
+    <wsdl:part name="parameters" element="tns:updateTbl_DonViResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findColumnTbl_DonViByConditionResponse">
+    <wsdl:part name="parameters" element="tns:findColumnTbl_DonViByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTbl_DonVi">
+    <wsdl:part name="parameters" element="tns:createTbl_DonVi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countTbl_DonViByConditionResponse">
+    <wsdl:part name="parameters" element="tns:countTbl_DonViByConditionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTbl_DonVi">
+    <wsdl:part name="parameters" element="tns:updateTbl_DonVi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTbl_DonVi">
+    <wsdl:part name="parameters" element="tns:deleteTbl_DonVi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findTbl_DonViByCondition">
+    <wsdl:part name="parameters" element="tns:findTbl_DonViByCondition">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTbl_DonViResponse">
+    <wsdl:part name="parameters" element="tns:getTbl_DonViResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryHQLTbl_DonVi">
+    <wsdl:part name="parameters" element="tns:queryHQLTbl_DonVi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListTbl_DonVi">
+    <wsdl:part name="parameters" element="tns:deleteListTbl_DonVi">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteListTbl_DonViResponse">
+    <wsdl:part name="parameters" element="tns:deleteListTbl_DonViResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTbl_DonViResponse">
+    <wsdl:part name="parameters" element="tns:createTbl_DonViResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Tbl_DonViService">
+    <wsdl:operation name="findColumnTbl_DonViByCondition">
+      <wsdl:input name="findColumnTbl_DonViByCondition" message="tns:findColumnTbl_DonViByCondition">
+    </wsdl:input>
+      <wsdl:output name="findColumnTbl_DonViByConditionResponse" message="tns:findColumnTbl_DonViByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListTbl_DonVi">
+      <wsdl:input name="deleteListTbl_DonVi" message="tns:deleteListTbl_DonVi">
+    </wsdl:input>
+      <wsdl:output name="deleteListTbl_DonViResponse" message="tns:deleteListTbl_DonViResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAllTbl_DonVi">
+      <wsdl:input name="findAllTbl_DonVi" message="tns:findAllTbl_DonVi">
+    </wsdl:input>
+      <wsdl:output name="findAllTbl_DonViResponse" message="tns:findAllTbl_DonViResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTbl_DonVi">
+      <wsdl:input name="getTbl_DonVi" message="tns:getTbl_DonVi">
+    </wsdl:input>
+      <wsdl:output name="getTbl_DonViResponse" message="tns:getTbl_DonViResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findTbl_DonViByCondition">
+      <wsdl:input name="findTbl_DonViByCondition" message="tns:findTbl_DonViByCondition">
+    </wsdl:input>
+      <wsdl:output name="findTbl_DonViByConditionResponse" message="tns:findTbl_DonViByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateTbl_DonVi">
+      <wsdl:input name="updateTbl_DonVi" message="tns:updateTbl_DonVi">
+    </wsdl:input>
+      <wsdl:output name="updateTbl_DonViResponse" message="tns:updateTbl_DonViResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTbl_DonVi">
+      <wsdl:input name="deleteTbl_DonVi" message="tns:deleteTbl_DonVi">
+    </wsdl:input>
+      <wsdl:output name="deleteTbl_DonViResponse" message="tns:deleteTbl_DonViResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countTbl_DonViByCondition">
+      <wsdl:input name="countTbl_DonViByCondition" message="tns:countTbl_DonViByCondition">
+    </wsdl:input>
+      <wsdl:output name="countTbl_DonViByConditionResponse" message="tns:countTbl_DonViByConditionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryHQLTbl_DonVi">
+      <wsdl:input name="queryHQLTbl_DonVi" message="tns:queryHQLTbl_DonVi">
+    </wsdl:input>
+      <wsdl:output name="queryHQLTbl_DonViResponse" message="tns:queryHQLTbl_DonViResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createTbl_DonVi">
+      <wsdl:input name="createTbl_DonVi" message="tns:createTbl_DonVi">
+    </wsdl:input>
+      <wsdl:output name="createTbl_DonViResponse" message="tns:createTbl_DonViResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Tbl_DonViServiceServiceSoapBinding" type="tns:Tbl_DonViService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="findColumnTbl_DonViByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findColumnTbl_DonViByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findColumnTbl_DonViByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteListTbl_DonVi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteListTbl_DonVi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteListTbl_DonViResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findAllTbl_DonVi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findAllTbl_DonVi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findAllTbl_DonViResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTbl_DonVi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTbl_DonVi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTbl_DonViResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findTbl_DonViByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findTbl_DonViByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findTbl_DonViByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateTbl_DonVi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateTbl_DonVi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateTbl_DonViResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTbl_DonVi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteTbl_DonVi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteTbl_DonViResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countTbl_DonViByCondition">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="countTbl_DonViByCondition">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="countTbl_DonViByConditionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createTbl_DonVi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createTbl_DonVi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createTbl_DonViResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryHQLTbl_DonVi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryHQLTbl_DonVi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryHQLTbl_DonViResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Tbl_DonViServiceService">
+    <wsdl:port name="Tbl_DonViServicePort" binding="tns:Tbl_DonViServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

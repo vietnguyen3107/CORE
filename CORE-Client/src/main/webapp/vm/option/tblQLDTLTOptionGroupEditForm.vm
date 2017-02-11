@@ -1,0 +1,87 @@
+﻿#parse("vm/common.vm") 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool')) 
+#set ($dateTool = $struts.bean('org.apache.velocity.tools.generic.DateTool')) 
+<script> 
+function editObj(formName,formSuffix){ 
+    var form =  jQuery("#" + formName + formSuffix); 
+    if(!form.validate().form()) { 
+        return false;		 
+    } 
+    var dataString = form.serialize(); 
+    var url = formName + "Update.action"; 
+   mask(''); 
+    jQuery.ajax({ 
+        type: "POST", 
+        url: url, 
+        data: dataString, 
+        success: function(response) { 
+        unmask(''); 
+           try{ 
+	            var obj = jQuery.parseJSON(response); 
+	            Ext.example.msg(obj.code,obj.msg);  
+           }catch(error){ 
+                Ext.example.msg('Done', 'Successfull!'); 
+           } 
+        } 
+    }); 
+} 
+
+jQuery(function() { 
+    //textarea : wysiwyg 
+    htmlBox("tblQLDTLTOptionGroupTextarea"); 
+    datepicker(); 
+	
+   tabs = new Ext.TabPanel({ 
+       renderTo: 'tabs', 
+       activeTab: 0, 
+       frame:false, 
+       defaults:{autoHeight: true}, 
+       items:[ 
+           {contentEl:'tabs-1', title: 'tbl_QLDTLT_OptionGroup'} 
+           ,{contentEl:'tabs-tblQLDTLTOption'
+,title: 'tbl_QLDTLT_Option'
+,autoLoad:{url:'tblQLDTLTOptionGrouptblQLDTLTOptionForm.action?optionGroupId=$!tblQLDTLTOptionGroup.id', scripts:true}
+} 
+       ] 
+   });//tabs 
+}); 
+</script> 
+
+<div id = "loading" /> 
+<div  id='tabs'> 
+<div  id='tabs-1' class='x-hide-display tab-content'> 
+<form id="tblQLDTLTOptionGroupEditForm"> 
+<table>  
+<input type="hidden" id="tblQLDTLTOptionGroupid" name="id" value="$!tblQLDTLTOptionGroup.id"  size='35' class='x-form-text'/>  
+
+<tr>  
+<td>  
+<label>Mã nhóm</label>  
+</td>  
+<td>  
+<input name="ma" size='35' value="$!tblQLDTLTOptionGroup.ma"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Tên nhóm</label>  
+</td>  
+<td>  
+<input name="ten" size='35' value="$!tblQLDTLTOptionGroup.ten"  class='x-form-text '/>  
+</td>  
+</tr>  
+<tr>  
+<td>  
+<label>Mã loại</label>  
+</td>  
+<td>  
+<input name="maLoai" size='35' value="$!tblQLDTLTOptionGroup.maLoai"  class='x-form-text '/>  
+</td>  
+</tr>  
+</table>  
+</form>  
+<input type='button' class='x-panel-btns'  value="Cập nhật" onClick="editObj('tblQLDTLTOptionGroup','EditForm');"/>  
+</div><div id='tabs-tblQLDTLTOption' class='x-hide-display  tab-content'> 
+</div> 
+</div> 
+</body>

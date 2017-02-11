@@ -1,0 +1,65 @@
+
+<script>
+
+//bien toan cuc : cac suffix cho url
+var insertLink = "Insert.action";
+var updateLink = "Update.action";
+var deleteLink = "Delete.action";
+var searchLink = "Search.action";
+var responseSuffix = "List";
+
+$(function() {
+		jQuery.noConflict();
+	}
+);
+
+
+
+//======================
+//ham ajax thuc thi=
+//======================
+function ajaxExe(dataString,url, responseId){
+
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#" + responseId).html(result[1]);
+				jQuery("#msg").html("Thành công!").fadeIn(2000).fadeOut(2000);
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+			
+		}
+	});
+	
+}
+
+//====================================
+// Ham mo 1 external page bang dialog
+//====================================
+function openPopup(url){
+
+	jQuery.modal('<iframe src="' + url + '" height="550" width="900" style="border:0">', {
+		closeHTML:"",
+		containerCss:{
+			backgroundColor:"#fff",
+			borderColor:"#fff",
+			height:550,
+			padding:0,
+			width:900
+		},
+		opacity:80,
+		overlayCss: {backgroundColor:"#736F6E"},
+		overlayClose:true,
+		focus:false,
+		onClose: function (dialog) {
+			location.reload();
+		}
+	});
+
+}
+</script>

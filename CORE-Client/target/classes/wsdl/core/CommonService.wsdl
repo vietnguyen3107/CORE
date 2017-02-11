@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CommonServiceService" targetNamespace="http://service.jwitter.lb.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.jwitter.lb.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://service.jwitter.lb.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.jwitter.lb.com/">
+    <xs:complexType name="qresult">
+        <xs:sequence>
+            <xs:element name="objAlias">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element minOccurs="0" name="key" type="xs:string"/>
+                                    <xs:element minOccurs="0" name="value" type="xs:anyType"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="objs" nillable="true" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="query_SQL_WithParams_AliasTransformer" type="query_SQL_WithParams_AliasTransformer"/>
+    <xs:complexType name="query_SQL_WithParams_AliasTransformer">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:anyType"/>
+            <xs:element name="arg3" type="xs:int"/>
+            <xs:element name="arg4" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="query_SQL_WithParams_AliasTransformerResponse" type="query_SQL_WithParams_AliasTransformerResponse"/>
+    <xs:complexType name="query_SQL_WithParams_AliasTransformerResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="qresult"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="query_HQL_WithParams_AliasTransformer" type="query_HQL_WithParams_AliasTransformer"/>
+    <xs:complexType name="query_HQL_WithParams_AliasTransformer">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:anyType"/>
+            <xs:element name="arg3" type="xs:int"/>
+            <xs:element name="arg4" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="query_HQL_WithParams_AliasTransformerResponse" type="query_HQL_WithParams_AliasTransformerResponse"/>
+    <xs:complexType name="query_HQL_WithParams_AliasTransformerResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="qresult"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createSQLQueryWithParams" type="createSQLQueryWithParams"/>
+    <xs:complexType name="createSQLQueryWithParams">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg3" type="xs:string"/>
+            <xs:element name="arg4" type="xs:int"/>
+            <xs:element name="arg5" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="createSQLQueryWithParamsResponse" type="createSQLQueryWithParamsResponse"/>
+    <xs:complexType name="createSQLQueryWithParamsResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="qresult"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="queryWithParams" type="queryWithParams"/>
+    <xs:complexType name="queryWithParams">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg2" type="xs:string"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="arg3" type="xs:string"/>
+            <xs:element name="arg4" type="xs:int"/>
+            <xs:element name="arg5" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="queryWithParamsResponse" type="queryWithParamsResponse"/>
+    <xs:complexType name="queryWithParamsResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="qresult"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="countByHql" type="countByHql"/>
+    <xs:complexType name="countByHql">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="countByHqlResponse" type="countByHqlResponse"/>
+    <xs:complexType name="countByHqlResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="executeQuery" type="executeQuery"/>
+    <xs:complexType name="executeQuery">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="executeQueryResponse" type="executeQueryResponse"/>
+    <xs:complexType name="executeQueryResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="query" type="query"/>
+    <xs:complexType name="query">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+            <xs:element name="arg1" type="xs:int"/>
+            <xs:element name="arg2" type="xs:int"/>
+            <xs:element name="arg3" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="queryResponse" type="queryResponse"/>
+    <xs:complexType name="queryResponse">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="qresult"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="query_SQL_WithParams_AliasTransformerResponse">
+    <wsdl:part name="parameters" element="tns:query_SQL_WithParams_AliasTransformerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="query_HQL_WithParams_AliasTransformer">
+    <wsdl:part name="parameters" element="tns:query_HQL_WithParams_AliasTransformer">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="query">
+    <wsdl:part name="parameters" element="tns:query">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryWithParamsResponse">
+    <wsdl:part name="parameters" element="tns:queryWithParamsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeQuery">
+    <wsdl:part name="parameters" element="tns:executeQuery">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="executeQueryResponse">
+    <wsdl:part name="parameters" element="tns:executeQueryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryResponse">
+    <wsdl:part name="parameters" element="tns:queryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countByHqlResponse">
+    <wsdl:part name="parameters" element="tns:countByHqlResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createSQLQueryWithParamsResponse">
+    <wsdl:part name="parameters" element="tns:createSQLQueryWithParamsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createSQLQueryWithParams">
+    <wsdl:part name="parameters" element="tns:createSQLQueryWithParams">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="query_HQL_WithParams_AliasTransformerResponse">
+    <wsdl:part name="parameters" element="tns:query_HQL_WithParams_AliasTransformerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="query_SQL_WithParams_AliasTransformer">
+    <wsdl:part name="parameters" element="tns:query_SQL_WithParams_AliasTransformer">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countByHql">
+    <wsdl:part name="parameters" element="tns:countByHql">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryWithParams">
+    <wsdl:part name="parameters" element="tns:queryWithParams">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CommonService">
+    <wsdl:operation name="query_SQL_WithParams_AliasTransformer">
+      <wsdl:input name="query_SQL_WithParams_AliasTransformer" message="tns:query_SQL_WithParams_AliasTransformer">
+    </wsdl:input>
+      <wsdl:output name="query_SQL_WithParams_AliasTransformerResponse" message="tns:query_SQL_WithParams_AliasTransformerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="query_HQL_WithParams_AliasTransformer">
+      <wsdl:input name="query_HQL_WithParams_AliasTransformer" message="tns:query_HQL_WithParams_AliasTransformer">
+    </wsdl:input>
+      <wsdl:output name="query_HQL_WithParams_AliasTransformerResponse" message="tns:query_HQL_WithParams_AliasTransformerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createSQLQueryWithParams">
+      <wsdl:input name="createSQLQueryWithParams" message="tns:createSQLQueryWithParams">
+    </wsdl:input>
+      <wsdl:output name="createSQLQueryWithParamsResponse" message="tns:createSQLQueryWithParamsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryWithParams">
+      <wsdl:input name="queryWithParams" message="tns:queryWithParams">
+    </wsdl:input>
+      <wsdl:output name="queryWithParamsResponse" message="tns:queryWithParamsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countByHql">
+      <wsdl:input name="countByHql" message="tns:countByHql">
+    </wsdl:input>
+      <wsdl:output name="countByHqlResponse" message="tns:countByHqlResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executeQuery">
+      <wsdl:input name="executeQuery" message="tns:executeQuery">
+    </wsdl:input>
+      <wsdl:output name="executeQueryResponse" message="tns:executeQueryResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="query">
+      <wsdl:input name="query" message="tns:query">
+    </wsdl:input>
+      <wsdl:output name="queryResponse" message="tns:queryResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CommonServiceServiceSoapBinding" type="tns:CommonService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="query_SQL_WithParams_AliasTransformer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="query_SQL_WithParams_AliasTransformer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="query_SQL_WithParams_AliasTransformerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="query_HQL_WithParams_AliasTransformer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="query_HQL_WithParams_AliasTransformer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="query_HQL_WithParams_AliasTransformerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createSQLQueryWithParams">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createSQLQueryWithParams">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createSQLQueryWithParamsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryWithParams">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryWithParams">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryWithParamsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countByHql">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="countByHql">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="countByHqlResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="executeQuery">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="executeQuery">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="executeQueryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="query">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="query">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CommonServiceService">
+    <wsdl:port name="CommonServicePort" binding="tns:CommonServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

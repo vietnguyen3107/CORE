@@ -1,0 +1,70 @@
+﻿$!msg.preMessage_b 
+<result/> 
+#set ($numTool = $struts.bean('org.apache.velocity.tools.generic.NumberTool'))
+<form id='tblQuyenListForm' name='tblQuyenListForm'> 
+<table cellspacing="0" id="tblQuyenTable" width='100%'> 
+<thead> 
+<tr style="background:#eeeeee;"> 
+<th>Tên quyền</th> 
+<th>Chọn</th> 
+<th width="10%">Sửa</th> 
+   </tr> 
+</thead> 
+<tbody> 
+#set($i = 0) 
+#foreach($d in $tblQuyens) 
+    #if($d.id) 
+    <tr class='tableitem' id="tblQuyen$d.id"> 
+<td>$!d.ten</td> 
+<td> 
+<input type="checkbox" value="$d.id" class='delete' /> 
+</td>	 
+<td> 
+<span class="btn btn-default"  id="tblQuyenEdit$i"    
+         onclick="openPopup('tblQuyen', 'tblQuyenEditForm.action?id=$d.id','Cập Nhật');return false;" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Cập nhật</span> 
+</td> 
+          </tr> 
+#end 
+#set($i = $i +1) 
+#end 
+</tbody> 
+</table> 
+</form> 
+	<div class="pagination">
+		#if($page >1)
+			#set($prePage = $page - 1)
+			<span onclick="searchForm('tblQuyen',$pageSize,1,'$!dataString');" class="page gradient">First</span>
+			<span onclick="searchForm('tblQuyen',$pageSize,$prePage,'$!dataString');" class="page gradient">Pre</span>
+		#end
+
+		#set($start = $page - 2)
+		#set($endpage = $page + 2)
+		
+		#if($endpage < 5)
+			#set($endpage = 5)
+		#end
+		#if($start < 1)
+			#set($start = 1)
+		#end
+			
+		
+		#if($pages < $endpage)
+			#set($endpage = $pages)
+		#end
+
+		#foreach($p in [$start..$endpage]) 
+			#if($p == $page) 
+				<span class="page active">$p</span>
+				<span></span>
+			#else 
+			
+				<span onclick="searchForm('tblQuyen',$pageSize,$p,'$!dataString');" class="page gradient">$p</span>
+			#end
+		#end
+
+		#if($page != $pages)
+			#set($nextPage = $page + 1)
+			<span onclick="searchForm('tblQuyen',$pageSize,$nextPage,'$!dataString');" class="page gradient">Next</span>
+			<span onclick="searchForm('tblQuyen',$pageSize,$pages,'$!dataString');" class="page gradient">Last</span>
+		#end
+	</div>

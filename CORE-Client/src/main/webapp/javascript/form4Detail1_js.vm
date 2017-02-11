@@ -1,0 +1,233 @@
+
+<script>
+//bien toan cuc : cac suffix cho url
+var insertLink = "Insert.action";
+var updateLink = "Update.action";
+var deleteLink = "Delete.action";
+var searchLink = "Search.action";
+var responseSuffix = "List";
+
+
+//==============
+//Ham lay du lieu cua 1 row tren table va add vao cac field trong form
+//==============
+function editRow(formName, id){
+	var dataString = "id=" + id;
+
+	var url = formName + "EditForm.action";
+	var responseId = formName;
+	mask('');
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			unmask('');
+			try{
+				var obj = jQuery.parseJSON(response);
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+				htmlBox(formName + 'Textarea');
+				datepicker();
+
+				Ext.example.msg('Done', 'Successfull!');
+			}
+			
+		}
+	});
+
+}
+
+//=================
+//Ham xoa trang cac field nhap lieu co ban,
+//cac field dac biet cua moi Form se duoc goi trong ham con: clearOthers();
+//=================
+function clearForm(formName){
+	var form =  jQuery("#" + formName + "Form");
+
+	//clear all message validate error 
+	form.validate().resetForm();
+
+	//clear all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+		    case 'password':
+		    case 'select-multiple':
+		    case 'select-one':
+		    case 'text':
+		    case 'textarea':
+			case 'file':
+			jQuery(this).val('');
+			break;
+		    case 'checkbox':
+		    case 'radio':
+			this.checked = false;
+		}
+	});
+
+	//clear all check box
+	jQuery(".delete").attr('checked',false);
+	jQuery("#"+formName + "id").val('');
+	
+	searchForm(formName,20,1);
+}
+
+//=====================
+// Tim kiem theo cac gia tri nhap trong form
+//=====================
+function searchForm(formName,pageSize,page){
+
+	var form =  jQuery("#" + formName + "Form");
+	var dataString = form.serialize()+"&pageSize=" + pageSize + "&page=" + page;
+
+	var url = formName + searchLink;
+	ajaxExe(dataString, url, formName);
+}
+
+//====================
+//xoa cac row da check
+//====================
+function deleteObjs(formName){
+	var idList = "";
+	jQuery(".delete:checked").each(
+		function () {
+			idList += jQuery(this).val() +",";
+		}
+	);
+	idList= idList.slice(0,idList.length-1); 
+
+	if(idList== ""){
+		return false;
+	}
+	var form = jQuery("#" + formName + "Form"); 
+	var dataString = form.serialize() + "&idList=" + idList ;
+	var url = formName + deleteLink;
+	Ext.MessageBox.show({
+		title:'Delete Confirm',
+		msg: 'Bạn có muốn xoá tất cả những item đã chọn?',
+		buttons: Ext.MessageBox.YESNO,
+		animEl: this.id,
+		icon: Ext.MessageBox.QUESTION,
+		fn : function(btn){
+			if(btn == 'yes'){
+				ajaxExe(dataString,url,  formName);
+			}
+		}
+	});
+
+}
+
+//====================
+//Them moi hoac sua 
+//====================
+function saveForm(formName){
+	var form =  jQuery("#" + formName + "Form");
+
+	form.validate({
+	  rules: {
+	    ngoainguid: {
+	      min: 1
+	    },
+	     ketquaid: {
+	      min: 1
+	    }
+	  },
+	   messages: {
+	     ngoainguid: "<br>Bạn phải chọn ngôn ngữ!",
+	     ketquaid: "<br>Bạn phải chọn kết quả!"
+	    
+	   }
+
+	});
+
+	
+	if(!form.validate().form()) {
+		return false;
+		
+	}
+	
+	var dataString = form.serialize();
+
+	var url = "";
+
+	if( jQuery('#' + formName + 'id').val() == "" || jQuery('#' + formName + 'id').val() == "0"){
+		url = formName + insertLink;
+		ajaxExe(dataString,url,formName);
+	} else {
+		url = formName + updateLink;
+		ajaxExe(dataString,url,formName);
+
+		//tro lai trang thai add sau khi update
+		jQuery('#'+ formName + 'id').val('');
+	}
+    
+	//clear all message validate error 
+	form.validate().resetForm();
+
+	//clear all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+		    case 'password':
+		    case 'select-multiple':
+		    case 'select-one':
+		    case 'text':
+		    case 'textarea':
+			jQuery(this).val('');
+			break;
+		    case 'checkbox':
+		    case 'radio':
+			this.checked = false;
+		}
+	});
+
+	//clear all check box
+	jQuery(".delete").attr('checked',false);
+	jQuery("#"+formName + "id").val('');
+	
+}
+
+//======================
+//ham ajax thuc thi
+//======================
+function ajaxExe(dataString,url, formName){
+	var responseId = formName + responseSuffix;
+	mask('');
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {	
+			unmask('');
+			try{
+				var obj = jQuery.parseJSON(response);
+				Ext.example.msg(obj.code,obj.msg); 
+			}catch(error){
+				jQuery("#" + responseId).html(response);
+				gridTable(formName + "Table");
+				Ext.example.msg('Done', 'Thành công!');
+			}
+		}
+	});
+}
+function openPopup3(tabId, url,title){
+    var x = Ext.get("" + tabId).getWidth() -35;
+    var y = Ext.get("" + tabId).getHeight() - 35;
+
+	
+	var win = new Ext.Window(
+		{
+			id : url,
+			title : title,
+			modal : false,
+			shadow : true,
+			draggable : false,
+			renderTo : tabId,
+			html: '<iframe src="'+url+'" width="' + x + '" height="' + y + '"  frameborder="0" hspace="0" vspace="0" scrolling="auto"></iframe>'
+		}
+	);
+			
+	win.show(); 
+	
+}
+</script>

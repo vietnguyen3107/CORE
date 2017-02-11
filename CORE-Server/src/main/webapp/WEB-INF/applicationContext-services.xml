@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       ">
+
+	<context:component-scan base-package="com.lb" />
+
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:hibernate.properties" />
+	</bean>
+
+	<!-- Thay class de su dung c3p0 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${database.driverClassName}" />
+		<property name="jdbcUrl" value="${database.url}" />
+		<property name="user" value="${database.userName}" />
+		<property name="password" value="${database.password}" />
+
+		<property name="idleConnectionTestPeriod" value="600" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${database.hibernate.dialect}
+				hibernate.cache.provider_class=org.hibernate.cache.HashtableCacheProvider
+				hibernate.show_sql=true
+				hibernate.format_sql = true
+				hibernate.use_sql_comments=true
+				hibernate.jdbc.batch_size=0
+				hibernate.hbm2ddl.auto=update
+
+				<!-- hibernate.default_schema=${hibernate.default_schema} -->
+				hibernate.generate_statistics=true
+				hibernate.cache.use_structured_entries=true
+				<!-- optional query to validate pooled connections: -->
+				<!-- viet them 16-06-2014 -->
+				hibernate.connection.provider_class=org.hibernate.connection.C3P0ConnectionProvider
+				hibernate.connection.autoReconnectForPools=true
+				hibernate.c3p0.min_size=2
+				hibernate.c3p0.max_size=20
+				hibernate.c3p0.timeout=1800
+				hibernate.c3p0.max_statements=50
+				hibernate.wait_timeout=5
+
+				<!--END viet them 16-06-2014 -->
+
+				<!-- hibernate.dbcp.validationQuery=select 1 hibernate.dbcp.testOnBorrow=true 
+					hibernate.dbcp.testOnReturn=false hibernate.dbcp.testWhileIdle=true hibernate.dbcp.timeBetweenEvictionRunsMillis=1800000 -->
+				hibernate.connection.autoReconnect=true
+				hibernate.connection.release_mode=after_transaction
+				hibernate.transaction.auto_close_session=true
+
+			</value>
+		</property>
+
+		<property name="annotatedClasses">
+			<list>
+				
+<!-- ======================== CORE ===================================================== -->
+<!-- ======================== CORE ===================================================== -->
+<!-- ======================== CORE ===================================================== -->
+
+<value>com.lb.jwitter.core.Tbl_DonVi </value> 
+<value>com.lb.jwitter.core.Tbl_QLDTLT_Option </value> 
+<value>com.lb.jwitter.core.Tbl_QLDTLT_OptionGroup </value> 
+<value>com.lb.jwitter.core.Tbl_QLDT_HTMLReport </value> 
+<value>com.lb.jwitter.core.Tbl_QLDT_HTMLReport_Param </value> 
+<value>com.lb.jwitter.core.Tbl_QLDT_Log </value> 
+<value>com.lb.jwitter.core.Tbl_QLDT_Config </value> 
+<value>com.lb.jwitter.core.Tbl_DBTable </value> 
+<value>com.lb.jwitter.core.Tbl_Menu </value> 
+<value>com.lb.jwitter.core.Tbl_NhomQuyen </value> 
+<value>com.lb.jwitter.core.Tbl_Quyen </value> 
+<value>com.lb.jwitter.core.Tbl_CanBo </value> 
+<value>com.lb.jwitter.core.Tbl_Quyen_ChiTiet </value> 
+<value>com.lb.jwitter.core.Tbl_Quyen_Menu </value> 
+<value>com.lb.jwitter.core.Tbl_Quyen_NhomQuyen </value> 
+<value>com.lb.jwitter.core.Tbl_TaiKhoan </value> 
+
+<!-- ======================== END CORE ===================================================== -->
+			</list>
+
+
+
+
+		</property>
+
+
+	</bean>
+</beans>

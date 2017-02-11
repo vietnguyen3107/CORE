@@ -1,0 +1,122 @@
+
+<script>
+var actionLink="";
+function enable(formId){
+	var form =  jQuery("#" + formId);
+	//enable all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+		    case 'password':
+		    case 'select-multiple':
+		    case 'select-one':
+		    case 'text':
+		    case 'textarea':
+		    case 'checkbox':
+		    case 'radio':
+		    case 'button':
+			jQuery(this).removeAttr('disabled');
+		}
+	});
+	jQuery("#acceptbtn").removeAttr("disabled");
+}
+
+function disable(formId){
+	var form =  jQuery("#" + formId);
+	//enable all input
+	form.find(':input').each(function() {
+		switch(this.type) {
+			case 'password':
+			case 'select-multiple':
+			case 'select-one':
+			case 'text':
+			case 'textarea':
+			case 'checkbox':
+			case 'radio':
+			case 'button':
+				jQuery(this).attr('disabled',"true");
+		}
+	});
+	jQuery("#acceptbtn").attr("disabled", "true");
+}
+
+function saveForm8Detail2(formName, formSuffix){
+	var form =  jQuery("#" + formName + formSuffix);
+	if(!form.validate().form()) {
+		return false;	
+	}
+
+	var dataString = form.serialize();
+	var url = formName + actionLink;
+
+	jQuery.ajax({
+		type: "POST",
+		url: url,
+		data: dataString,
+		success: function(response) {
+			var result = response.split("<result/>");
+			if(result[0].trim() == "true"){
+				jQuery("#msg").html("Thành công!");
+				actionLink = "Update.action";
+				disable(formName + formSuffix);
+			} else {
+				jQuery("#msg").html(result[1]);
+			}
+		}
+	});
+
+}
+
+jQuery(function() {
+	var id = "$!employee.thongtinNV.id";
+	if(id != ""){
+		actionLink = "Update.action";
+		disable("form8Detail2Form");
+	} else {
+		actionLink = "Insert.action";
+	}
+});
+</script>
+
+<fieldset>
+		<legend>Thong tin Nhân viên</legend>
+
+		<form id="form8Detail2Form">
+		<input id="empid" name="empid" value="$!employee.id" type="hidden" />
+		<font style="color : red; bold : true; font-size : 14px;" ><div id="msg">&nbsp; </div></font>
+		<table>
+
+		<tr>
+		<td>
+		<label>Họ tên Cha</label>
+		</td>
+		<td>
+		<input type="text" id="tenCha" name="tenCha" value="$!employee.thongtinNV.tenCha"  class='required' /> 
+		</td>
+		</tr>
+		
+		<tr>
+		<td>
+		<label>Họ tên Mẹ</label>
+		</td>
+		<td>
+		<input type="text" id="tenMe" name="tenMe" value="$!employee.thongtinNV.tenMe"  class='required' /> 
+		</td>
+		</tr>
+
+		<tr>
+		<td>
+		<label>Địa chỉ</label>
+		</td>
+		<td>
+		<input type="text" id="diaChi" name="diaChi" value="$!employee.thongtinNV.diaChi"  class='required' /> 
+		</td>
+		</tr>
+
+
+		</table>
+	</form>
+	<input type="button" id="acceptbtn" name="acceptbtn" value="Đồng Ý" onClick="saveForm8Detail2('form8Detail2','Form');"/>
+	<input type="button" id="updatebtn" name="updatebtn" value="Sửa đổi" onClick="enable('form8Detail2Form');"/>
+
+</fieldset>
+
